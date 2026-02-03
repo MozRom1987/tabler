@@ -1,157 +1,131 @@
-var AjaxForm = {
-    initialize: function (afConfig) {
-        var script;
-        if (!jQuery().ajaxForm) {
-            script = document.createElement('script');
-            script.src = afConfig['assetsUrl'] + 'js/lib/jquery.form.min.js';
-            document.body.appendChild(script);
-        }
+(function($) {
+    'use strict';
 
-        var jGrowlSetup = function () {
-            $.jGrowl.defaults.closerTemplate = '<div>[ ' + afConfig['closeMessage'] + ' ]</div>';
-        };
-        if (!jQuery().jGrowl) {
-            script = document.createElement('script');
-            script.src = afConfig['assetsUrl'] + 'js/lib/jquery.jgrowl.min.js';
-            script.onload = jGrowlSetup;
-            document.body.appendChild(script);
-        } else {
-            $(document).ready(function () {
-                jGrowlSetup();
+    // URL вашого Cloudflare Worker
+    // ⚠️ ЗАМІНИ ЦЕЙ URL НА СВІЙ!
+    const WORKER_URL = 'https://form-handler.web-miled.workers.dev';
+
+    $(document).ready(function() {
+        // Обробка всіх форм з класом ajax_form
+        $('.ajax_form').on('submit', function(e) {
+            e.preventDefault();
+            
+            const form = $(this);
+            const submitBtn = form.find('input[type="submit"], button[type="submit"]');
+            const originalBtnText = submitBtn.val() || submitBtn.text();
+            
+            // Очищаємо попередні помилки
+            form.find('.error').removeClass('error');
+            
+            // Валідація обов'язкових полів
+            let isValid = true;
+            let firstError = null;
+            
+            form.find('.required').each(function() {
+                const field = $(this);
+                
+                if (field.is(':checkbox')) {
+                    if (!field.is(':checked')) {
+                        isValid = false;
+                        field.addClass('error');
+                        if (!firstError) firstError = field;
+                    }
+                } else if (field.is('input[type="tel"]')) {
+                    // Валідація телефону (базова)
+                    const phone = field.val().replace(/\D/g, '');
+                    if (phone.length < 10) {
+                        isValid = false;
+                        field.addClass('error');
+                        if (!firstError) firstError = field;
+                    }
+                } else if (!field.val() || field.val().trim() === '') {
+                    isValid = false;
+                    field.addClass('error');
+                    if (!firstError) firstError = field;
+                }
             });
-        }
-
-        $(document).off('submit', afConfig['formSelector']).on('submit', afConfig['formSelector'], function (e) {
-            var $submitter = undefined;
-
-            $(this).ajaxSubmit({
-                dataType: 'json',
-                data: {pageId: afConfig['pageId']},
-                url: afConfig['actionUrl'],
-                beforeSerialize: function (form) {
-                    if (e.originalEvent.submitter) {
-                        $submitter = $(e.originalEvent.submitter);
-                        $submitter.each(function () {
-                            var $submit = $(this);
-                            if (!$submit.attr('name')) {
-                                return;
-                            }
-                            if (!form.find('input[type="hidden"][name="' + $submit.attr('name') + '"]').length) {
-                                $(form).append(
-                                    $('<input type="hidden">').attr({
-                                        name: $submit.attr('name'),
-                                        value: $submit.attr('value'),
-                                    })
-                                );
-                            }
-                        });
-                    }
+            
+            if (!isValid) {
+                alert('Будь ласка, заповніть всі обов\'язкові поля');
+                if (firstError) {
+                    firstError.focus();
+                }
+                return;
+            }
+            
+            // Збираємо дані форми
+            const formData = {
+                fio: form.find('input[name="fio"]').val().trim(),
+                tel: form.find('input[name="tel"]').val().trim(),
+                theme: form.find('input[name="theme"]').val() || 'Загальна консультація'
+            };
+            
+            // Блокуємо кнопку та показуємо процес
+            submitBtn.prop('disabled', true);
+            if (submitBtn.is('input')) {
+                submitBtn.val('Відправка...');
+            } else {
+                submitBtn.text('Відправка...');
+            }
+            
+            // Відправка через Cloudflare Worker
+            fetch(WORKER_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-                beforeSubmit: function (fields, form) {
-                    //noinspection JSUnresolvedVariable
-                    if (typeof(afValidated) != 'undefined' && afValidated == false) {
-                        return false;
-                    }
-                    form.find('.error').html('');
-                    form.find('.error').removeClass('error');
-                    form.find('input,textarea,select,button').attr('disabled', true);
-                    return true;
-                },
-                success: function (response, status, xhr, form) {
-                    form.find('input,textarea,select,button').attr('disabled', false);
-
-                    response.form = form;
-                    $(document).trigger('af_complete', response);
-
-                    if ($submitter && $submitter.length) {
-                        $submitter.each(function () {
-                            var $submit = $(this);
-                            if (!$submit.attr('name')) {
-                                return;
-                            }
-                            let $hidden = form.find('input[type="hidden"][name="' + $submit.attr('name') + '"]');
-                            $hidden.length && $hidden.remove();
-                        });
-                        $submitter = undefined;
-                    }
-
-                    if (!response.success) {
-                        AjaxForm.Message.error(response.message);
-                        if (response.data) {
-                            var key, value, focused;
-                            for (key in response.data) {
-                                if (response.data.hasOwnProperty(key)) {
-                                    if (!focused) {
-                                        form.find('[name="' + key + '"]').focus();
-                                        focused = true;
-                                    }
-                                    value = response.data[key];
-                                    form.find('.error_' + key).html(value).addClass('error');
-                                    form.find('[name="' + key + '"]').addClass('error');
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Показуємо модальне вікно з результатом
+                if (typeof $.fancybox !== 'undefined') {
+                    $.fancybox.open({
+                        src: '#responseMessage',
+                        type: 'inline',
+                        opts: {
+                            afterClose: function() {
+                                if (data.success) {
+                                    form[0].reset();
                                 }
                             }
                         }
+                    });
+                    
+                    if (data.success) {
+                        $('#responseMessageTitle').text('Дякуємо!');
+                        $('#responseMessageBody').html('<p>' + data.message + '</p>');
+                    } else {
+                        $('#responseMessageTitle').text('Помилка');
+                        $('#responseMessageBody').html('<p>' + data.message + '</p>');
                     }
-                    else {
-                        AjaxForm.Message.success(response.message);
-                        form.find('.error').removeClass('error');
-                        if (!!afConfig.clearFieldsOnSuccess) {
-                            form[0].reset();
-                        }
-                        //noinspection JSUnresolvedVariable
-                        if (typeof(grecaptcha) != 'undefined') {
-                            //noinspection JSUnresolvedVariable
-                            grecaptcha.reset();
-                        }
+                } else {
+                    // Якщо fancybox не доступний - звичайний alert
+                    alert(data.message);
+                    if (data.success) {
+                        form[0].reset();
                     }
                 }
+            })
+            .catch(error => {
+                console.error('Form submission error:', error);
+                alert('Виникла помилка при відправці форми. Перевірте інтернет-з\'єднання або спробуйте пізніше.');
+            })
+            .finally(() => {
+                // Розблоковуємо кнопку
+                submitBtn.prop('disabled', false);
+                if (submitBtn.is('input')) {
+                    submitBtn.val(originalBtnText);
+                } else {
+                    submitBtn.text(originalBtnText);
+                }
             });
-            e.preventDefault();
-            return false;
         });
-
-        $(document).on('keypress change', '.error', function () {
-            var key = $(this).attr('name');
+        
+        // Видалення помилок при введенні
+        $('.ajax_form .required').on('input change', function() {
             $(this).removeClass('error');
-            $('.error_' + key).html('').removeClass('error');
         });
+    });
 
-        $(document).on('reset', afConfig['formSelector'], function () {
-            $(this).find('.error').html('');
-            AjaxForm.Message.close();
-        });
-    }
-
-};
-
-
-//noinspection JSUnusedGlobalSymbols
-AjaxForm.Message = {
-    success: function (message, sticky) {
-        if (message) {
-            if (!sticky) {
-                sticky = false;
-            }
-            $.jGrowl(message, {theme: 'af-message-success', sticky: sticky});
-        }
-    },
-    error: function (message, sticky) {
-        if (message) {
-            if (!sticky) {
-                sticky = false;
-            }
-            $.jGrowl(message, {theme: 'af-message-error', sticky: sticky});
-        }
-    },
-    info: function (message, sticky) {
-        if (message) {
-            if (!sticky) {
-                sticky = false;
-            }
-            $.jGrowl(message, {theme: 'af-message-info', sticky: sticky});
-        }
-    },
-    close: function () {
-        $.jGrowl('close');
-    },
-};
+})(jQuery);
