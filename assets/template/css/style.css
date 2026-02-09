@@ -2356,9 +2356,13 @@ a.invert:hover {
     background: #0D83BE;
     color: #fff;
 }
+.btn.messenger-btn {
+    background: #0077FF;
+    color: #fff;
+}
 .get-consultation-section-inner{
     position: relative;
-    min-height: 770px;
+    min-height: 550px;
     padding: 60px;
     border-radius: 30px;
     overflow: hidden;
