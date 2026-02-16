@@ -889,6 +889,7 @@
 <script src="assets/template/vendor/inputmask/jquery.inputmask.js"></script>
 <script src="assets/template/js/jquery.fancybox.js"></script>
 <script src="assets/template/js/custom141f.js?v1.1"></script>
+<script src="assets/components/ajaxform/js/default.js"></script>
 
 <div class="modal2" id="responseMessage">
     <h2 id="responseMessageTitle" style="margin-bottom: 20px;"></h2>
@@ -897,46 +898,5 @@
     <a href="#" class="fancyClose">Zamknij</a>
 </div>
 
-<script>
-const WORKER_URL = 'https://form-handler.web-miled.workers.dev';
-
-document.querySelectorAll('form.ajax_form').forEach(function(form) {
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const data = {
-            fio: this.querySelector('[name="name"]').value,
-            tel: this.querySelector('[name="phone"]').value,
-            theme: this.querySelector('[name="text"]') ? this.querySelector('[name="text"]').value : ''
-        };
-        try {
-            const response = await fetch(WORKER_URL, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            });
-            const result = await response.json();
-            if (result.success) {
-                if ($('.modal').is(':visible')) {
-                    $('.modal a.close-modal').trigger('click');
-                }
-                $.fancybox.open([{ href: '#responseMessage', padding: 0 }]);
-                $('#responseMessageTitle').text('Wiadomość została wysłana!');
-                $('#responseMessageBody').html('<p>' + result.message + '</p>');
-            } else {
-                $.fancybox.open([{ href: '#responseMessage', padding: 0 }]);
-                $('#responseMessageTitle').text('Wiadomość nie została wysłana!');
-                $('#responseMessageBody').html('<p>' + result.message + '</p>');
-            }
-            $('.fancyClose').click(function() {
-                $.fancybox.close('#responseMessage');
-                return false;
-            });
-            this.reset();
-        } catch(err) {
-            alert('Wystąpił błąd. Zadzwoń do nas bezpośrednio.');
-        }
-    });
-});
-</script>
 </body>
 </html>

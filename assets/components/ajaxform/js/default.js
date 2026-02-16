@@ -1,12 +1,9 @@
 (function($) {
     'use strict';
 
-    // URL вашого Cloudflare Worker
-    // ⚠️ ЗАМІНИ ЦЕЙ URL НА СВІЙ!
     const WORKER_URL = 'https://form-handler.web-miled.workers.dev';
 
     $(document).ready(function() {
-        // Обробка всіх форм з класом ajax_form
         $('.ajax_form').on('submit', function(e) {
             e.preventDefault();
             
@@ -14,10 +11,8 @@
             const submitBtn = form.find('input[type="submit"], button[type="submit"]');
             const originalBtnText = submitBtn.val() || submitBtn.text();
             
-            // Очищаємо попередні помилки
             form.find('.error').removeClass('error');
             
-            // Валідація обов'язкових полів
             let isValid = true;
             let firstError = null;
             
@@ -31,7 +26,6 @@
                         if (!firstError) firstError = field;
                     }
                 } else if (field.is('input[type="tel"]')) {
-                    // Валідація телефону (базова)
                     const phone = field.val().replace(/\D/g, '');
                     if (phone.length < 10) {
                         isValid = false;
@@ -46,29 +40,26 @@
             });
             
             if (!isValid) {
-                alert('Будь ласка, заповніть всі обов\'язкові поля');
+                alert('Proszę wypełnić wszystkie wymagane pola.');
                 if (firstError) {
                     firstError.focus();
                 }
                 return;
             }
             
-            // Збираємо дані форми
             const formData = {
-                fio: form.find('input[name="fio"]').val().trim(),
-                tel: form.find('input[name="tel"]').val().trim(),
-                theme: form.find('input[name="theme"]').val() || 'Загальна консультація'
+                fio: form.find('input[name="name"]').val().trim(),
+                tel: form.find('input[name="phone"]').val().trim(),
+                theme: form.find('textarea[name="text"]').val() || form.find('input[name="text"]').val() || ''
             };
             
-            // Блокуємо кнопку та показуємо процес
             submitBtn.prop('disabled', true);
             if (submitBtn.is('input')) {
-                submitBtn.val('Відправка...');
+                submitBtn.val('Wysyłanie...');
             } else {
-                submitBtn.text('Відправка...');
+                submitBtn.text('Wysyłanie...');
             }
             
-            // Відправка через Cloudflare Worker
             fetch(WORKER_URL, {
                 method: 'POST',
                 headers: {
@@ -78,29 +69,23 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Показуємо модальне вікно з результатом
                 if (typeof $.fancybox !== 'undefined') {
-                    $.fancybox.open({
-                        src: '#responseMessage',
-                        type: 'inline',
-                        opts: {
-                            afterClose: function() {
-                                if (data.success) {
-                                    form[0].reset();
-                                }
-                            }
-                        }
-                    });
+                    $.fancybox.open([{ href: '#responseMessage', padding: 0 }]);
                     
                     if (data.success) {
-                        $('#responseMessageTitle').text('Дякуємо!');
+                        $('#responseMessageTitle').text('Wiadomość została wysłana!');
                         $('#responseMessageBody').html('<p>' + data.message + '</p>');
+                        form[0].reset();
                     } else {
-                        $('#responseMessageTitle').text('Помилка');
+                        $('#responseMessageTitle').text('Wiadomość nie została wysłana!');
                         $('#responseMessageBody').html('<p>' + data.message + '</p>');
                     }
+                    
+                    $('.fancyClose').click(function() {
+                        $.fancybox.close('#responseMessage');
+                        return false;
+                    });
                 } else {
-                    // Якщо fancybox не доступний - звичайний alert
                     alert(data.message);
                     if (data.success) {
                         form[0].reset();
@@ -108,11 +93,10 @@
                 }
             })
             .catch(error => {
-                console.error('Form submission error:', error);
-                alert('Виникла помилка при відправці форми. Перевірте інтернет-з\'єднання або спробуйте пізніше.');
+                console.error('Form error:', error);
+                alert('Wystąpił błąd przy wysyłaniu formularza. Sprawdź połączenie lub spróbuj ponownie.');
             })
             .finally(() => {
-                // Розблоковуємо кнопку
                 submitBtn.prop('disabled', false);
                 if (submitBtn.is('input')) {
                     submitBtn.val(originalBtnText);
@@ -122,7 +106,6 @@
             });
         });
         
-        // Видалення помилок при введенні
         $('.ajax_form .required').on('input change', function() {
             $(this).removeClass('error');
         });
