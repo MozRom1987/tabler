@@ -48,9 +48,9 @@
             }
             
             const formData = {
-                fio: form.find('input[name="name"]').val().trim(),
-                tel: form.find('input[name="phone"]').val().trim(),
-                theme: form.find('textarea[name="text"]').val() || form.find('input[name="text"]').val() || ''
+                name: form.find('input[name="name"]').val().trim(),
+                phone: form.find('input[name="phone"]').val().trim(),
+                text: form.find('textarea[name="text"]').val() || ''
             };
             
             submitBtn.prop('disabled', true);

@@ -721,12 +721,12 @@
                         <form class="ajax_form" method="post">
     <div class="form-col">
         <div class="form-group">
-            <input type="text" class="form-control form-control-xlg required" name="fio" placeholder="Ваше имя *" value="">
+            <input type="text" class="form-control form-control-xlg required" name="name" placeholder="Ваше имя *" value="">
         </div>
     </div>
     <div class="form-col">
         <div class="form-group">
-            <input type="tel" class="form-control form-control-xlg required tel" name="tel" placeholder="Номер телефона *" value="">
+            <input type="tel" class="form-control form-control-xlg required tel" name="phone" placeholder="Номер телефона *" value="">
         </div>
     </div>
     <div class="form-col">
@@ -1875,12 +1875,12 @@
         <div class="form-row">
             <div class="col">
                 <div class="form-group">
-                    <input type="text" class="form-control required" name="fio" placeholder="Twoje imię *" value="">
+                    <input type="text" class="form-control required" name="name" placeholder="Twoje imię *" value="">
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <input type="text" class="form-control tel required" name="tel" placeholder="Numer telefonu *" value="">
+                    <input type="text" class="form-control tel required" name="phone" placeholder="Numer telefonu *" value="">
                 </div>
             </div>
             <div class="col">
@@ -2064,10 +2064,10 @@
         <form class="ajax_form" method="post">
     <input name="theme" type="hidden" id="feedback_theme" value="">
     <div class="form-group">
-        <input name="fio" type="name" class="form-control required" placeholder="Twoje imię *" value="">
+        <input name="name" type="name" class="form-control required" placeholder="Twoje imię *" value="">
     </div>
     <div class="form-group">
-        <input name="tel" type="tel" class="form-control required tel" placeholder="Numer telefonu *" value="">
+        <input name="phone" type="tel" class="form-control required tel" placeholder="Numer telefonu *" value="">
     </div>
         <div class="form-group">
         <textarea name="text" type="text" class="form-control required" placeholder="Opisz swój problem *" value=""></textarea>
@@ -2097,112 +2097,6 @@
 <script src="assets/template/js/typed.js"></script>
 <script src="assets/template/js/scripts.js"></script>
 <script src="assets/components/ajaxform/js/default.js"></script>
-<script>
-    $(document).on('af_complete', function(event, response) {
-        $('body').addClass('jgrowlHide');
-            setTimeout(function() {
-            $('body').removeClass('jgrowlHide');
-        }, 5000);
-        if(response.success){
-            $.fancybox.open([{ 
-                src : '#responseMessage', 
-                padding : 0, 
-                wrapCSS : 'fancybox-animate-wrap',
-                lang : 'ru',
-                i18n : {
-                    'ru' : {
-                        CLOSE : 'Zamknij',
-                        NEXT: "Dalej",
-                        PREV: "Wstecz",
-                    }
-                }
-            }]);
-            $('#responseMessageTitle').text('Wiadomość została wysłana pomyślnie !');
-            $('#responseMessageBody').html('<p>'+response.message+'</p>');
-            $('.fancyClose').click(function(){
-                $.fancybox.close('#responseMessage');
-                return false;
-            });
-        }else{
-            $.fancybox.open([{ 
-                src : '#responseMessage', 
-                padding : 0, 
-                wrapCSS : 'fancybox-animate-wrap',
-                lang : 'ru',
-                i18n : {
-                    'ru' : {
-                        CLOSE : 'Zamknij',
-                        NEXT: "Dalej",
-                        PREV: "Wstecz",
-                    }
-                }
-            }]);
-            $('#responseMessageTitle').text('Błąd ! Wiadomość nie została wysłana.');
-            $('#responseMessageBody').html('<p>'+response.message+'</p>');
-            $('.fancyClose').click(function(){
-                $.fancybox.close('#responseMessage');
-                return false;
-            });
-        }
-    });
-    
-    $(function(){            
-        
-        $('.tel, #phone').inputmask('+48 999 999 999',{
-            clearMaskOnLostFocus: true,
-            clearIncomplete: true
-        });
-        
-
-        
-            $('.num1').viewportChecker({
-    classToAdd: 'visible animated fadeInUp',
-    offset: 100,
-    callbackFunction: function(){
-        let num = $('#num1').data('num');
-        $('#num1').animateNumber({ number: num },2500);
-    }
-});$('.num2').viewportChecker({
-    classToAdd: 'visible animated fadeInUp',
-    offset: 100,
-    callbackFunction: function(){
-        let num = $('#num2').data('num');
-        $('#num2').animateNumber({ number: num },2500);
-    }
-});$('.num3').viewportChecker({
-    classToAdd: 'visible animated fadeInUp',
-    offset: 100,
-    callbackFunction: function(){
-        let num = $('#num3').data('num');
-        $('#num3').animateNumber({ number: num },2500);
-    }
-});
-        
-
-        
-        if($('#footer_phone_typed').length > 0){
-            $('.footer').viewportChecker({
-                offset: 100,
-                callbackFunction: function(){
-                    var typed = new Typed('#footer_phone_typed', {
-                        stringsElement: '#footer_phone_typed_donor',
-                        typeSpeed: 100,
-                        startDelay: 300,
-                        showCursor: true,
-                        loop: false,
-                        shuffle: true,
-                    });
-
-                    
-                    setTimeout(function(){$('.footer-phone .item-animate').addClass('active')}, 5000);
-                    
-                }
-            });   
-        }
-        
-
-    });
-</script>
 
 
 <!-- <script>AjaxForm.initialize({"assetsUrl":"\/assets\/components\/ajaxform\/","actionUrl":"\/assets\/components\/ajaxform\/action.php","closeMessage":"\u0437\u0430\u043a\u0440\u044b\u0442\u044c \u0432\u0441\u0435","formSelector":"form.ajax_form","clearFieldsOnSuccess":true,"pageId":1});</script> -->
