@@ -904,9 +904,9 @@ document.querySelectorAll('form.ajax_form').forEach(function(form) {
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         const data = {
-            name: this.querySelector('[name="name"]').value,
-            phone: this.querySelector('[name="phone"]').value,
-            text: this.querySelector('[name="text"]') ? this.querySelector('[name="text"]').value : ''
+            fio: this.querySelector('[name="name"]').value,
+            tel: this.querySelector('[name="phone"]').value,
+                theme: this.querySelector('[name="text"]') ? this.querySelector('[name="text"]').value : ''
         };
         try {
             const response = await fetch(WORKER_URL, {
