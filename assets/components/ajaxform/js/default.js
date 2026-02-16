@@ -70,7 +70,12 @@
             .then(response => response.json())
             .then(data => {
                 if (typeof $.fancybox !== 'undefined') {
-                    $.fancybox.open([{ href: '#responseMessage', padding: 0 }]);
+                    // Універсальне відкриття - підтримує обидві версії fancybox
+                    $.fancybox.open([{ 
+                        src: '#responseMessage',
+                        href: '#responseMessage',
+                        padding: 0 
+                    }]);
                     
                     if (data.success) {
                         $('#responseMessageTitle').text('Wiadomość została wysłana!');
