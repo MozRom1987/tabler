@@ -4168,3 +4168,13 @@ blockquote p {
         max-width: 80px;
     }
 }
+.agreement input.error+label {
+    color: red;
+}
+.agreement a {
+    color: #1a73e8;
+    text-decoration: underline;
+}
+.agreement a:hover {
+    text-decoration: none;
+}

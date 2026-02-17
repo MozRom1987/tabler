@@ -40,7 +40,6 @@
             });
             
             if (!isValid) {
-                alert('Proszę wypełnić wszystkie wymagane pola.');
                 if (firstError) {
                     firstError.focus();
                 }
