@@ -4178,3 +4178,9 @@ blockquote p {
 .agreement a:hover {
     text-decoration: none;
 }
+.agreement input.error+label {
+    color: red;
+}
+.agreement input.error ~ a {
+    color: red;
+}
