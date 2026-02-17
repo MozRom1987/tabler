@@ -794,8 +794,8 @@ textarea.form-control{
 }
 .work-section{
     margin-top: -180px;
-    margin-bottom: 0px;
-    padding-bottom: 0
+    margin-bottom: 50px;
+    padding-bottom: 0.40em
 }
 .work-query{
     position: relative;
@@ -848,7 +848,7 @@ textarea.form-control{
 }
 .call-section{
     padding-top: 12.10em;
-    padding-bottom: 5em
+    padding-bottom: 5.50em
 }
 .call-guide{
     max-width: 18.30em;
@@ -1005,8 +1005,7 @@ textarea.form-control{
     padding-top: 1.80em
 }
 .price-section{
-    padding-top: 5em; 
-    padding-bottom: 5em
+    padding-bottom: 1em
 }
 .price-point{
     display: -webkit-box;
@@ -1194,8 +1193,7 @@ textarea.form-control{
     font-weight: 600
 }
 .repairs-section{
-    padding-top: 5em;
-    padding-bottom: 5em
+    padding-bottom: 2.00em
 }
 
 .repairs-article{
@@ -1226,8 +1224,8 @@ textarea.form-control{
     grid-column-gap: 2.60em
 }
 .why-section{
-    padding-top: 5em;
-    padding-bottom: 5em
+    padding-top: 1.60em;
+    padding-bottom: 2.60em
 }
 .why-wash{
     font-size: 2.19em;
@@ -1317,8 +1315,8 @@ textarea.form-control{
     margin-bottom: 0.44em
 }
 .ask-section{
-    padding-top: 3em;
-    padding-bottom: 3em;
+    padding-top: 0em;
+    padding-bottom: 0em;
     position: relative
 }
 .ask-gossip{
@@ -1381,8 +1379,8 @@ textarea.form-control{
     grid-column-gap: 0.90em
 }
 .etaps-section{
-    padding-top: 5em; 
-    padding-bottom: 5em
+    padding-top: 3em; 
+    padding-bottom: 2.10em
 }
 .etaps-thing{
     font-size: 2.50em;
