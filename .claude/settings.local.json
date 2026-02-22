@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__idea__list_directory_tree",
+      "Bash(ls:*)",
+      "mcp__idea__replace_text_in_file",
+      "Bash(dir:*)",
+      "Bash(echo:*)",
+      "Bash(python3:*)",
+      "Bash(python3.exe:*)",
+      "Bash(py --version)",
+      "Bash(node --version:*)",
+      "Bash(node:*)"
+    ]
+  }
+}
