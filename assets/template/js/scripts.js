@@ -57,20 +57,20 @@ $(function(){
                     locked: false
                 }
             },
-            lang : 'ru',
+            lang : 'pl',
             i18n : {
-                'ru' : {
-                    CLOSE : 'Закрыть',
-                    NEXT: "Далее",
-                    PREV: "Назад",
-                    ERROR: "Запрошенные данные не могут быть загружены. <br/> Повторите попытку позже.",
-                    PLAY_START: "Начать слайд-шоу",
-                    PLAY_STOP: "Завершить слайд-шоу",
-                    FULL_SCREEN: "На весь экран",
-                    THUMBS: "Миниатюры",
-                    DOWNLOAD: "Скачать",
-                    SHARE: "Поделиться",
-                    ZOOM: "Увеличить"
+                'pl' : {
+                    CLOSE : 'Zamknij',
+                    NEXT: "Dalej",
+                    PREV: "Wstecz",
+                    ERROR: "Nie można załadować danych. <br/> Spróbuj ponownie później.",
+                    PLAY_START: "Rozpocznij pokaz slajdów",
+                    PLAY_STOP: "Zakończ pokaz slajdów",
+                    FULL_SCREEN: "Pełny ekran",
+                    THUMBS: "Miniatury",
+                    DOWNLOAD: "Pobierz",
+                    SHARE: "Udostępnij",
+                    ZOOM: "Powiększ"
                 }
             }
         });
@@ -84,12 +84,12 @@ $(function(){
             wrapCSS : 'fancybox-animate-wrap',
             touch: false,
             autoFocus: false,
-            lang : 'ru',
+            lang : 'pl',
             i18n : {
-                'ru' : {
-                    CLOSE : 'Закрыть',
-                    NEXT: "Далее",
-                    PREV: "Назад",
+                'pl' : {
+                    CLOSE : 'Zamknij',
+                    NEXT: "Dalej",
+                    PREV: "Wstecz",
                 }
             }
         });
@@ -105,12 +105,12 @@ $(function(){
                     locked: false
                 }
             },
-            lang : 'ru',
+            lang : 'pl',
             i18n : {
-                'ru' : {
-                    CLOSE : 'Закрыть',
-                    NEXT: "Далее",
-                    PREV: "Назад",
+                'pl' : {
+                    CLOSE : 'Zamknij',
+                    NEXT: "Dalej",
+                    PREV: "Wstecz",
                 }
             }
         });
