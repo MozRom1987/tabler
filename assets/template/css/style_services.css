@@ -553,7 +553,7 @@ input,textarea,button{
     padding-left: 8px;
 }
 .head-fast{
-    margin-bottom: -60px;
+    margin-bottom: -100px;
     padding-top: 3em
 }
 .head-fast-img{
@@ -793,8 +793,8 @@ textarea.form-control{
     position: relative
 }
 .work-section{
-    margin-top: -140px;
-    margin-bottom: 0px;
+    margin-top: -180px;
+    margin-bottom: 50px;
     padding-bottom: 0
 }
 .work-query{
@@ -848,7 +848,7 @@ textarea.form-control{
 }
 .call-section{
     padding-top: 12.10em;
-    padding-bottom: 5em
+    padding-bottom: 50px
 }
 .call-guide{
     max-width: 18.30em;
@@ -976,7 +976,6 @@ textarea.form-control{
     background-size: auto
 }
 .wawe-one{
-    background-image: url(../img/wawe/1920/1.png);
     height: 820px
 }
 .wawe-top{
@@ -984,14 +983,25 @@ textarea.form-control{
     z-index: 1
 }
 .wawe-two{
-    background-image: url(../img/wawe/1920/2.png);
     height: 960px
 }
 .wawe-tree{
-    background-image: url(../img/wawe/1920/3.png);
     height: 786px;
     margin-top: -8.80em
 }
+/* wawe — desktop 1920px */
+.page-lodowka   .wawe-one  { background-image: url(../img/wawe/lodowka/1920/1.png); }
+.page-lodowka   .wawe-two  { background-image: url(../img/wawe/lodowka/1920/2.png); }
+.page-lodowka   .wawe-tree { background-image: url(../img/wawe/lodowka/1920/3.png); }
+.page-pralka    .wawe-one  { background-image: url(../img/wawe/pralka/1920/1.png); }
+.page-pralka    .wawe-two  { background-image: url(../img/wawe/pralka/1920/2.png); }
+.page-pralka    .wawe-tree { background-image: url(../img/wawe/pralka/1920/3.png); }
+.page-zmywarka  .wawe-one  { background-image: url(../img/wawe/zmywarka/1920/1.png); }
+.page-zmywarka  .wawe-two  { background-image: url(../img/wawe/zmywarka/1920/2.png); }
+.page-zmywarka  .wawe-tree { background-image: url(../img/wawe/zmywarka/1920/3.png); }
+.page-piekarnik .wawe-one  { background-image: url(../img/wawe/piekarnik/1920/1.png); }
+.page-piekarnik .wawe-two  { background-image: url(../img/wawe/piekarnik/1920/2.png); }
+.page-piekarnik .wawe-tree { background-image: url(../img/wawe/piekarnik/1920/3.png); }
 .price{
     display: grid;
     grid-template-columns: 1fr 100px;
@@ -1005,8 +1015,9 @@ textarea.form-control{
     padding-top: 1.80em
 }
 .price-section{
-    padding-top: 3em; 
-    padding-bottom: 5em
+    padding-top: 50px;
+    padding-bottom: 1px;
+    margin-top: -40px;
 }
 .price-point{
     display: -webkit-box;
@@ -1081,28 +1092,32 @@ textarea.form-control{
     padding-bottom: 3.90em
 }
 .brends-section{
-    padding-top: 4.10em;
+    padding-top: 0em;
     padding-bottom: 1.10em
 }
 .brends-title{
+    margin-bottom: -75px;
     padding-left: 9.60em;
     padding-right: 9.60em
 }
 .brends-faith{
+    margin-top: -30px;
     font-weight: 600;
     color: rgba(48,59,67,1.00);
     text-align: center
 }
 .sey{
-    padding-top: 4.94em;
+    padding-top: 1.5em;
     padding-right: 5.80em;
     padding-left: 5.80em;
     display: grid;
     grid-row-gap: 5.20em
 }
 .sey-section{
-    padding-bottom: 5.50em;
-    overflow: hidden
+    padding-top: 30px;
+    padding-bottom: 50px;
+    overflow: hidden;
+    margin-top: -40px;
 }
 .sey-object{
     display: -webkit-box;
@@ -1194,8 +1209,21 @@ textarea.form-control{
     font-weight: 600
 }
 .repairs-section{
-    padding-top: 5em;
-    padding-bottom: 5em
+    padding-bottom: 2.00em
+}
+.page-pralka .repairs-station,
+.page-zmywarka .repairs-station,
+.page-piekarnik .repairs-station {
+    margin-left: -59px;
+    margin-top: 75px;
+    max-width: none;
+    width: 688px;
+}
+.page-lodowka .repairs-station {
+    margin-left: -3.70em;
+}
+.repairs-subject{
+    overflow: hidden
 }
 
 .repairs-article{
@@ -1222,12 +1250,14 @@ textarea.form-control{
 .why{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    padding-top: 3.80em;
+    padding-top: 0.80em;
+    padding-bottom: 1.50em;
     grid-column-gap: 2.60em
 }
 .why-section{
-    padding-top: 5em;
-    padding-bottom: 5em
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-top: -40px;
 }
 .why-wash{
     font-size: 2.19em;
@@ -1288,8 +1318,8 @@ textarea.form-control{
     background-position: 50% 100%;
     background-size: auto;
     background: #ebeaea;
-    padding: 5.5em 0;
-    margin-top: 4em;
+    padding: 50px 0;
+    margin-top: -40px;
 }
 .facts-shebang{
     text-align: center;
@@ -1317,9 +1347,11 @@ textarea.form-control{
     margin-bottom: 0.44em
 }
 .ask-section{
-    padding-top: 5em;
-    padding-bottom: 3em;
-    position: relative
+    padding-top: 30px;
+    padding-bottom: 50px;
+    position: static;
+    margin-top: -40px;
+    overflow: visible;
 }
 .ask-gossip{
     font-size: 2.19em;
@@ -1381,8 +1413,9 @@ textarea.form-control{
     grid-column-gap: 0.90em
 }
 .etaps-section{
-    padding-top: 5em; 
-    padding-bottom: 5em
+    padding-top: 90px; 
+    padding-bottom: 50px;
+    margin-top: -40px;
 }
 .etaps-thing{
     font-size: 2.50em;
@@ -1417,8 +1450,9 @@ textarea.form-control{
     font-weight: 600
 }
 .discount-section{
-    padding-top: 5.40em;
-    padding-bottom: 2.30em
+    padding-top: 100px;
+    padding-bottom: 50px;
+    margin-top: -40px;
 }
 .discount-make{
     text-align: right;
@@ -1624,8 +1658,16 @@ textarea.form-control{
     .sey-item-rap{
         width: 20%
     }
-    .repairs-station{
-        max-width: 100%;
+    .page-pralka .repairs-station,
+    .page-zmywarka .repairs-station,
+    .page-piekarnik .repairs-station {
+        margin-left: -59px;
+        margin-top: 75px;
+        max-width: none;
+        width: 688px;
+    }
+    .page-lodowka .repairs-station {
+        margin-left: -3.70em;
     }
     .repairs-article{
         margin-top: 1.58em
@@ -1752,7 +1794,7 @@ textarea.form-control{
         padding-left: 3.70em;
         padding-right: 3.70em;
         grid-column-gap: 2.40em;
-        grid-row-gap: 4.50em
+        grid-row-gap: 3.75em
     }
     .call{
         padding-left: 1.10em
@@ -1813,18 +1855,25 @@ textarea.form-control{
         font-size: 1.25em
     }
     .wawe-one{
-        background-image: url(../img/wawe/750/1.png);
         height: 817px;
         margin-top: -6.70em
     }
     .wawe-two{
-        background-image: url(../img/wawe/750/2.png);
         height: 960px;
         margin-top: -10.00em
     }
     .wawe-tree{
         margin-top: -151px
     }
+    /* wawe — tablet 991px */
+    .page-lodowka   .wawe-one { background-image: url(../img/wawe/lodowka/750/1.png); }
+    .page-lodowka   .wawe-two { background-image: url(../img/wawe/lodowka/750/2.png); }
+    .page-pralka    .wawe-one { background-image: url(../img/wawe/pralka/750/1.png); }
+    .page-pralka    .wawe-two { background-image: url(../img/wawe/pralka/750/2.png); }
+    .page-zmywarka  .wawe-one { background-image: url(../img/wawe/zmywarka/750/1.png); }
+    .page-zmywarka  .wawe-two { background-image: url(../img/wawe/zmywarka/750/2.png); }
+    .page-piekarnik .wawe-one { background-image: url(../img/wawe/piekarnik/750/1.png); }
+    .page-piekarnik .wawe-two { background-image: url(../img/wawe/piekarnik/750/2.png); }
     .price{
         padding-left: 0em;
         padding-right: 0em
@@ -1868,6 +1917,11 @@ textarea.form-control{
     }
     .repairs-section{
         padding-bottom: 0.50em
+    }
+    .repairs-station{
+        max-width: 26.70em;
+        margin-left: -4.40em;
+        margin-top: -1.70em
     }
     .repairs-article{
         font-size: 2.19em;
@@ -1969,6 +2023,7 @@ textarea.form-control{
         left: 61%
     }
     .work:after{
+        display: none !important;
         top: 5.10em;
         left: 10.90em;
         right: 11.00em
@@ -2091,7 +2146,7 @@ textarea.form-control{
     }
     .call-two-section {
         padding-top: 4.20em;
-        padding-bottom: 3.70em;
+        padding-bottom: 0em;
     }
     .brends-faith{
         display: none;
@@ -2143,8 +2198,13 @@ textarea.form-control{
         font-size: 1.02em
     }
     .wawe-one{
-        background-image: url(../img/wawe/576/1.png)
+        background-image: none
     }
+    /* wawe — mobile 767px */
+    .page-lodowka   .wawe-one { background-image: url(../img/wawe/lodowka/576/1.png); }
+    .page-pralka    .wawe-one { background-image: url(../img/wawe/pralka/576/1.png); }
+    .page-zmywarka  .wawe-one { background-image: url(../img/wawe/zmywarka/576/1.png); }
+    .page-piekarnik .wawe-one { background-image: url(../img/wawe/piekarnik/576/1.png); }
     .wawe-two{
         background: #fff;
         height: auto;
@@ -2188,11 +2248,23 @@ textarea.form-control{
         padding-left: 1.40em
     }
     .repairs-station{
-        margin-left: 0em;
+        margin-left: 0;
         margin-top: 0em;
-        margin-bottom: 2em
+        margin-bottom: 2em;
+        max-width: 100%;
+        width: auto;
+    }
+    .page-pralka .repairs-station,
+    .page-zmywarka .repairs-station,
+    .page-piekarnik .repairs-station,
+    .page-lodowka .repairs-station {
+        margin-left: 0;
+        margin-top: 0;
+        max-width: 100%;
+        width: auto;
     }
     .repairs-subject{
+        overflow: visible;
         text-align: center
     }
     .facts{
@@ -2200,8 +2272,14 @@ textarea.form-control{
     }
     .ask-rumor{
         left: 3.10em;
-        max-width: 76%;
+        max-width: 76% !important;
+        width: auto !important;
         top: 17.90em
+    }
+    .ask-paper{
+        direction: ltr !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important
     }
     .ask-object{
         padding-left: 0em;
@@ -2704,18 +2782,16 @@ textarea.form-control{
 }
 @media (min-width: 576px) and (max-width: 991px){
     .work{
-        background-image: url(../img/background/arrow-2.png);
-        background-repeat: no-repeat;
-        background-position: 100% 95px
+        background-image: none !important;
     }
     .work:after{
-        right: 0.00em
+        display: none !important;
     }
     .work:before{
         content: '....................................................................................................................................................................';
         position: absolute;
         color: #b4b4b4;
-        bottom: 8.20em;
+        bottom: 5.55em;
         left: 4.40em;
         right: 13.50em;
         overflow: hidden
@@ -4149,8 +4225,6 @@ blockquote p {
     left: 0;
 }
 .brends {
-    margin-top: 4em;
-    margin-bottom: 4em;
     display: grid !important;
     grid-template-columns: repeat(7, 1fr) !important;
     gap: 20px;
@@ -4171,13 +4245,146 @@ blockquote p {
     .brends img {
         max-width: 80px;
     }
+    .brends-title {
+        margin-bottom: 20px;
+    }    
+}
+@media (min-width: 576px) and (max-width: 991px) {
+    .ask-rumor {
+        margin-left: 0 !important;
+        margin-top: 10px !important;
+        position: static !important;
+        left: auto !important;
+        top: auto !important;
+        max-width: 150% !important;
+        width: 150% !important;
+    }
+    .ask-object {
+        padding-left: 1em !important;
+        padding-top: 0 !important;
+    }
+    .ask-average {
+        margin-right: 0 !important;
+    }
+    .ask-say {
+        display: none !important;
+    }
+    .ask-section .col-md-5 {
+        flex: 0 0 40% !important;
+        max-width: 40% !important;
+    }
+    .ask-paper {
+        direction: rtl;
+        margin-right: -30px;
+        margin-left: -20px;
+    }
+    .ask-section .col-md-7 {
+        flex: 0 0 60% !important;
+        max-width: 60% !important;
+    }
+    .price-section {
+        margin-top: 0 !important;
+    }
+    .price-the {
+        margin-left: 0 !important;
+    }
+    .price-unite {
+        margin-right: 0 !important;
+    }
+    .brends-section {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    .brends {
+        grid-template-columns: repeat(4, 1fr) !important;
+        font-size: 0.7em;
+    }
+    .brends img {
+        max-width: 90px;
+    }
+    .brends-title {
+        padding-left: 2em;
+        padding-right: 2em;
+        margin-bottom: 1px;
+    }
+    .brends-faith {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+}
+@media (min-width: 576px) and (max-width: 860px) {
+    .ask-rumor {
+        margin-left: 0 !important;
+        margin-top: 10px !important;
+        position: static !important;
+        left: auto !important;
+        top: auto !important;
+        max-width: 210% !important;
+        width: 210% !important;
+        margin-left: -100px !important;
+    }
+    .ask-object {
+        padding-left: 1em !important;
+        padding-top: 0 !important;
+    }
+    .ask-average {
+        margin-right: 0 !important;
+    }
+    .ask-say {
+        display: none !important;
+    }
+    .ask-section .col-md-5 {
+        flex: 0 0 35% !important;
+        max-width: 35% !important;
+        overflow: hidden;
+    }
+    .ask-paper {
+        direction: rtl;
+        margin-right: -20px;
+        margin-left: -150px;
+    }
+    .ask-section .col-md-7 {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+    }
+    .price-section {
+        margin-top: 0 !important;
+    }
+    .price-the {
+        margin-left: 0 !important;
+    }
+    .price-unite {
+        margin-right: 0 !important;
+    }
+    .ask-section {
+        overflow: visible;
+    }
+}
+@media (min-width: 576px) and (max-width: 991px){
+    .work{
+        background-image: url(../img/background/arrow-2.png);
+        background-repeat: no-repeat;
+        background-position: 100% 95px
+    }
+    .work:after{
+        right: 0.00em
+    }
+    .work:before{
+        display: none !important;
+    }
+    
+    /* ДОДАТИ: */
+    .work:after,
+    .work:before {
+        display: none;
+    }
 }
 .agreement input.error+label {
     color: red;
 }
 .agreement a {
     color: #1a73e8;
-    text-decoration: underline;
+    text-decoration: none;
 }
 .agreement a:hover {
     text-decoration: none;
@@ -4187,4 +4394,50 @@ blockquote p {
 }
 .agreement input.error ~ a {
     color: red;
+}
+/* === ask-bg-pralki === */
+.ask-bg-pralki {
+    position: absolute;
+    left: 0;
+    top: 180px;
+    bottom: 0;
+    width: 48%;
+    background-image: url(../../../images/site/repairs-2_pralki.png);
+    background-size: cover;
+    background-position: right center;
+    z-index: 0
+}
+.ask-section .container {
+    position: relative;
+    z-index: 1
+}
+@media (max-width: 575px) {
+    .ask-bg-pralki {
+        display: none
+    }
+}
+/* === ask-bg-lodówki === */
+.ask-bg-lodówki {
+    position: absolute;
+    left: 0;
+    top: 250px;
+    bottom: 30px;
+    width: 40%;
+    background-image: url(../../../images/site/repairs-2.png);
+    background-size: contain;
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    z-index: 0
+}
+@media (max-width: 575px) {
+    .ask-bg-lodówki {
+        display: none
+    }
+}
+@media (max-width: 1024px) {
+    .ask-bg-lodówki {
+        left: 75px;
+        width: 38%;
+        top: 80px
+    }
 }
