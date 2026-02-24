@@ -10,7 +10,14 @@
       "Bash(python3.exe:*)",
       "Bash(py --version)",
       "Bash(node --version:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "mcp__idea__find_files_by_name_keyword",
+      "Bash(powershell -Command:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(findstr:*)",
+      "Bash(git.exe show:*)",
+      "Bash(git -C \"C:/Users/mozol/IdeaProjects/AGD_FIX24_PRO\" show HEAD:index.html)",
+      "mcp__idea__execute_terminal_command"
     ]
   }
 }
