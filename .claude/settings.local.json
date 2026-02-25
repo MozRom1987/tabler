@@ -20,7 +20,11 @@
       "mcp__idea__execute_terminal_command",
       "Bash(find:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "mcp__idea__search_in_files_by_regex",
+      "mcp__idea__search_in_files_by_text",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:cdn.jsdelivr.net)"
     ]
   }
 }

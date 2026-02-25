@@ -76,9 +76,9 @@ $(function(){
         });
         
         $('.fancyboxModal').fancybox({
-            autoResize:true,            
+            autoResize:true,
             padding: 0,
-            fitToView : false, 
+            fitToView : false,
             maxWidth: '100%',
             scrolling : "no",
             wrapCSS : 'fancybox-animate-wrap',
@@ -91,6 +91,12 @@ $(function(){
                     NEXT: "Dalej",
                     PREV: "Wstecz",
                 }
+            },
+            afterShow: function(instance, slide) {
+                slide.$slide.find('.tel, #phone').inputmask('+48 999 999 999', {
+                    clearMaskOnLostFocus: true,
+                    clearIncomplete: true
+                });
             }
         });
 
