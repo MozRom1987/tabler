@@ -17,7 +17,10 @@
       "Bash(findstr:*)",
       "Bash(git.exe show:*)",
       "Bash(git -C \"C:/Users/mozol/IdeaProjects/AGD_FIX24_PRO\" show HEAD:index.html)",
-      "mcp__idea__execute_terminal_command"
+      "mcp__idea__execute_terminal_command",
+      "Bash(find:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
