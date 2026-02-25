@@ -20,8 +20,7 @@
       "mcp__idea__execute_terminal_command",
       "Bash(find:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "WebFetch(domain:gwfh.mranftl.com)"
+      "Bash(git commit:*)"
     ]
   }
 }
