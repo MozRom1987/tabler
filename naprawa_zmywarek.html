@@ -924,124 +924,17 @@
 </div>
 
 
-<script src="js/jquery-3.6.3.min.js"></script>
-<script src="js/jquery.fancybox3.min.js"></script>
-<script src="js/slick.min.js"></script>
-<script src="js/jquery.touchswipe.min.js"></script>
-<script src="js/jquery.inputmask.js"></script>
-<script src="js/jquery.animatenumber.js"></script>
-<script src="js/typed.js"></script>
-<script src="js/scripts.js"></script>
-<script src="js/default.js"></script>
-<script>
-    $(document).on('af_complete', function(event, response) {
-        $('body').addClass('jgrowlHide');
-            setTimeout(function() {
-            $('body').removeClass('jgrowlHide');
-        }, 5000);
-        if(response.success){
-            $.fancybox.open([{ 
-                src : '#responseMessage', 
-                padding : 0, 
-                wrapCSS : 'fancybox-animate-wrap',
-                lang : 'ru',
-                i18n : {
-                    'ru' : {
-                        CLOSE : 'Zamknij',
-                        NEXT: "Dalej",
-                        PREV: "Wstecz",
-                    }
-                }
-            }]);
-            $('#responseMessageTitle').text('Wiadomość została wysłana pomyślnie !');
-            $('#responseMessageBody').html('<p>'+response.message+'</p>');
-            $('.fancyClose').click(function(){
-                $.fancybox.close('#responseMessage');
-                return false;
-            });
-        }else{
-            $.fancybox.open([{ 
-                src : '#responseMessage', 
-                padding : 0, 
-                wrapCSS : 'fancybox-animate-wrap',
-                lang : 'ru',
-                i18n : {
-                    'ru' : {
-                        CLOSE : 'Zamknij',
-                        NEXT: "Dalej",
-                        PREV: "Wstecz",
-                    }
-                }
-            }]);
-            $('#responseMessageTitle').text('Błąd ! Wiadomość nie została wysłana.');
-            $('#responseMessageBody').html('<p>'+response.message+'</p>');
-            $('.fancyClose').click(function(){
-                $.fancybox.close('#responseMessage');
-                return false;
-            });
-        }
-    });
-    
-    $(function(){            
-        
-        $('.tel, #phone').inputmask('+48 999 999 999',{
-            clearMaskOnLostFocus: true,
-            clearIncomplete: true
-        });
+<script defer src="js/jquery-3.6.3.min.js"></script>
+<script defer src="js/jquery.fancybox3.min.js"></script>
+<script defer src="js/slick.min.js"></script>
+<script defer src="js/jquery.touchswipe.min.js"></script>
+<script defer src="js/jquery.inputmask.js"></script>
+<script defer src="js/jquery.animatenumber.js"></script>
+<script defer src="js/typed.js"></script>
+<script defer src="js/scripts.js"></script>
+<script defer src="js/default.js"></script>
+<script defer src="js/init.js"></script>
 
-
-            $('.num1').viewportChecker({
-    classToAdd: 'visible animated fadeInUp',
-    offset: 100,
-    callbackFunction: function(){
-        let num = $('#num1').data('num');
-        $('#num1').animateNumber({ number: num },2500);
-    }
-});$('.num2').viewportChecker({
-    classToAdd: 'visible animated fadeInUp',
-    offset: 100,
-    callbackFunction: function(){
-        let num = $('#num2').data('num');
-        $('#num2').animateNumber({ number: num },2500);
-    }
-});$('.num3').viewportChecker({
-    classToAdd: 'visible animated fadeInUp',
-    offset: 100,
-    callbackFunction: function(){
-        let num = $('#num3').data('num');
-        $('#num3').animateNumber({ number: num },2500);
-    }
-});
-
-
-        if($('#footer_phone_typed').length > 0){
-            $('.footer').viewportChecker({
-                offset: 100,
-                callbackFunction: function(){
-                    var typed = new Typed('#footer_phone_typed', {
-                        stringsElement: '#footer_phone_typed_donor',
-                        typeSpeed: 100,
-                        startDelay: 300,
-                        showCursor: true,
-                        loop: false,
-                        shuffle: true,
-                    });
-
-                    
-                    setTimeout(function(){$('.footer-phone .item-animate').addClass('active')}, 5000);
-                    
-                }
-            });   
-        }
-        
-
-    });
-</script>
-
-
-<script>
-    document.getElementById("current-year").textContent = new Date().getFullYear();
-</script>
 
 </body>
 
