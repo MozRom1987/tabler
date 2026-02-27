@@ -889,20 +889,12 @@ a.invert:hover {
 
 @media(min-width:1300px) {
     .header-content h1 {
-        font-size: 45px;
-    }
-
-    .index-template .header-content h1 {
         font-size: 38px;
     }
 }
 
 @media(min-width:1500px) {
     .header-content h1 {
-        font-size: 55px;
-    }
-
-    .index-template .header-content h1 {
         font-size: 46px;
     }
 }
@@ -3939,4 +3931,22 @@ a.invert:hover {
     right: 10px !important;
     top: 10px !important;
     color: #000;
+}
+
+/* Call Button Custom Adjustments */
+.header-bottom .call-btn span {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.header-bottom .call-btn svg {
+    width: 28px;
+    height: 28px;
+}
+
+@media(max-width: 991px) {
+    .header-bottom .call-btn span {
+        font-size: 21px;
+    }
 }
