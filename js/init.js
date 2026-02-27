@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
 
     $('.tel, #phone').inputmask('+48 999 999 999', {
         clearMaskOnLostFocus: true,
@@ -8,7 +8,7 @@ $(function() {
     $('.num1').viewportChecker({
         classToAdd: 'visible animated fadeInUp',
         offset: 100,
-        callbackFunction: function() {
+        callbackFunction: function () {
             let num = $('#num1').data('num');
             $('#num1').animateNumber({ number: num }, 2500);
         }
@@ -16,7 +16,7 @@ $(function() {
     $('.num2').viewportChecker({
         classToAdd: 'visible animated fadeInUp',
         offset: 100,
-        callbackFunction: function() {
+        callbackFunction: function () {
             let num = $('#num2').data('num');
             $('#num2').animateNumber({ number: num }, 2500);
         }
@@ -24,7 +24,7 @@ $(function() {
     $('.num3').viewportChecker({
         classToAdd: 'visible animated fadeInUp',
         offset: 100,
-        callbackFunction: function() {
+        callbackFunction: function () {
             let num = $('#num3').data('num');
             $('#num3').animateNumber({ number: num }, 2500);
         }
@@ -33,16 +33,16 @@ $(function() {
     if ($('#footer_phone_typed').length > 0) {
         $('.footer').viewportChecker({
             offset: 100,
-            callbackFunction: function() {
+            callbackFunction: function () {
                 var typed = new Typed('#footer_phone_typed', {
-                    stringsElement: '#footer_phone_typed_donor',
+                    strings: ['+48 573-463-323'],
                     typeSpeed: 100,
                     startDelay: 300,
                     showCursor: true,
                     loop: false,
-                    shuffle: true,
+                    shuffle: false,
                 });
-                setTimeout(function() { $('.footer-phone .item-animate').addClass('active'); }, 5000);
+                setTimeout(function () { $('.footer-phone .item-animate').addClass('active'); }, 5000);
             }
         });
     }
