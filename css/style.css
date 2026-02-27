@@ -595,7 +595,7 @@ a.invert:hover {
 .social-nav .viber-btn a{
     background-color: #7360F2;
 }
-.social-nav .chat-fb-btn a{
+.social-nav .chat-app-btn a{
     background-color:#0077FF;
 }
 .social-nav .inst-btn a{
@@ -619,7 +619,7 @@ a.invert:hover {
   animation: radial-pulse-whatsapp 1.4s infinite;
 }
 
-.social-nav .chat-fb-btn a:hover {
+.social-nav .chat-app-btn a:hover {
   animation: radial-pulse-vk 1.4s infinite;
 }
 .social-nav .inst-btn a:hover {
@@ -2449,7 +2449,7 @@ a.invert:hover {
     background: #0D83BE;
     color: #fff;
 }
-.btn.chat-fb-btn {
+.btn.chat-app-btn {
     background: #0077FF;
     color: #fff;
 }
@@ -3258,3 +3258,16 @@ a.invert:hover {
     100% { transform: rotateX(180deg); opacity: 0; }
 }
 /* /. rotate-text */
+
+/* Custom FancyBox Policy Size */
+.fancybox-slide--ajax .fancybox-content {
+    max-width: 800px;
+    height: auto !important;
+    max-height: 90vh;
+    padding: 40px;
+    border-radius: 10px;
+}
+.fancybox-slide--ajax .fancybox-close-small {
+    right: 15px;
+    top: 15px;
+}
