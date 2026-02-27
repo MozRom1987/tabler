@@ -23,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,800&display=swap"
+        href="css/fonts.css"
         rel="stylesheet">
     <link href="css/jquery.fancybox3.min.css" rel="stylesheet">
     <link href="css/base.css" rel="stylesheet">
@@ -61,6 +61,16 @@
     "closes": "20:00"
   },
   "priceRange": "$$"
+}
+</script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "AGD.fix24", "item": "https://agd.fix24.pro/" },
+    { "@type": "ListItem", "position": 2, "name": "Naprawa lodówek", "item": "https://agd.fix24.pro/naprawa_lodowek.html" }
+  ]
 }
 </script>
     <script type="application/ld+json">
@@ -234,7 +244,7 @@
                                             </li>
 
 
-                                            <li class="vk-btn">
+                                            <li class="messenger-btn">
                                                 <a href="https://m.me/agdfix24pro" target="_blank">
                                                     <svg width="20" height="20" aria-hidden="true" focusable="false"
                                                         data-prefix="fab" data-icon="facebook-messenger" role="img"
@@ -266,7 +276,7 @@
                                     </li>
 
 
-                                    <li class="vk-btn">
+                                    <li class="messenger-btn">
                                         <a href="https://m.me/agdfix24pro" target="_blank">
                                             <svg width="20" height="20" aria-hidden="true" focusable="false"
                                                 data-prefix="fab" data-icon="facebook-messenger" role="img"
@@ -874,7 +884,8 @@
                                                 class="required">
                                             <label for="agreement_get_consultation">
                                                 Akceptuję
-                                            </label> <a href="policy.html" target="_blank">warunki przetwarzania danych
+                                            </label> <a href="policy.html" data-fancybox data-type="iframe">warunki
+                                                przetwarzania danych
                                                 osobowych</a>
                                         </div>
 
@@ -953,7 +964,7 @@
                                     </a>
                                 </li>
 
-                                <li class="vk-btn">
+                                <li class="messenger-btn">
                                     <a href="https://m.me/agdfix24pro" target="_blank">
                                         <svg width="27" height="28" aria-hidden="true" focusable="false"
                                             data-prefix="fab" data-icon="facebook-messenger" role="img"
@@ -984,7 +995,8 @@
                         </div>
 
                         <div>
-                            <small><a href="policy.html" target="_blank">Polityka prywatności</a></small>
+                            <small><a href="policy.html" data-fancybox data-type="iframe">Polityka
+                                    prywatności</a></small>
                         </div>
                     </div>
 
@@ -1040,7 +1052,8 @@
                     <input type="checkbox" name="agreement" id="agreement_feedback" class="required">
                     <label for="agreement_feedback">
                         Akceptuję
-                    </label> <a href="policy.html" target="_blank">warunki przetwarzania danych osobowych</a>
+                    </label> <a href="policy.html" data-fancybox data-type="iframe">warunki przetwarzania danych
+                        osobowych</a>
                 </div>
                 <input name="feedbackbtn" type="submit" class="btn btn-lg" value="Wyślij">
 
@@ -1062,7 +1075,7 @@
     <script defer src="js/init.js"></script>
 
 
-<script src="/js/fix24-tracker.js"></script>
+    <script src="/js/fix24-tracker.js"></script>
 </body>
 
 

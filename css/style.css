@@ -595,7 +595,7 @@ a.invert:hover {
 .social-nav .viber-btn a{
     background-color: #7360F2;
 }
-.social-nav .vk-btn a{
+.social-nav .messenger-btn a{
     background-color:#0077FF;
 }
 .social-nav .inst-btn a{
@@ -619,7 +619,7 @@ a.invert:hover {
   animation: radial-pulse-whatsapp 1.4s infinite;
 }
 
-.social-nav .vk-btn a:hover {
+.social-nav .messenger-btn a:hover {
   animation: radial-pulse-vk 1.4s infinite;
 }
 .social-nav .inst-btn a:hover {

@@ -25,7 +25,8 @@
       "Bash(curl:*)",
       "WebFetch(domain:fonts.googleapis.com)",
       "Bash(copy:*)",
-      "Bash(del:*)"
+      "Bash(del:*)",
+      "Bash(git status:*)"
     ]
   }
 }
