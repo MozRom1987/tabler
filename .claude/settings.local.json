@@ -20,7 +20,12 @@
       "mcp__idea__execute_terminal_command",
       "Bash(find:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(curl:*)",
+      "WebFetch(domain:fonts.googleapis.com)",
+      "Bash(copy:*)",
+      "Bash(del:*)"
     ]
   }
 }
