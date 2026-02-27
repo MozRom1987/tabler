@@ -876,10 +876,10 @@ a.invert:hover {
     }
 }
 @media(max-width: 767px){
-    .pralki-page .header-features{
+    .header-features{
         flex-direction: column;
     }
-    .pralki-page .header-features .col{
+    .header-features .col{
         margin: 10px 0;
         width: auto;
     }
