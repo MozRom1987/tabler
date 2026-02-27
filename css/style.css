@@ -843,18 +843,18 @@ a.invert:hover {
 }
 
 /* pralki-page overrides */
-.pralki-page .header-features {
+.pralki-page .header-features, .index-template .header-features {
     flex-wrap: nowrap;
     justify-content: flex-start;
 }
 
-.pralki-page .header-features .col {
+.pralki-page .header-features .col, .index-template .header-features .col {
     width: 320px;
     margin: 25px 30px 25px 0;
     padding: 0 15px;
 }
 
-.pralki-page .header-features .item {
+.pralki-page .header-features .item, .index-template .header-features .item {
     flex-wrap: nowrap;
     align-items: center;
 }
@@ -873,7 +873,7 @@ a.invert:hover {
     display: block;
 }
 
-.pralki-page .header-features .item-body {
+.pralki-page .header-features .item-body, .index-template .header-features .item-body {
     width: auto;
     padding-left: 15px;
 }
@@ -3950,3 +3950,4 @@ a.invert:hover {
         font-size: 21px;
     }
 }
+.index-template .header-features .item-icon { flex-shrink: 0; }
