@@ -36,8 +36,8 @@ $(function () {
             callbackFunction: function () {
                 var typed = new Typed('#footer_phone_typed', {
                     strings: ['+48 573-463-323'],
-                    typeSpeed: 100,
-                    startDelay: 300,
+                    typeSpeed: 160,
+                    startDelay: 400,
                     showCursor: true,
                     loop: false,
                     shuffle: false,
