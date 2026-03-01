@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+{% include "head.njk" %}
+</head>
+<body class="{{ bodyClass | default('index-template') }} fix-panel-true">
+
+<!-- Site Preloader -->
+<div id="page-preloader"><span class="spinner"></span></div>
+
+{% include "header.njk" %}
+
+{{ content | safe }}
+
+{% include "footer.njk" %}
+
+{% include "scripts.njk" %}
+
+</body>
+</html>

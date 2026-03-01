@@ -1,0 +1,24 @@
+{
+  "name": "agd_fix24_pro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MozRom1987/AGD_FIX24_PRO.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MozRom1987/AGD_FIX24_PRO/issues"
+  },
+  "homepage": "https://github.com/MozRom1987/AGD_FIX24_PRO#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2"
+  }
+}

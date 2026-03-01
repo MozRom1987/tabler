@@ -1,0 +1,104 @@
+<div class="faq-section section pt0" id="faq">
+            <div class="container">
+
+                <h2>Odpowiadamy na najczęściej zadawane pytania:</h2>
+
+
+                <div class="accordion">
+
+
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-title">
+                                Jakie rodzaje sprzętu AGD naprawiacie ?
+                            </div>
+                            <div class="item-icon">
+                            </div>
+                        </div>
+                        <div class="item-body">
+                            <p>Oferujemy profesjonalny serwis szerokiej gamy urządzeń AGD: lodówki, pralki, suszarki,
+                                zmywarki i piekarniki, kuchnie i płyty grzewcze. Obsługujemy wszystkie kluczowe marki i
+                                modele dostępne na rynku.</p>
+                        </div>
+                    </div>
+
+
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-title">
+                                Jak szybko możemy przyjechać na naprawę ?
+                            </div>
+                            <div class="item-icon">
+                            </div>
+                        </div>
+                        <div class="item-body">
+                            <p>Dążymy do tego, aby zrealizować usługę w tym samym lub następnym dniu roboczym od momentu
+                                zgłoszenia. Naszym priorytetem jest błyskawiczne usunięcie awarii, aby zminimalizować
+                                Twoje niedogodności i przywrócić sprawność urządzeń.</p>
+                        </div>
+                    </div>
+
+
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-title">
+                                Co obejmuje usługa naprawy ?
+                            </div>
+                            <div class="item-icon">
+                            </div>
+                        </div>
+                        <div class="item-body">
+                            <p>Nasze usługi są kompleksowe i przejrzyste. Każda wizyta technika obejmuje: dokładną
+                                diagnostykę, fachową konsultację, szybką i właściwą naprawę.</p>
+                        </div>
+                    </div>
+
+
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-title">
+                                Czy udzielają Państwo gwarancji na wykonane naprawy ?
+                            </div>
+                            <div class="item-icon">
+                            </div>
+                        </div>
+                        <div class="item-body">
+                            <p>Oczywiście! Udzielamy gwarancji zarówno na zamontowane części, jak i na wykonaną usługę.
+                                Czas trwania gwarancji zależy od rodzaju urządzenia oraz specyfiki użytych podzespołów,
+                                o czym poinformujemy Cię szczegółowo po zakończeniu prac.</p>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-title">
+                                Czy dojeżdżacie do okolicznych wsi wokół {{ city_locative | default("Przemyślu") }}?
+                            </div>
+                            <div class="item-icon">
+                            </div>
+                        </div>
+                        <div class="item-body">
+                            <p>Tak, obsługujemy nie tylko samo miasto {{ city_name | default("Przemyśl") }}, ale również jego szerokie okolice. Najczęściej dojeżdżamy na naprawy sprzętu AGD do następujących miejscowości:</p>
+                            
+                            {% set villages = [] %}
+                            {% if city_name == 'Radymno' %}
+                                {% set villages = ['Skołoszów', 'Zamojsce', 'Zabłotce', 'Ostrowo', 'Łowce', 'Święte', 'Chotyniec', 'Korczowa', 'Michałówka', 'Sośnica' ] %}
+                            {% elif city_name == 'Jarosław' %}
+                                {% set villages = ['Szówsko', 'Pawłosiów', 'Wiązownica', 'Tuczempy', 'Munina', 'Pełkinie', 'Koniaczów', 'Makowisko', 'Surochów', 'Morawsko' ] %}
+                            {% else %}
+                                {% set villages = ['Żurawica', 'Krasiczyn', 'Medyka', 'Orły', 'Stubno', 'Bircza', 'Krzywcza', 'Fredropol', 'Nehrybka', 'Pikulice' ] %}
+                            {% endif %}
+                            
+                            <p style="margin-top: 15px; font-weight: 500;">
+                                {{ villages | join(', ') }} ...oraz wiele innych okolicznych miejscowości!
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        

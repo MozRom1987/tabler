@@ -1,0 +1,71 @@
+<!-- head.njk -->
+
+    <!-- Start cookieyes banner -->
+    <script async id="cookieyes" type="text/javascript"
+        src="https://cdn-cookieyes.com/client_data/29372906c8ca98f8f7859447eeae88fb/script.js"></script>
+    <!-- End cookieyes banner -->
+    <!-- Локальна версія сайту - форми не працюють без серверу -->
+    <meta charset="utf-8">
+    <title>{{ title | default("Naprawa AGD Przemyśl | Mobilny Serwis z dojazdem | AGD.fix24") }}</title>
+    <meta name="description" content="{% if seo_desc %}{{ seo_desc }}{% else %}Szybka i skuteczna naprawa sprzętu AGD w Przemyślu i okolicach. Pralki, lodówki, zmywarki, piekarniki. Dojazd do klienta, bezpłatna diagnostyka przy naprawie!{% endif %}">
+    <link rel="canonical" href="https://agd.fix24.pro/{{ page.url }}">
+
+    <meta name="robots" content="index,follow">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <meta name="theme-color" content="#FFFFFF">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="/css/fonts.css" rel="stylesheet">
+    <link href="/css/jquery.fancybox3.min.css" rel="stylesheet">
+    <link href="/css/base.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <meta property="og:title" content="Naprawa AGD Przemyśl | Mobilny Serwis z dojazdem">
+    <meta property="og:site_name" content="AGD.fix24">
+    <meta property="og:url" content="https://agd.fix24.pro/index.html">
+    <meta property="og:description"
+        content="Szybka i skuteczna naprawa sprzętu AGD w Przemyślu i okolicach. Dojazd do klienta, bezpłatna diagnostyka przy naprawie.">
+    <meta property="og:image" content="https://agd.fix24.pro/images/site/about2.jpg">
+    <meta property="og:type" content="website">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "AGD.fix24 - Naprawa AGD Przemyśl",
+  "image": "https://agd.fix24.pro/images/site/logo-icon.png",
+  "url": "https://agd.fix24.pro/",
+  "telephone": "+48573463323",
+  "email": "agd.fix24@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Przemyśl",
+    "addressCountry": "PL"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 49.7833,
+    "longitude": 22.7667
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "08:00",
+    "closes": "20:00"
+  },
+  "priceRange": "$$"
+}
+</script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Jakie rodzaje sprzętu AGD naprawiacie ?", "acceptedAnswer": { "@type": "Answer", "text": "Oferujemy profesjonalny serwis szerokiej gamy urządzeń AGD: lodówki, pralki, suszarki, zmywarki i piekarniki, kuchnie i płyty grzewcze." } },
+    { "@type": "Question", "name": "Jak szybko możemy przyjechać na naprawę ?", "acceptedAnswer": { "@type": "Answer", "text": "Dążymy do tego, aby zrealizować usługę w tym samym lub następnym dniu roboczym od momentu zgłoszenia." } },
+    { "@type": "Question", "name": "Co obejmuje usługa naprawy ?", "acceptedAnswer": { "@type": "Answer", "text": "Nasze usługi są kompleksowe i przejrzyste. Każda wizyta technika obejmuje: dokładną diagnostykę, fachową konsultację, szybką i właściwą naprawę." } },
+    { "@type": "Question", "name": "Czy udzielają Państwo gwarancji na wykonane naprawy ?", "acceptedAnswer": { "@type": "Answer", "text": "Oczywiście! Udzielamy gwarancji zarówno na zamontowane części, jak i na wykonaną usługę." } }
+  ]
+}
+</script>

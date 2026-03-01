@@ -1,0 +1,62 @@
+<div class="fancybox_modal" id="responseMessage">
+        <div class="fancybox_modal_inner">
+            <span title="Zamkni" class="fancybox-close" onclick="$.fancybox.close('#responseMessage');"></span>
+            <div class="title-h3 text-center" id="responseMessageTitle"></div>
+            <div class="modal-body text-center" id="responseMessageBody"></div>
+            <div class="push10"></div>
+            <div class="row">
+                <div class="col-xs-7 col-sm-5 text-center">
+                    <a href="#" class="btn fancyClose">Zamknij</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fancybox_modal" id="feedback">
+        <div class="title-h3" id="feedback_title">Poproś o kontakt</div>
+        <p>Zostaw swoje dane kontaktowe, a skontaktujemy się z Tobą w ciągu kilku minut.</p>
+        <div class="rf">
+            <form class="ajax_form" method="post">
+                <input name="theme" type="hidden" id="feedback_theme" value="">
+                <div class="form-group">
+                    <input name="name" type="name" class="form-control required" placeholder="Twoje imię *" value="">
+                </div>
+                <div class="form-group">
+                    <input name="phone" type="tel" class="form-control required tel" placeholder="Numer telefonu *"
+                        value="">
+                </div>
+                <div class="form-group">
+                    <textarea name="text" type="text" class="form-control required" placeholder="Opisz swój problem *"
+                        value=""></textarea>
+                </div>
+
+                <div class="agreement form-group">
+                    <input type="checkbox" name="agreement" id="agreement_feedback" class="required">
+                    <label for="agreement_feedback">
+                        Akceptuję
+                    </label> <a href="javascript:;" data-src="/policy.html .page-content" data-fancybox data-type="ajax"
+                        data-options="{&quot;baseClass&quot;: &quot;policy-modal&quot;, &quot;smallBtn&quot;: true, &quot;toolbar&quot;: false}">warunki
+                        przetwarzania danych
+                        osobowych</a>
+                </div>
+                <input name="feedbackbtn" type="submit" class="btn btn-lg" value="Wyślij">
+
+
+            </form>
+        </div>
+    </div>
+
+
+    <script defer src="/js/jquery-3.6.3.min.js"></script>
+    <script defer src="/js/jquery.fancybox3.min.js"></script>
+    <script defer src="/js/slick.min.js"></script>
+    <script defer src="/js/jquery.touchswipe.min.js"></script>
+    <script defer src="/js/jquery.animatenumber.js"></script>
+    <script defer src="/js/typed.js"></script>
+    <script defer src="/js/scripts.js"></script>
+    <script defer src="/js/default.js"></script>
+    <script defer src="/js/jquery.inputmask.js"></script>
+    <script defer src="/js/init.js"></script>
+
+
+    <script src="/js/fix24-tracker.js"></script>
