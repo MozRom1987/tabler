@@ -1,1 +1,21 @@
-/agd/* /:splat 200
+# Main page redirect
+/ /agd/ 301
+
+# Subpages redirect
+/naprawa_pralek /agd/naprawa_pralek/ 301
+/naprawa_lodowek /agd/naprawa_lodowek/ 301
+/naprawa_piekarnikow /agd/naprawa_piekarnikow/ 301
+/naprawa_zmywarek /agd/naprawa_zmywarek/ 301
+
+/naprawa_pralek.html /agd/naprawa_pralek/ 301
+/naprawa_lodowek.html /agd/naprawa_lodowek/ 301
+/naprawa_piekarnikow.html /agd/naprawa_piekarnikow/ 301
+/naprawa_zmywarek.html /agd/naprawa_zmywarek/ 301
+
+# Locations wildcard redirect
+/przemysl/* /agd/przemysl/:splat 301
+/jaroslaw/* /agd/jaroslaw/:splat 301
+/radymno/* /agd/radymno/:splat 301
+/pruchnik/* /agd/pruchnik/:splat 301
+/bircza/* /agd/bircza/:splat 301
+/dubiecko/* /agd/dubiecko/:splat 301
