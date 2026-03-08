@@ -24,6 +24,11 @@
                             <p><b>Gwarancja Jakości:</b> Twoja satysfakcja jest dla nas priorytetem. Gwarantujemy
                                 najwyższą jakość napraw, aby Twoje urządzenia działały bez zarzutu na długo po naszej
                                 wizycie.</p>
+                            {% if villages %}
+                            <p class="villages-list" style="font-size: 0.85em; margin-top: 25px; color: #666;">
+                                <b style="color:#222;">Obsługiwane miejscowości:</b> {{ villages }}
+                            </p>
+                            {% endif %}
                         </div>
 
 
@@ -33,12 +38,12 @@
 
 
                             <div class="img1">
-                                <img loading="lazy" src="/images/site/about1_520x470_fdd.jpg" alt="Naprawa pralek">
+                                <img loading="lazy" src="/agd/images/site/about1_520x470_fdd.jpg" alt="Naprawa pralek">
                             </div>
 
 
                             <div class="img2">
-                                <img loading="lazy" src="/images/site/about2_520x470_fdd.jpg" alt="Naprawa piekarników">
+                                <img loading="lazy" src="/agd/images/site/about2_520x470_fdd.jpg" alt="Naprawa piekarników">
                             </div>
 
 

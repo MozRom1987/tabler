@@ -7,6 +7,7 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy("src/favicon.ico");
 
     return {
+        pathPrefix: "/agd/",
         dir: {
             input: "src",
             output: "_site",
