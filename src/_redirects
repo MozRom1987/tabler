@@ -1,5 +1,1 @@
-/agd/:city/naprawa_pralek.html /:city/naprawa_pralek/ 200
-/agd/:city/naprawa_lodowek.html /:city/naprawa_lodowek/ 200
-/agd/:city/naprawa_zmywarek.html /:city/naprawa_zmywarek/ 200
-/agd/:city/naprawa_piekarnikow.html /:city/naprawa_piekarnikow/ 200
 /agd/* /:splat 200
