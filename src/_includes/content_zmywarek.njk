@@ -140,7 +140,7 @@
                                 Whirlpool, Zanussi oraz wiele innych.</p>
                         </div>
                         <div class="about-repairs">
-                            <h3 class="about-repairs-title">Co naprawiamy?</h3>
+                            <h3 class="about-repairs-title">Zakres naszych usług serwisowych (naprawy):</h3>
                             <div class="about-repairs-cols">
                                 <ul class="about-repairs-list">
                                     <li>Wymiana pompy odpływowej</li>
@@ -442,6 +442,18 @@
                                 diagnozy i po naprawie wsunie je z powrotem na miejsce.</p>
                         </div>
                     </div>
+
+                    {% if villages %}
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-title">Czy serwis naprawia sprzęt poza {{ city_locative | default('Przemyślem') }}?</div>
+                            <div class="item-icon"></div>
+                        </div>
+                        <div class="item-body">
+                            <p>Tak, nasz mobilny serwis AGD oprócz {{ city_genitive | default('Przemyśla') }} obejmuje również: {{ villages }}.</p>
+                        </div>
+                    </div>
+                    {% endif %}
 
                 </div>
 

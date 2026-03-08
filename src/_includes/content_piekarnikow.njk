@@ -143,7 +143,7 @@
                                 Whirlpool, Zanussi oraz wiele innych.</p>
                         </div>
                         <div class="about-repairs">
-                            <h3 class="about-repairs-title">Co naprawiamy?</h3>
+                            <h3 class="about-repairs-title">Czym zajmuje się nasz serwis piekarników?</h3>
                             <div class="about-repairs-cols">
                                 <ul class="about-repairs-list">
                                     <li>Wymiana grzałki (górnej, dolnej, termoobiegu)</li>
@@ -444,6 +444,18 @@
                                 kuchenkach gazowo-elektrycznych.</p>
                         </div>
                     </div>
+
+                    {% if villages %}
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-title">Czy serwis dojeżdża do okolicznych mniejszych wsi?</div>
+                            <div class="item-icon"></div>
+                        </div>
+                        <div class="item-body">
+                            <p>Tak, działamy mobilnie! Dojeżdżamy nie tylko na terenie {{ city_genitive | default('Przemyśla') }}, ale też do wiosek takich jak: {{ villages }}.</p>
+                        </div>
+                    </div>
+                    {% endif %}
 
                 </div>
 

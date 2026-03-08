@@ -139,7 +139,7 @@
                                 Whirlpool, Zanussi oraz wiele innych.</p>
                         </div>
                         <div class="about-repairs">
-                            <h3 class="about-repairs-title">Co naprawiamy?</h3>
+                            <h3 class="about-repairs-title">Zakres naszych usług naprawczych:</h3>
                             <div class="about-repairs-cols">
                                 <ul class="about-repairs-list">
                                     <li>Wymiana modułu sterującego</li>
@@ -438,6 +438,18 @@
                                 całkowicie rozmrażać, chyba że technik poprosi o to podczas rozmowy telefonicznej.</p>
                         </div>
                     </div>
+
+                    {% if villages %}
+                    <div class="item">
+                        <div class="item-head">
+                            <div class="item-title">Czy serwis lodówek dojeżdża do okolicznych miejscowości?</div>
+                            <div class="item-icon"></div>
+                        </div>
+                        <div class="item-body">
+                            <p>Oczywiście, obsługujemy {{ city_name | default('Przemyśl') }} oraz pobliskie wsie i miasteczka: {{ villages }}.</p>
+                        </div>
+                    </div>
+                    {% endif %}
 
                 </div>
 
