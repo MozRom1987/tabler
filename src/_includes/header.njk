@@ -17,16 +17,34 @@
         <div class="header-media">
 
 
+            {% set current_bg = '/agd/images/site/header-bg.jpg' %}
+            {% set current_bg_sm = '/agd/images/site/header-bg-sm.jpg' %}
+            {% set current_bg_xs = '/agd/images/site/header-bg-xs.jpg' %}
+            {% if 'naprawa_pralek' in page.url %}
+                {% set current_bg = '/agd/images/hero/pralka_big.webp' %}
+                {% set current_bg_sm = '/agd/images/hero/pralka_big.webp' %}
+                {% set current_bg_xs = '/agd/images/hero/pralka_big.webp' %}
+            {% elif 'naprawa_lodowek' in page.url %}
+                {% set current_bg = '/agd/images/hero/lodowka_big.webp' %}
+                {% set current_bg_sm = '/agd/images/hero/lodowka_big.webp' %}
+                {% set current_bg_xs = '/agd/images/hero/lodowka_big.webp' %}
+            {% elif 'naprawa_piekarnikow' in page.url %}
+                {% set current_bg = '/agd/images/hero/piekarnik_big.webp' %}
+                {% set current_bg_sm = '/agd/images/hero/piekarnik_big.webp' %}
+                {% set current_bg_xs = '/agd/images/hero/piekarnik_big.webp' %}
+            {% elif 'naprawa_zmywarek' in page.url %}
+                {% set current_bg = '/agd/images/hero/zmywarka_big.webp' %}
+                {% set current_bg_sm = '/agd/images/hero/zmywarka_big.webp' %}
+                {% set current_bg_xs = '/agd/images/hero/zmywarka_big.webp' %}
+            {% endif %}
+
             <div class="header-img visible-md visible-lg"
-                style="background-image: linear-gradient(270deg, #FFFFFF00 0%, #FFFFFF 48%, #FFFFFF 100%), linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 0%, #FFFFFFCC 0%, #FFFFFF00 100%), linear-gradient(0deg, #FFFFFF 0%, #FFFFFF 34%, #FFFFFFE0 59%, #FFFFFF00 100%), url(/agd/images/site/header-bg.jpg);">
+                style="background-image: linear-gradient(270deg, #FFFFFF00 0%, #FFFFFF 48%, #FFFFFF 100%), linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 0%, #FFFFFFCC 0%, #FFFFFF00 100%), linear-gradient(0deg, #FFFFFF 0%, #FFFFFF 34%, #FFFFFFE0 59%, #FFFFFF00 100%), url('{{ current_bg }}');">
             </div>
 
+            <div class="header-img visible-sm" style="background-image: url('{{ current_bg_sm }}');"></div>
 
-            <div class="header-img visible-sm" style="background-image: url(/agd/images/site/header-bg-sm.jpg);"></div>
-
-
-            <div class="header-img visible-xs" style="background-image: url(/agd/images/site/header-bg-xs.jpg);"></div>
-
+            <div class="header-img visible-xs" style="background-image: url('{{ current_bg_xs }}');"></div>
 
         </div>
 
@@ -37,7 +55,7 @@
                     <div class="container">
                         <div class="header-main-inner">
                             <div class="header-logo">
-                                <a href="/">
+                                <a href="{{ city_path | default('/agd/') }}">
 
                                     <div class="logo-inner">
 
@@ -219,7 +237,8 @@
                     <div class="header-content-inner">
                         <h1 class="header-title">
                             <span>Lokalny serwis</span> AGD <br>z dojazdem do klienta <br>
-                            w {{ city_locative | default("Przemyślu") }} i okolicach <span class="rotate-text"><b class="is-visible">szybka interwencja</b><b
+                            w {{ city_locative | default("Przemyślu") }} i okolicach <br>
+                            <span class="rotate-text" style="font-size: 0.8em; margin-top: 10px; display: inline-block;"><b class="is-visible">szybka interwencja</b><b
                                     class="is-hidden">uczciwa wycena</b><b class="is-hidden">pisemna gwarancja</b></span>
                         </h1>
 
