@@ -82,20 +82,20 @@
                             
                             {% set faq_villages = [] %}
                             {% if city_name == 'Jarosław' %}
-                                {% set faq_villages = ['Pawłosiów', 'Szówsko', 'Wiązownica', 'Tuczempy', 'Munina', 'Pełkinie', 'Koniaczów', 'Makowisko', 'Surochów', 'Chłopice'] %}
+                                {% set faq_villages = ['Koniaczów', 'Kostków', 'Makowisko', 'Munina', 'Pełkinie', 'Sobiecin', 'Surochów', 'Tuczempy', 'Wietlin', 'Wietlin Pierwszy', 'Wietlin Trzeci', 'Zgoda', 'Pawłosiów', 'Cieszacin Mały', 'Cieszacin Wielki', 'Kidałowice', 'Tywonia', 'Wierzbna', 'Chłopice', 'Boratyn', 'Dobkowice', 'Jankowice', 'Łowce', 'Zamiechów', 'Szówsko', 'Wiązownica'] %}
                             {% elif city_name == 'Radymno' %}
-                                {% set faq_villages = ['Skołoszów', 'Korczowa', 'Orły', 'Stubno', 'Duńkowice', 'Sośnica', 'Ostrów', 'Chotyniec', 'Michałówka', 'Kaszyce'] %}
+                                {% set faq_villages = ['Chałupki Chotynieckie', 'Chotyniec', 'Duńkowice', 'Grabowiec', 'Korczowa', 'Łazy', 'Michałówka', 'Młyny', 'Nienowice', 'Ostrów', 'Piaski', 'Skołoszów', 'Sośnica', 'Święte', 'Zabłotce', 'Zamojsce', 'Orły', 'Drohojów', 'Hnatkowice', 'Kaszyce', 'Małkowice', 'Olszany', 'Pantalowice', 'Trójczyce', 'Wacławice', 'Walawa', 'Stubno', 'Barycz', 'Kalników', 'Nakło', 'Starzawa', 'Pozdiacz (Leszno)'] %}
                             {% elif city_name == 'Pruchnik' %}
-                                {% set faq_villages = ['Roźwienica', 'Hawłowice', 'Jodłówka', 'Rudołowice', 'Bystrowice', 'Kramarzówka', 'Węgierka', 'Rzeplin', 'Tyniowice', 'Świebodna'] %}
+                                {% set faq_villages = ['Pruchnik Dolny', 'Pruchnik Górny', 'Hawłowice', 'Jodłówka', 'Kramarzówka', 'Rozbórz Długi', 'Rozbórz Okrągły', 'Rzeplin', 'Świebodna', 'Roźwienica', 'Bystrowice', 'Chorzów', 'Czudowice', 'Rudołowice', 'Tyniowice', 'Węgierka', 'Wola Roźwienicka'] %}
                             {% elif city_name == 'Bircza' %}
-                                {% set faq_villages = ['Fredropol', 'Rybotycze', 'Huwniki', 'Kuźmina', 'Leszczawa Dolna', 'Jawornik Ruski', 'Lipa', 'Nowe Sady', 'Kalwaria Pacławska', 'Sierakośce'] %}
+                                {% set faq_villages = ['Boguszówka', 'Borownica', 'Brzeżawa', 'Dobrzanka', 'Grodzisko', 'Jawornik Ruski', 'Korzeniec', 'Kotów', 'Kuźmina', 'Leszczawa Dolna', 'Leszczawa Górna', 'Lipa', 'Łodzinka Dolna', 'Łodzinka Górna', 'Malawa', 'Nowa Wieś', 'Roztoka', 'Rudawka', 'Stara Bircza', 'Sufczyna', 'Wola Korzeniecka', 'Żohatyn', 'Fredropol', 'Aksmanice', 'Darowice', 'Huwniki', 'Kalwaria Pacławska', 'Kłokowice', 'Kniażyce', 'Koniusza', 'Kupiatycze', 'Młodowice', 'Nowe Sady', 'Pacław', 'Rybotycze', 'Sierakośce'] %}
                             {% elif city_name == 'Dubiecko' %}
-                                {% set faq_villages = ['Krzywcza', 'Babice', 'Nienadowa', 'Iskań', 'Ruszelczyce', 'Przedmieście Dubieckie', 'Śliwnica', 'Bachów', 'Drohobyczka', 'Hucisko Nienadowskie'] %}
+                                {% set faq_villages = ['Drohobyczka', 'Hucisko Nienadowskie', 'Iskań', 'Nienadowa', 'Piątkowa', 'Przedmieście Dubieckie', 'Sielnica', 'Śliwnica', 'Winne-Podbukowina', 'Wybrzeże', 'Krzywcza', 'Babice', 'Bachów', 'Chyrzyna', 'Kupna', 'Reczpol', 'Ruszelczyce', 'Skopów', 'Średnia'] %}
                             {% else %}
-                                {% set faq_villages = ['Żurawica', 'Krasiczyn', 'Medyka', 'Prałkowce', 'Hermanowice', 'Kuńkowce', 'Nehrybka', 'Pikulice', 'Bolestraszyce', 'Ujkowice'] %}
+                                {% set faq_villages = ['Bełwin', 'Grochowce', 'Hermanowice', 'Hołubla', 'Krowniki', 'Kruhel Mały', 'Kruhel Wielki', 'Kuńkowce', 'Łętownia', 'Łuczyce', 'Malhowice', 'Nehrybka', 'Pikulice', 'Rożubowice', 'Stanisławczyk', 'Ujkowice', 'Wapowce', 'Witoszyńce', 'Żurawica', 'Baraki', 'Batycze', 'Bolestraszyce', 'Buszkowice', 'Buszkowiczki', 'Kosienice', 'Maćkowice', 'Orzechowce', 'Wyszatyce', 'Medyka', 'Hureczko', 'Hurko', 'Jaksmanice', 'Siedliska', 'Torki', 'Krasiczyn', 'Prałkowce', 'Śliwnica', 'Zamoście'] %}
                             {% endif %}
                             
-                            <p style="margin-top: 15px; font-weight: 500;">
+                            <p style="margin-top: 15px; font-weight: 500; font-size: 0.9em; line-height: 1.6;">
                                 {{ faq_villages | join(', ') }} ...oraz wiele innych okolicznych miejscowości!
                             </p>
                         </div>
