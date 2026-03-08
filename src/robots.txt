@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fix24.pro/agd/sitemap.xml
