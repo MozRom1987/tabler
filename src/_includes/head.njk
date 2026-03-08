@@ -30,7 +30,53 @@
     <link href="/agd/css/fonts.css" rel="stylesheet">
     <link href="/agd/css/jquery.fancybox3.min.css" rel="stylesheet">
     <link href="/agd/css/base.css" rel="stylesheet">
-    <link href="/agd/css/style.css" rel="stylesheet">
+    <link href="/agd/css/style.css?v=5" rel="stylesheet">
+    <style>
+        @media (max-width: 767px) {
+            .header-content {
+                padding-top: 50px !important;
+                padding-bottom: 20px !important;
+                min-height: auto !important;
+            }
+            .header-title {
+                font-size: 26px !important;
+                line-height: 1.2 !important;
+                margin-bottom: 10px !important;
+                margin-top: 10px !important;
+            }
+            .header-subtitle {
+                font-size: 14px !important;
+                margin-bottom: 15px !important;
+                line-height: 1.3 !important;
+            }
+            .header-features {
+                margin-bottom: 20px !important;
+            }
+            .header-features .item {
+                margin-bottom: 15px !important;
+                padding-bottom: 0 !important;
+            }
+            .header-features .item-title {
+                font-size: 13px !important;
+                line-height: 1.3 !important;
+            }
+            .header-bottom {
+                margin-top: 15px !important;
+            }
+            .header-bottom .call-btn {
+                padding: 10px 15px !important;
+                font-size: 16px !important;
+            }
+            .header-bottom .call-btn svg {
+                width: 20px !important;
+                height: 20px !important;
+            }
+            .header-bottom .call-time {
+                margin-top: 10px !important;
+                font-size: 12px !important;
+            }
+        }
+    </style>
     <meta property="og:title" content="{{ title | default("Naprawa AGD Przemyśl | Mobilny Serwis z dojazdem | AGD.fix24") }}">
     <meta property="og:site_name" content="AGD.fix24">
     <meta property="og:url" content="https://fix24.pro/agd{{ page.url }}">

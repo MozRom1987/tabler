@@ -60,4 +60,11 @@
 
 
     <script src="/agd/js/fix24-tracker.js"></script>
-    <script src="//code.tidio.co/xncus1vguwrgdnuxfvbeki7c17cpiaks.js" async></script>
+    <script>
+        if (window.matchMedia("(min-width: 768px)").matches) {
+            var script = document.createElement("script");
+            script.src = "//code.tidio.co/xncus1vguwrgdnuxfvbeki7c17cpiaks.js";
+            script.async = true;
+            document.body.appendChild(script);
+        }
+    </script>

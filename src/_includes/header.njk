@@ -243,8 +243,17 @@
                         </h1>
 
                         <div class="header-subtitle">
-                            Potrzebujesz szybkiej pomocy ? Fachowa naprawa <br>pralek, lodówek, zmywarek, piekarników,
-                            kuchenek <br>i płyt grzewczych, oraz innego sprzętu AGD.
+                            {% if 'naprawa_lodowek' in page.url %}
+                                Potrzebujesz szybkiej pomocy? Fachowa naprawa <strong>lodówek i zamrażarek</strong> z dojazdem do klienta. Diagnostyka, wymiana części i gwarancja na usługi naprawcze.
+                            {% elif 'naprawa_pralek' in page.url %}
+                                Potrzebujesz szybkiej pomocy? Fachowa naprawa <strong>pralek i pralko-suszarek</strong> z dojazdem do klienta. Skuteczne diagnozowanie usterek i szybka wymiana części.
+                            {% elif 'naprawa_zmywarek' in page.url %}
+                                Potrzebujesz szybkiej pomocy? Fachowa naprawa <strong>zmywarek</strong> z dojazdem do klienta. Gwarancja na wykonaną naprawę i wymienione części.
+                            {% elif 'naprawa_piekarnikow' in page.url %}
+                                Potrzebujesz szybkiej pomocy? Fachowa naprawa <strong>piekarników i płyt grzewczych</strong> z dojazdem do klienta. Szybkie wykrycie awarii i bezpieczna interwencja.
+                            {% else %}
+                                Potrzebujesz szybkiej pomocy ? Fachowa naprawa <br>pralek, lodówek, zmywarek, piekarników, kuchenek <br>i płyt grzewczych, oraz innego sprzętu AGD.
+                            {% endif %}
                         </div>
 
 
