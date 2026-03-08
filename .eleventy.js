@@ -14,7 +14,7 @@ module.exports = function (eleventyConfig) {
         pathPrefix: "/agd/",
         dir: {
             input: "src",
-            output: "_site",
+            output: "_site/agd",
             includes: "_includes",
             layouts: "_layouts"
         },
