@@ -80,17 +80,23 @@
                         <div class="item-body">
                             <p>Tak, obsługujemy nie tylko samo miasto {{ city_name | default("Przemyśl") }}, ale również jego szerokie okolice. Najczęściej dojeżdżamy na naprawy sprzętu AGD do następujących miejscowości:</p>
                             
-                            {% set villages = [] %}
-                            {% if city_name == 'Radymno' %}
-                                {% set villages = ['Skołoszów', 'Zamojsce', 'Zabłotce', 'Ostrowo', 'Łowce', 'Święte', 'Chotyniec', 'Korczowa', 'Michałówka', 'Sośnica' ] %}
-                            {% elif city_name == 'Jarosław' %}
-                                {% set villages = ['Szówsko', 'Pawłosiów', 'Wiązownica', 'Tuczempy', 'Munina', 'Pełkinie', 'Koniaczów', 'Makowisko', 'Surochów', 'Morawsko' ] %}
+                            {% set faq_villages = [] %}
+                            {% if city_name == 'Jarosław' %}
+                                {% set faq_villages = ['Pawłosiów', 'Szówsko', 'Wiązownica', 'Tuczempy', 'Munina', 'Pełkinie', 'Koniaczów', 'Makowisko', 'Surochów', 'Chłopice'] %}
+                            {% elif city_name == 'Radymno' %}
+                                {% set faq_villages = ['Skołoszów', 'Korczowa', 'Orły', 'Stubno', 'Duńkowice', 'Sośnica', 'Ostrów', 'Chotyniec', 'Michałówka', 'Kaszyce'] %}
+                            {% elif city_name == 'Pruchnik' %}
+                                {% set faq_villages = ['Roźwienica', 'Hawłowice', 'Jodłówka', 'Rudołowice', 'Bystrowice', 'Kramarzówka', 'Węgierka', 'Rzeplin', 'Tyniowice', 'Świebodna'] %}
+                            {% elif city_name == 'Bircza' %}
+                                {% set faq_villages = ['Fredropol', 'Rybotycze', 'Huwniki', 'Kuźmina', 'Leszczawa Dolna', 'Jawornik Ruski', 'Lipa', 'Nowe Sady', 'Kalwaria Pacławska', 'Sierakośce'] %}
+                            {% elif city_name == 'Dubiecko' %}
+                                {% set faq_villages = ['Krzywcza', 'Babice', 'Nienadowa', 'Iskań', 'Ruszelczyce', 'Przedmieście Dubieckie', 'Śliwnica', 'Bachów', 'Drohobyczka', 'Hucisko Nienadowskie'] %}
                             {% else %}
-                                {% set villages = ['Żurawica', 'Krasiczyn', 'Medyka', 'Orły', 'Stubno', 'Bircza', 'Krzywcza', 'Fredropol', 'Nehrybka', 'Pikulice' ] %}
+                                {% set faq_villages = ['Żurawica', 'Krasiczyn', 'Medyka', 'Prałkowce', 'Hermanowice', 'Kuńkowce', 'Nehrybka', 'Pikulice', 'Bolestraszyce', 'Ujkowice'] %}
                             {% endif %}
                             
                             <p style="margin-top: 15px; font-weight: 500;">
-                                {{ villages | join(', ') }} ...oraz wiele innych okolicznych miejscowości!
+                                {{ faq_villages | join(', ') }} ...oraz wiele innych okolicznych miejscowości!
                             </p>
                         </div>
                     </div>
