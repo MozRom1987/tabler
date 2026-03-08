@@ -60,22 +60,12 @@
     "latitude": 49.7833,
     "longitude": 22.7667
   },
-  "openingHoursSpecification": [
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-      "opens": "08:00",
-      "closes": "20:00",
-      "description": "Wizyty serwisowe"
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-      "opens": "00:00",
-      "closes": "23:59",
-      "description": "Przyjmowanie zgłoszeń telefonicznych"
-    }
-  ],
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "00:00",
+    "closes": "23:59"
+  },
   "priceRange": "$$"
 }
 </script>
@@ -940,28 +930,27 @@
                                     Mobilny serwis AGD <br>Bircza i okolice<br>
                                 </div>
                                 <div class="footer-schedule">
-                                    Zgłoszenia: <strong>24/7</strong><br>
-                                    Wizyty serwisowe: 08:00–20:00
+                                    Codziennie 24/7
                                 </div>
                             </div>
                             <div class="footer-col1-middle">
                                 <div class="footer-services-nav-title">Nasze usługi:</div>
                                 <ul class="footer-services-nav">
-                                    <li><a href="/bircza/naprawa_pralek.html">Naprawa pralek i pralko-suszarek</a></li>
-                                    <li><a href="/bircza/naprawa_lodowek.html">Naprawa lodówek i zamrażarek</a></li>
-                                    <li><a href="/bircza/naprawa_zmywarek.html">Naprawa zmywarek</a></li>
-                                    <li><a href="/bircza/naprawa_piekarnikow.html">Naprawa piekarników</a></li>
+                                    <li><a href="/bircza/naprawa_pralek.html" class="active">Naprawa pralek i pralko-suszarek</a></li>
+                                    <li><a href="/bircza/naprawa_lodowek.html" >Naprawa lodówek i zamrażarek</a></li>
+                                    <li><a href="/bircza/naprawa_zmywarek.html" >Naprawa zmywarek</a></li>
+                                    <li><a href="/bircza/naprawa_piekarnikow.html" >Naprawa piekarników</a></li>
                                 </ul>
                             </div>
                             <div class="footer-col1-right">
                                 <div class="footer-services-nav-title">Obsługiwane miasta:</div>
                                 <ul class="footer-services-nav footer-cities-nav">
-                                    <li><a href="/agd/przemysl/">Przemyśl</a></li>
-                                    <li><a href="/agd/jaroslaw/">Jarosław</a></li>
-                                    <li><a href="/agd/radymno/">Radymno</a></li>
-                                    <li><a href="/agd/pruchnik/">Pruchnik</a></li>
-                                    <li><a href="/agd/bircza/">Bircza</a></li>
-                                    <li><a href="/agd/dubiecko/">Dubiecko</a></li>
+                                    <li><a href="/agd/przemysl/" >Przemyśl</a></li>
+                                    <li><a href="/agd/jaroslaw/" >Jarosław</a></li>
+                                    <li><a href="/agd/radymno/" >Radymno</a></li>
+                                    <li><a href="/agd/pruchnik/" >Pruchnik</a></li>
+                                    <li><a href="/agd/bircza/" class="active">Bircza</a></li>
+                                    <li><a href="/agd/dubiecko/" >Dubiecko</a></li>
                                 </ul>
                             </div>
                         </div>
