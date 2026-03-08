@@ -1,9 +1,9 @@
 module.exports = function (eleventyConfig) {
     // Pass through CSS, JS, Images, Fonts
-    eleventyConfig.addPassthroughCopy("src/css");
-    eleventyConfig.addPassthroughCopy("src/js");
-    eleventyConfig.addPassthroughCopy("src/images");
-    eleventyConfig.addPassthroughCopy("src/fonts");
+    eleventyConfig.addPassthroughCopy({ "src/css": "agd/css" });
+    eleventyConfig.addPassthroughCopy({ "src/js": "agd/js" });
+    eleventyConfig.addPassthroughCopy({ "src/images": "agd/images" });
+    eleventyConfig.addPassthroughCopy({ "src/fonts": "agd/fonts" });
     eleventyConfig.addPassthroughCopy("src/favicon.ico");
     eleventyConfig.addPassthroughCopy({ "src/_redirects": "_redirects" });
     eleventyConfig.addPassthroughCopy({ "src/robots.txt": "robots.txt" });
