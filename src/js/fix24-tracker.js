@@ -1,76 +1,104 @@
 /**
  * fix24-tracker.js
- * Вставити перед </body> на всіх сторінках fix24.pro
+ * Вставити перед </body> на всіх сторінках fix24.pro (і піддоменах)
  * Збирає дані тільки якщо є gclid (клік з Google Ads)
  */
 
-(function() {
+(function () {
     'use strict';
 
-    // Перевіряємо чи є gclid в URL (ознака кліку з Google Ads)
     const params = new URLSearchParams(window.location.search);
     const gclid = params.get('gclid');
 
-    // Якщо немає gclid — це не рекламний клік, нічого не робимо
     if (!gclid) return;
 
     const startTime = Date.now();
     let mouseMoved = false;
     let scrolled = false;
     let clickedPhone = false;
+    let lastActivityTime = Date.now();
+    let activeTime = 0;
+    let isPageVisible = true;
+    let dataSent = false;
 
-    // Відслідковуємо поведінку
-    document.addEventListener('mousemove', function() { mouseMoved = true; }, { once: true });
-    document.addEventListener('scroll', function() { scrolled = true; }, { once: true });
-    document.addEventListener('touchstart', function() { mouseMoved = true; }, { once: true });
+    // Відслідковуємо активність
+    document.addEventListener('mousemove', function () {
+        mouseMoved = true;
+        lastActivityTime = Date.now();
+    }, { once: true });
 
-    // Відслідковуємо клік на телефон
-    document.querySelectorAll('a[href^="tel:"]').forEach(function(el) {
-        el.addEventListener('click', function() { clickedPhone = true; });
+    document.addEventListener('scroll', function () {
+        scrolled = true;
+        lastActivityTime = Date.now();
+    }, { once: true });
+
+    document.addEventListener('touchstart', function () {
+        mouseMoved = true;
+        lastActivityTime = Date.now();
+    }, { once: true });
+
+    document.addEventListener('click', function () {
+        lastActivityTime = Date.now();
     });
 
-    // Збираємо базові дані браузера
+    // Відслідковуємо видимість сторінки (мінімізація, перехід на іншу вкладку)
+    document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+            isPageVisible = false;
+        } else {
+            isPageVisible = true;
+            lastActivityTime = Date.now();
+        }
+    });
+
+    // Відслідковуємо клік на телефон
+    document.querySelectorAll('a[href^="tel:"]').forEach(function (el) {
+        el.addEventListener('click', function () {
+            clickedPhone = true;
+            sendData(true); // Відправляємо одразу при дзвінку
+        });
+    });
+
+    // Рахуємо активний час кожну секунду
+    const timeInterval = setInterval(function () {
+        if (isPageVisible) {
+            activeTime = Math.round((Date.now() - startTime) / 1000);
+        }
+    }, 1000);
+
     function getBrowserData() {
         const nav = navigator;
-        const screen = window.screen;
         const conn = nav.connection || nav.mozConnection || nav.webkitConnection;
-
         return {
             userAgent: nav.userAgent,
             language: nav.language,
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            screen: screen.width + 'x' + screen.height + '@' + (screen.colorDepth || 24),
+            screen: window.screen.width + 'x' + window.screen.height + '@' + (window.screen.colorDepth || 24),
             cores: nav.hardwareConcurrency || null,
             memory: nav.deviceMemory || null,
             connection: conn ? (conn.effectiveType || conn.type) : null,
             touchSupport: ('ontouchstart' in window) || (nav.maxTouchPoints > 0),
-            cookiesEnabled: nav.cookieEnabled,
-            doNotTrack: nav.doNotTrack === '1',
         };
     }
 
-    // Генеруємо простий fingerprint без зовнішніх бібліотек
     async function generateFingerprint() {
         const data = getBrowserData();
 
-        // Canvas fingerprint
         let canvasHash = '';
         try {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
-            ctx.textBaseline = 'top';
-            ctx.font = '14px Arial';
             ctx.textBaseline = 'alphabetic';
+            ctx.font = '14px Arial';
             ctx.fillStyle = '#f60';
             ctx.fillRect(125, 1, 62, 20);
             ctx.fillStyle = '#069';
-            ctx.fillText('fix24.pro 🔍', 2, 15);
+            ctx.fillText('fix24.pro', 2, 15);
             ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
-            ctx.fillText('fix24.pro 🔍', 4, 17);
+            ctx.fillText('fix24.pro', 4, 17);
             canvasHash = canvas.toDataURL().slice(-50);
-        } catch(e) {}
+        } catch (e) { }
 
-        // WebGL fingerprint
         let webglHash = '';
         try {
             const gl = document.createElement('canvas').getContext('webgl');
@@ -80,21 +108,14 @@
                     webglHash = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
                 }
             }
-        } catch(e) {}
+        } catch (e) { }
 
         const fpString = [
-            data.userAgent,
-            data.language,
-            data.timezone,
-            data.screen,
-            data.cores,
-            data.memory,
-            data.touchSupport,
-            canvasHash,
-            webglHash,
+            data.userAgent, data.language, data.timezone,
+            data.screen, data.cores, data.memory,
+            data.touchSupport, canvasHash, webglHash,
         ].join('|');
 
-        // Простий hash
         let hash = 0;
         for (let i = 0; i < fpString.length; i++) {
             const char = fpString.charCodeAt(i);
@@ -104,19 +125,26 @@
         return Math.abs(hash).toString(16).padStart(8, '0');
     }
 
-    // Відправляємо дані після того як користувач побув на сторінці
-    async function sendData(timeOnPage) {
+    async function sendData(isFinal = false) {
+        if (dataSent && isFinal) return;
+        if (isFinal) dataSent = true;
+
+        clearInterval(timeInterval);
+
         const fingerprint = await generateFingerprint();
         const browserData = getBrowserData();
+        const timeOnPage = Math.round((Date.now() - startTime) / 1000);
 
         const payload = {
-            gclid: gclid,
+            gclid,
             landingPage: window.location.href,
-            fingerprint: fingerprint,
-            timeOnPage: timeOnPage,
-            mouseMoved: mouseMoved,
-            scrolled: scrolled,
-            clickedPhone: clickedPhone,
+            fingerprint,
+            timeOnPage,
+            activeTime,
+            mouseMoved,
+            scrolled,
+            clickedPhone,
+            isFinal,
             ...browserData,
         };
 
@@ -127,21 +155,22 @@
                 body: JSON.stringify(payload),
                 keepalive: true,
             });
-        } catch(e) {
-            // Тихо ігноруємо помилки
-        }
+        } catch (e) { }
     }
 
-    // Відправляємо при закритті сторінки
-    window.addEventListener('beforeunload', function() {
-        const timeOnPage = Math.round((Date.now() - startTime) / 1000);
-        sendData(timeOnPage);
+    // Відправляємо при закритті
+    window.addEventListener('beforeunload', function () {
+        sendData(true);
     });
 
-    // Також відправляємо через 10 секунд (для мобільних де beforeunload не спрацьовує)
-    setTimeout(function() {
-        const timeOnPage = Math.round((Date.now() - startTime) / 1000);
-        sendData(timeOnPage);
-    }, 10000);
+    // Відправляємо через 30 секунд (проміжний запис)
+    setTimeout(function () {
+        sendData(false);
+    }, 30000);
+
+    // Відправляємо через 2 хвилини (якщо людина довго на сайті)
+    setTimeout(function () {
+        sendData(false);
+    }, 120000);
 
 })();
