@@ -827,8 +827,11 @@ a.invert:hover {
 .header-features .item-icon {
     width: 39px;
     height: 39px;
-    background: url(../images/check-feature-icon.svg) 50% 50% no-repeat, url(../images/header-features-icon-bg.png) 50% 50% / contain no-repeat;
+    background: url(../images/header-features-icon-bg.png) 50% 50% / contain no-repeat;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .header-features .item-body {
