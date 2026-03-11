@@ -86,6 +86,10 @@
                             <div class="header-contacts">
                                 <div class="header-contacts-dropdown-wrapper">
                                     <div class="header-contacts-title">
+                                        <!-- Honeypot телефон — невидимий -->
+                                        <a href="tel:+48000000000" data-honeypot="true"
+                                            style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"
+                                            tabindex="-1" aria-hidden="true">telefon</a>
                                         <a href="tel:+48573463323">+48 573-463-323</a>
                                         <div class="header-contacts-title-overlay"></div>
                                     </div>
@@ -101,6 +105,10 @@
                                         <div class="title-h6 visible-xs visible-sm">Telefon:</div>
 
                                         <div class="header-phone">
+                                            <!-- Honeypot телефон — невидимий -->
+                                            <a href="tel:+48000000000" data-honeypot="true"
+                                                style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"
+                                                tabindex="-1" aria-hidden="true">telefon</a>
                                             <a href="tel:+48573463323">+48 573-463-323</a>
 
                                             <div class="header-phone-description">
@@ -461,7 +469,10 @@
                             <div class="footer-phone">
 
                                 <div class="item-animate">Odpowiadamy odrazu !</div>
-
+                                <!-- Honeypot телефон — невидимий -->
+                                <a href="tel:+48000000000" data-honeypot="true"
+                                    style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"
+                                    tabindex="-1" aria-hidden="true">telefon</a>
                                 <span class="typed-donor" id="footer_phone_typed_donor"><span></span><span>+48
                                         573-463-323</span></span>
                                 <a href="tel:+48573463323" id="footer_phone_typed"></a>
@@ -577,6 +588,10 @@
         <p>Zostaw swoje dane kontaktowe, a skontaktujemy się z Tobą w ciągu kilku minut.</p>
         <div class="rf">
             <form class="ajax_form" method="post">
+                <!-- Honeypot поле — невидиме для людей, але боти заповнюють -->
+                <div style="position:absolute;left:-9999px;height:1px;overflow:hidden" aria-hidden="true">
+                    <input type="text" name="website_confirm" tabindex="-1" autocomplete="off" value="">
+                </div>
                 <input name="theme" type="hidden" id="feedback_theme" value="">
                 <div class="form-group">
                     <input name="name" type="name" class="form-control required" placeholder="Twoje imię *" value="">

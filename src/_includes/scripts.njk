@@ -17,6 +17,10 @@
         <p>Zostaw swoje dane kontaktowe, a skontaktujemy się z Tobą w ciągu kilku minut.</p>
         <div class="rf">
             <form class="ajax_form" method="post">
+                <!-- Honeypot поле — невидиме для людей, але боти заповнюють -->
+                <div style="position:absolute;left:-9999px;height:1px;overflow:hidden" aria-hidden="true">
+                    <input type="text" name="website_confirm" tabindex="-1" autocomplete="off" value="">
+                </div>
                 <input name="theme" type="hidden" id="feedback_theme" value="">
                 <div class="form-group">
                     <input name="name" type="name" class="form-control required" placeholder="Twoje imię *" value="">
