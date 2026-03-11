@@ -1,5 +1,5 @@
 /**
- * fix24-tracker.js
+ * fix24-tracker.js — v2
  * Вставити перед </body> на всіх сторінках fix24.pro (і піддоменах)
  * Збирає дані тільки якщо є gclid (клік з Google Ads)
  */
@@ -12,59 +12,134 @@
 
     if (!gclid) return;
 
+    const API_URL = 'https://api.fix24.pro';
     const startTime = Date.now();
+
     let mouseMoved = false;
-    let scrolled = false;
+    let scrollDepth = 0;
     let clickedPhone = false;
-    let lastActivityTime = Date.now();
+    let timeToPhoneClick = null;
+    let convertedMessenger = false;
+    let convertedForm = false;
+    let timeToFirstAction = null;
     let activeTime = 0;
     let isPageVisible = true;
     let dataSent = false;
 
-    // Відслідковуємо активність
+    // ============================================
+    // Поведінкові сигнали
+    // ============================================
+
+    function recordFirstAction() {
+        if (timeToFirstAction === null) {
+            timeToFirstAction = Date.now() - startTime;
+        }
+    }
+
     document.addEventListener('mousemove', function () {
         mouseMoved = true;
-        lastActivityTime = Date.now();
-    }, { once: true });
-
-    document.addEventListener('scroll', function () {
-        scrolled = true;
-        lastActivityTime = Date.now();
+        recordFirstAction();
     }, { once: true });
 
     document.addEventListener('touchstart', function () {
         mouseMoved = true;
-        lastActivityTime = Date.now();
+        recordFirstAction();
     }, { once: true });
 
-    document.addEventListener('click', function () {
-        lastActivityTime = Date.now();
+    // Scroll depth % (замість bool)
+    document.addEventListener('scroll', function () {
+        recordFirstAction();
+        const newDepth = Math.round(
+            (window.scrollY + window.innerHeight) / document.body.scrollHeight * 100
+        );
+        if (newDepth > scrollDepth) scrollDepth = Math.min(newDepth, 100);
     });
 
-    // Відслідковуємо видимість сторінки (мінімізація, перехід на іншу вкладку)
+    document.addEventListener('click', recordFirstAction);
+
+    // Видимість сторінки
     document.addEventListener('visibilitychange', function () {
-        if (document.hidden) {
-            isPageVisible = false;
-        } else {
-            isPageVisible = true;
-            lastActivityTime = Date.now();
-        }
+        isPageVisible = !document.hidden;
     });
 
-    // Відслідковуємо клік на телефон
-    document.querySelectorAll('a[href^="tel:"]').forEach(function (el) {
-        el.addEventListener('click', function () {
-            clickedPhone = true;
-            sendData(true); // Відправляємо одразу при дзвінку
-        });
-    });
-
-    // Рахуємо активний час кожну секунду
+    // Активний час
     const timeInterval = setInterval(function () {
         if (isPageVisible) {
             activeTime = Math.round((Date.now() - startTime) / 1000);
         }
     }, 1000);
+
+    // ============================================
+    // Конверсії → POST /mark-converted
+    // ============================================
+
+    function markConverted() {
+        fetch(API_URL + '/mark-converted', {
+            method: 'POST',
+            keepalive: true,
+        }).catch(function () { });
+    }
+
+    // Телефон
+    document.querySelectorAll('a[href^="tel:"]').forEach(function (el) {
+        el.addEventListener('click', function () {
+            if (!clickedPhone) {
+                clickedPhone = true;
+                timeToPhoneClick = Date.now() - startTime;
+                markConverted();
+                sendData(true);
+            }
+        });
+    });
+
+    // WhatsApp
+    document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp.com"]').forEach(function (el) {
+        el.addEventListener('click', function () {
+            convertedMessenger = true;
+            markConverted();
+            sendData(true);
+        });
+    });
+
+    // Telegram
+    document.querySelectorAll('a[href*="t.me"], a[href*="telegram.me"]').forEach(function (el) {
+        el.addEventListener('click', function () {
+            convertedMessenger = true;
+            markConverted();
+            sendData(true);
+        });
+    });
+
+    // Messenger (Facebook)
+    document.querySelectorAll('a[href*="m.me"], a[href*="messenger.com"]').forEach(function (el) {
+        el.addEventListener('click', function () {
+            convertedMessenger = true;
+            markConverted();
+            sendData(true);
+        });
+    });
+
+    // Viber
+    document.querySelectorAll('a[href^="viber://"]').forEach(function (el) {
+        el.addEventListener('click', function () {
+            convertedMessenger = true;
+            markConverted();
+            sendData(true);
+        });
+    });
+
+    // Форма
+    document.querySelectorAll('form').forEach(function (form) {
+        form.addEventListener('submit', function () {
+            convertedForm = true;
+            markConverted();
+            sendData(true);
+        });
+    });
+
+    // ============================================
+    // Fingerprint (SHA-256)
+    // ============================================
 
     function getBrowserData() {
         const nav = navigator;
@@ -78,6 +153,8 @@
             memory: nav.deviceMemory || null,
             connection: conn ? (conn.effectiveType || conn.type) : null,
             touchSupport: ('ontouchstart' in window) || (nav.maxTouchPoints > 0),
+            // Новий сигнал: виявлення Selenium/Puppeteer
+            webdriver: nav.webdriver || false,
         };
     }
 
@@ -116,14 +193,27 @@
             data.touchSupport, canvasHash, webglHash,
         ].join('|');
 
-        let hash = 0;
-        for (let i = 0; i < fpString.length; i++) {
-            const char = fpString.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash;
+        // SHA-256 замість 32-bit хешу — менше колізій
+        try {
+            const encoder = new TextEncoder();
+            const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(fpString));
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 16);
+        } catch (e) {
+            // Fallback до старого хешу якщо crypto.subtle недоступний
+            let hash = 0;
+            for (let i = 0; i < fpString.length; i++) {
+                const char = fpString.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash).toString(16).padStart(8, '0');
         }
-        return Math.abs(hash).toString(16).padStart(8, '0');
     }
+
+    // ============================================
+    // Відправка даних
+    // ============================================
 
     async function sendData(isFinal = false) {
         if (dataSent && isFinal) return;
@@ -141,15 +231,22 @@
             fingerprint,
             timeOnPage,
             activeTime,
+            // Поведінка
             mouseMoved,
-            scrolled,
+            scrollDepth,
+            timeToFirstAction,
+            // Конверсії
             clickedPhone,
+            timeToPhoneClick,
+            convertedMessenger,
+            convertedForm,
             isFinal,
+            // Браузер
             ...browserData,
         };
 
         try {
-            await fetch('https://api.fix24.pro/log', {
+            await fetch(API_URL + '/log', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
@@ -158,19 +255,13 @@
         } catch (e) { }
     }
 
-    // Відправляємо при закритті
+    // При закритті сторінки
     window.addEventListener('beforeunload', function () {
         sendData(true);
     });
 
-    // Відправляємо через 30 секунд (проміжний запис)
-    setTimeout(function () {
-        sendData(false);
-    }, 30000);
-
-    // Відправляємо через 2 хвилини (якщо людина довго на сайті)
-    setTimeout(function () {
-        sendData(false);
-    }, 120000);
+    // Проміжні відправки
+    setTimeout(function () { sendData(false); }, 30000);
+    setTimeout(function () { sendData(false); }, 120000);
 
 })();
