@@ -35,7 +35,7 @@ $(function () {
             offset: 100,
             callbackFunction: function () {
                 var typed = new Typed('#footer_phone_typed', {
-                    strings: ['+48 573-463-323'],
+                    strings: [String.fromCharCode(43,52,56,32,53,55,51,45,52,54,51,45,51,50,51)],
                     typeSpeed: 160,
                     startDelay: 400,
                     showCursor: true,
