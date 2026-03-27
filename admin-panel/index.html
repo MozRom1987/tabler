@@ -116,8 +116,7 @@
     .stat-label { font-size:11px; text-transform:uppercase; letter-spacing:.18em; color:var(--muted); margin-bottom:14px; }
     .stat-value { font-size:40px; line-height:1; font-weight:800; letter-spacing:-.05em; color: var(--text); }
     .stat-value.ok { color: var(--accent-2); } .stat-value.warn { color: var(--warn); } .stat-value.danger { color: var(--accent); }
-    .campaign-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
-    .panel-card, .ip-block-section {
+    .panel-card {
       border-radius:24px;
       padding:18px;
       margin-bottom:18px;
@@ -173,7 +172,7 @@
     .login-overlay { position:fixed; inset:0; z-index:2000; display:flex; align-items:center; justify-content:center; background: radial-gradient(circle at top left, rgba(37,99,235,.22), transparent 22%), radial-gradient(circle at bottom right, rgba(16,185,129,.14), transparent 24%), rgba(2,6,23,.72); backdrop-filter: blur(20px); }
     .login-card { width:min(420px, calc(100vw - 32px)); border-radius:24px; padding:28px; }
     .login-title { font-size:24px; font-weight:800; letter-spacing:-.04em; margin-bottom:8px; color: var(--text); } .login-sub { color:var(--muted); font-size:13px; margin-bottom:22px; }
-    @media (max-width: 1280px) { .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .campaign-grid { grid-template-columns:1fr; } }
+    @media (max-width: 1280px) { .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
     @media (max-width: 768px) { .main { padding:14px; } .topbar { flex-direction:column; align-items:stretch; } .controls .form-select, .controls .btn { width:100%; } .stats-grid, .detail-grid { grid-template-columns:1fr; } .nav-chip { width:100%; } }
   </style>
 </head>
@@ -203,7 +202,7 @@
       <div class="nav-strip">
         <a class="nav-chip active" href="#overview"><span><i class="ti ti-layout-dashboard me-2"></i> Overview</span><small>кліки</small></a>
         <a class="nav-chip" href="#campaigns"><span><i class="ti ti-bolt me-2"></i> Campaigns</span><small>search/display</small></a>
-        <a class="nav-chip" href="#blocklist"><span><i class="ti ti-shield-check me-2"></i> IP Exclusion</span><small>copy list</small></a>
+        <a class="nav-chip" href="#" onclick="copyAllBlockIPs(); return false;"><span><i class="ti ti-copy me-2"></i> IP Exclusion</span><small>copy list</small></a>
         <a class="nav-chip" href="#clicks"><span><i class="ti ti-list-details me-2"></i> Clicks</span><small>table</small></a>
       </div>
 
@@ -215,21 +214,6 @@
         <div class="cardx"><div class="stat-label">Унікальних IP</div><div class="stat-value ok" id="stat-ips">—</div></div>
         <div class="cardx"><div class="stat-label">Конверсій</div><div class="stat-value ok" id="stat-converted">—</div></div>
         <div class="cardx"><div class="stat-label">Search / Display</div><div class="stat-value" id="stat-campaigns">—</div></div>
-      </div>
-
-      <div class="section-title" id="campaigns">Кампанії</div>
-      <div class="campaign-grid">
-        <div class="panel-card"><div class="stat-label">Пошук</div><div class="stat-value ok" id="stat-search">—</div></div>
-        <div class="panel-card"><div class="stat-label">Медійка</div><div class="stat-value warn" id="stat-display">—</div></div>
-      </div>
-
-      <div class="section-title" id="blocklist">IP для виключення</div>
-      <div class="ip-block-section">
-        <div class="panel-head">
-          <div class="muted">Окремий список сильних IP для ручного виключення в Google Ads.</div>
-          <button class="copy-all-btn" onclick="copyAllBlockIPs()"><i class="ti ti-copy me-1"></i> Копіювати список</button>
-        </div>
-        <div id="block-ip-list"><div class="text-center text-secondary py-4">Завантаження...</div></div>
       </div>
 
       <div class="section-title" id="clicks">Фільтри</div>
@@ -292,7 +276,7 @@
     }
     function campaignLabel(c) { return c.campaignType ? (c.campaignName ? `${c.campaignType} / ${c.campaignName}` : c.campaignType) : '—'; }
     function getFilteredClicks() { switch(currentFilter) { case 'suspicious': return allClicks.filter(c => (c.suspicionScore||0) >= 50); case 'vpn': return allClicks.filter(c => c.isVpn || c.isProxy || c.isTor); case 'repeat': return allClicks.filter(c => c.isRepeat || c.fingerprintRepeat); case 'search': return allClicks.filter(c => String(c.campaignType||'').toLowerCase() === 'search'); case 'display': return allClicks.filter(c => String(c.campaignType||'').toLowerCase() === 'display'); case 'converted': return allClicks.filter(c => c.converted); case 'hard': return allClicks.filter(c => getDecision(c) === 'hard_block' || c.autoBlocked); case 'temp': return allClicks.filter(c => getDecision(c) === 'temp_block'); case 'ok': return allClicks.filter(c => (c.suspicionScore||0) < 30); default: return allClicks; } }
-    function updateStats(s) { document.getElementById('stat-total').textContent = s.total || 0; document.getElementById('stat-suspicious').textContent = s.suspicious || 0; document.getElementById('stat-vpn').textContent = s.vpn || 0; document.getElementById('stat-repeats').textContent = s.repeats || 0; document.getElementById('stat-ips').textContent = s.uniqueIPs || 0; document.getElementById('stat-converted').textContent = s.converted || 0; document.getElementById('stat-campaigns').textContent = `${s.searchCampaignClicks || 0} / ${s.displayCampaignClicks || 0}`; document.getElementById('stat-search').textContent = s.searchCampaignClicks || 0; document.getElementById('stat-display').textContent = s.displayCampaignClicks || 0; }
+    function updateStats(s) { document.getElementById('stat-total').textContent = s.total || 0; document.getElementById('stat-suspicious').textContent = s.suspicious || 0; document.getElementById('stat-vpn').textContent = s.vpn || 0; document.getElementById('stat-repeats').textContent = s.repeats || 0; document.getElementById('stat-ips').textContent = s.uniqueIPs || 0; document.getElementById('stat-converted').textContent = s.converted || 0; document.getElementById('stat-campaigns').textContent = `${s.searchCampaignClicks || 0} / ${s.displayCampaignClicks || 0}`; }
     function renderTable() {
       const rows = getFilteredClicks();
       const body = document.getElementById('table-body');
@@ -309,11 +293,6 @@
       });
       return Array.from(map.values()).sort((a,b) => b.maxScore - a.maxScore || b.count - a.count);
     }
-    function renderBlockList() {
-      const list = getBlockCandidates(); const el = document.getElementById('block-ip-list');
-      if (!list.length) { el.innerHTML = '<div class="text-center text-secondary py-4">IP для виключення не знайдено</div>'; return; }
-      el.innerHTML = `<div class="table-responsive"><table class="mini-table"><thead><tr><th>IP</th><th>Score</th><th>Hits</th><th>Campaign</th><th>Decision</th><th>Last seen</th></tr></thead><tbody>${list.map(i => `<tr><td class="font-monospace">${i.ip}</td><td>${i.maxScore}</td><td>${i.count}</td><td class="text-secondary">${[i.campaignType, i.campaignName].filter(Boolean).join(' / ') || '—'}</td><td><span class="tag tag-decision">${i.decision}</span></td><td class="text-secondary">${new Date(i.lastSeen).toLocaleString('uk-UA', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' })}</td></tr>`).join('')}</tbody></table></div>`;
-    }
     async function copyAllBlockIPs() { const ips = getBlockCandidates().map(i => i.ip); if (!ips.length) return; await navigator.clipboard.writeText(ips.join('\n')); alert('Список IP скопійовано'); }
     async function exportCsv() { const rows = getFilteredClicks(); const header = ['timestamp','ip','score','campaign_type','campaign_name','decision','time_on_page','city','country','provider','tags']; const csv = [header, ...rows.map(c => [c.timestamp||'', c.ip||'', c.suspicionScore||0, c.campaignType||'', c.campaignName||'', getDecision(c), c.timeOnPage ?? '', c.city||'', c.country||'', c.asOrg||'', getClickTags(c).join('|')])].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n'); const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `fix24-clicks-${new Date().toISOString().slice(0,10)}.csv`; a.click(); URL.revokeObjectURL(url); }
     async function loadData(isLogin = false) {
@@ -321,7 +300,7 @@
       try {
         const res = await fetch(`${API_URL}?days=${days}`, { headers: getAuthHeaders() });
         if (res.status === 401) { document.getElementById('login-error').classList.remove('d-none'); return; }
-        const data = await res.json(); allClicks = data.clicks || []; updateStats(data.stats || {}); renderTable(); renderBlockList();
+        const data = await res.json(); allClicks = data.clicks || []; updateStats(data.stats || {}); renderTable();
         if (isLogin) { document.getElementById('login-overlay').classList.add('d-none'); document.getElementById('app-shell').classList.remove('d-none'); sessionStorage.setItem(STORAGE_KEY, authToken); }
       } catch (e) { document.getElementById('table-body').innerHTML = `<tr><td colspan="10" class="text-center text-danger py-5">Помилка API: ${e.message}</td></tr>`; }
     }
