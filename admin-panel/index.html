@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="uk" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fix24 Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --bg: #060912;
+      --panel: rgba(14, 18, 30, .94);
+      --border: rgba(125, 140, 170, .18);
+      --muted: #7e8aa6;
+      --accent: #ff4343;
+      --accent-2: #3cff9b;
+      --warn: #ffb33d;
+    }
+    html, body { min-height: 100%; background: radial-gradient(circle at top left, rgba(255,67,67,.08), transparent 25%), linear-gradient(180deg, #04060a, #0a0d14); color: #eef2ff; font-family: Inter, system-ui, sans-serif; }
+    .app { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+    .sidebar { padding: 24px 18px; border-right: 1px solid var(--border); background: rgba(7,10,18,.94); position: sticky; top: 0; height: 100vh; }
+    .brand { display: flex; gap: 12px; align-items: center; margin-bottom: 24px; }
+    .brand-mark { width: 14px; height: 14px; background: var(--accent); box-shadow: 0 0 0 4px rgba(255,67,67,.14); }
+    .brand-title { font-size: 18px; font-weight: 800; letter-spacing: -.03em; }
+    .brand-sub { color: var(--muted); font-size: 12px; }
+    .nav-card { border: 1px solid var(--border); background: rgba(255,255,255,.02); border-radius: 18px; padding: 14px; margin-bottom: 18px; }
+    .nav-title { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .18em; margin-bottom: 10px; }
+    .nav-link { display: flex; justify-content: space-between; align-items: center; color: #fff; text-decoration: none; padding: 10px 12px; border-radius: 12px; border: 1px solid transparent; margin-bottom: 8px; }
+    .nav-link:hover, .nav-link.active { background: rgba(255,255,255,.05); border-color: var(--border); }
+    .main { padding: 24px; min-width: 0; }
+    .topbar { display:flex; justify-content:space-between; gap:16px; align-items:center; padding:18px 22px; border:1px solid var(--border); border-radius:22px; background: linear-gradient(180deg, rgba(20,26,42,.95), rgba(12,16,28,.92)); margin-bottom:18px; }
+    .topbar h1 { margin:0; font-size:24px; font-weight:800; letter-spacing:-.04em; }
+    .topbar p { margin:4px 0 0; color:var(--muted); font-size:13px; }
+    .controls { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .controls .form-select { min-width:150px; background: rgba(255,255,255,.03); border-color: var(--border); }
+    .btn-accent { background: var(--accent); border-color: var(--accent); color:#fff; }
+    .btn-accent:hover { background:#ff5b5b; border-color:#ff5b5b; color:#fff; }
+    .section-title { margin:24px 0 12px; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.18em; }
+    .stats-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:14px; }
+    .cardx { background: var(--panel); border:1px solid var(--border); border-radius:22px; padding:18px; }
+    .stat-label { font-size:11px; text-transform:uppercase; letter-spacing:.18em; color:var(--muted); margin-bottom:14px; }
+    .stat-value { font-size:40px; line-height:1; font-weight:800; letter-spacing:-.05em; }
+    .stat-value.ok { color: var(--accent-2); } .stat-value.warn { color: var(--warn); } .stat-value.danger { color: var(--accent); }
+    .campaign-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .panel-card, .ip-block-section { border:1px solid var(--border); background: var(--panel); border-radius:22px; padding:18px; margin-bottom:18px; }
+    .panel-head { display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:14px; }
+    .muted { color: var(--muted); }
+    .copy-all-btn, .ghost-btn { border-radius:12px; padding:9px 14px; font-size:12px; font-weight:600; border:1px solid var(--border); background: rgba(255,255,255,.03); color:#fff; cursor:pointer; }
+    .copy-all-btn { border-color: rgba(60,255,155,.35); color: var(--accent-2); }
+    .filters { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:16px; }
+    .filter-label { color:var(--muted); font-size:13px; margin-right:6px; }
+    .filter-btn { border:1px solid var(--border); border-radius:999px; background: rgba(255,255,255,.02); color:var(--muted); padding:8px 12px; font-size:12px; font-weight:600; }
+    .filter-btn.active { color:#fff; border-color: rgba(255,67,67,.5); background: rgba(255,67,67,.12); }
+    .table-wrap { overflow:auto; border:1px solid var(--border); border-radius:22px; background: var(--panel); }
+    thead th { background: rgba(255,255,255,.02); color: var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.14em; border-bottom:1px solid var(--border) !important; white-space:nowrap; }
+    tbody tr { cursor:pointer; } tbody tr:hover { background: rgba(255,255,255,.03); } tbody tr.is-suspicious { background: rgba(255,67,67,.05); }
+    td { vertical-align:middle; white-space:nowrap; }
+    .score-badge { display:inline-flex; min-width:44px; justify-content:center; align-items:center; border-radius:999px; padding:4px 10px; font-weight:700; font-size:12px; }
+    .score-low { background: rgba(60,255,155,.12); color: var(--accent-2); } .score-mid { background: rgba(255,181,61,.12); color: var(--warn); } .score-high { background: rgba(255,67,67,.16); color: var(--accent); }
+    .tag { display:inline-flex; align-items:center; gap:6px; border-radius:999px; padding:4px 9px; font-size:11px; font-weight:700; margin:0 6px 6px 0; white-space:nowrap; }
+    .tag-vpn { background: rgba(255,67,67,.12); color: var(--accent); } .tag-repeat { background: rgba(255,181,61,.12); color: var(--warn); } .tag-phone { background: rgba(60,255,155,.12); color: var(--accent-2); } .tag-message { background: rgba(96,200,255,.12); color:#60c8ff; } .tag-form { background: rgba(96,200,255,.12); color:#60c8ff; } .tag-campaign { background: rgba(255,255,255,.06); color:#fff; } .tag-decision { background: rgba(255,181,61,.12); color: var(--warn); } .tag-time { background: rgba(96,200,255,.12); color:#60c8ff; }
+    .mini-table { width:100%; border-collapse:collapse; font-size:12px; } .mini-table th, .mini-table td { padding:12px 14px; border-bottom:1px solid rgba(125,140,170,.12); white-space:nowrap; text-align:left; } .mini-table th { color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.16em; }
+    .detail-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; } .detail-item { border:1px solid var(--border); border-radius:16px; background: rgba(255,255,255,.02); padding:14px; } .detail-key { color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.16em; margin-bottom:8px; } .detail-val { font-size:13px; word-break:break-word; }
+    .reasons-list { margin-top:16px; border:1px solid rgba(255,67,67,.24); background: rgba(255,67,67,.05); border-radius:18px; padding:14px; } .reasons-title { color:var(--accent); font-size:11px; text-transform:uppercase; letter-spacing:.16em; margin-bottom:10px; } .reason-item { color:#ffcf6c; font-size:12px; margin-bottom:6px; }
+    .login-overlay { position:fixed; inset:0; z-index:2000; display:flex; align-items:center; justify-content:center; background: radial-gradient(circle at top left, rgba(255,67,67,.12), transparent 22%), radial-gradient(circle at bottom right, rgba(60,255,155,.1), transparent 24%), rgba(4,6,11,.96); backdrop-filter: blur(20px); }
+    .login-card { width:min(420px, calc(100vw - 32px)); border-radius:24px; border:1px solid var(--border); background: rgba(10,14,25,.96); padding:28px; }
+    .login-title { font-size:24px; font-weight:800; letter-spacing:-.04em; margin-bottom:8px; } .login-sub { color:var(--muted); font-size:13px; margin-bottom:22px; }
+    @media (max-width: 1280px) { .app { grid-template-columns:1fr; } .sidebar { position:relative; height:auto; } .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .campaign-grid { grid-template-columns:1fr; } }
+    @media (max-width: 768px) { .main { padding:14px; } .topbar { flex-direction:column; align-items:stretch; } .controls .form-select, .controls .btn { width:100%; } .stats-grid, .detail-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="login-overlay" id="login-overlay">
+    <div class="login-card">
+      <div class="login-title">Fix24 Admin</div>
+      <div class="login-sub">Tabler-панель для кліків, кампаній та IP-виключень.</div>
+      <label class="form-label">Адмін-пароль</label>
+      <input id="pwd-input" type="password" class="form-control mb-3" placeholder="Введіть пароль">
+      <button class="btn btn-accent w-100" onclick="doLogin()">Увійти</button>
+      <div class="text-danger mt-3 d-none" id="login-error">Невірний пароль або API недоступне.</div>
+    </div>
+  </div>
+
+  <div class="app d-none" id="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div><div class="brand-title">Fix24 Admin</div><div class="brand-sub">anti-fraud dashboard</div></div>
+      </div>
+      <div class="nav-card">
+        <div class="nav-title">Навігація</div>
+        <a class="nav-link active" href="#overview"><span><i class="ti ti-layout-dashboard me-2"></i> Overview</span><small>кліки</small></a>
+        <a class="nav-link" href="#campaigns"><span><i class="ti ti-bolt me-2"></i> Campaigns</span><small>search/display</small></a>
+        <a class="nav-link" href="#blocklist"><span><i class="ti ti-shield-check me-2"></i> IP Exclusion</span><small>copy list</small></a>
+        <a class="nav-link" href="#clicks"><span><i class="ti ti-list-details me-2"></i> Clicks</span><small>table</small></a>
+      </div>
+      <div class="nav-card"><div class="nav-title">Порада</div><div class="muted" style="font-size:13px;line-height:1.65;">Панель оптимізована для ручної перевірки: окремо дивіться кампанії, окремо IP-кандидатів і лише потім копіюйте блоки.</div></div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar" id="overview">
+        <div><h1 class="mb-0">Fix24 Click Monitor</h1><p>Лог кліків, кампаній, IP-кандидатів і рішень для виключення.</p></div>
+        <div class="controls">
+          <select id="days-select" class="form-select" onchange="loadData()"><option value="1">1 день</option><option value="7" selected>7 днів</option><option value="30">30 днів</option></select>
+          <button class="btn btn-outline-light" onclick="exportCsv()"><i class="ti ti-download me-1"></i> CSV</button>
+          <button class="btn btn-accent" onclick="loadData()"><i class="ti ti-refresh me-1"></i> Оновити</button>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="cardx"><div class="stat-label">Всього кліків</div><div class="stat-value" id="stat-total">—</div></div>
+        <div class="cardx"><div class="stat-label">Підозрілі</div><div class="stat-value danger" id="stat-suspicious">—</div></div>
+        <div class="cardx"><div class="stat-label">VPN / Датацентр</div><div class="stat-value warn" id="stat-vpn">—</div></div>
+        <div class="cardx"><div class="stat-label">Повторні</div><div class="stat-value warn" id="stat-repeats">—</div></div>
+        <div class="cardx"><div class="stat-label">Унікальних IP</div><div class="stat-value ok" id="stat-ips">—</div></div>
+        <div class="cardx"><div class="stat-label">Конверсій</div><div class="stat-value ok" id="stat-converted">—</div></div>
+        <div class="cardx"><div class="stat-label">Search / Display</div><div class="stat-value" id="stat-campaigns">—</div></div>
+      </div>
+
+      <div class="section-title" id="campaigns">Кампанії</div>
+      <div class="campaign-grid">
+        <div class="panel-card"><div class="stat-label">Пошук</div><div class="stat-value ok" id="stat-search">—</div></div>
+        <div class="panel-card"><div class="stat-label">Медійка</div><div class="stat-value warn" id="stat-display">—</div></div>
+      </div>
+
+      <div class="section-title" id="blocklist">IP для виключення</div>
+      <div class="ip-block-section">
+        <div class="panel-head">
+          <div class="muted">Окремий список сильних IP для ручного виключення в Google Ads.</div>
+          <button class="copy-all-btn" onclick="copyAllBlockIPs()"><i class="ti ti-copy me-1"></i> Копіювати список</button>
+        </div>
+        <div id="block-ip-list"><div class="text-center text-secondary py-4">Завантаження...</div></div>
+      </div>
+
+      <div class="section-title" id="clicks">Фільтри</div>
+      <div class="filters">
+        <span class="filter-label">Показати:</span>
+        <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+        <button class="filter-btn" onclick="setFilter('suspicious', this)">Suspicious</button>
+        <button class="filter-btn" onclick="setFilter('vpn', this)">VPN</button>
+        <button class="filter-btn" onclick="setFilter('repeat', this)">Repeat</button>
+        <button class="filter-btn" onclick="setFilter('search', this)">Search</button>
+        <button class="filter-btn" onclick="setFilter('display', this)">Display</button>
+        <button class="filter-btn" onclick="setFilter('converted', this)">Converted</button>
+        <button class="filter-btn" onclick="setFilter('hard', this)">Hard block</button>
+        <button class="filter-btn" onclick="setFilter('temp', this)">Temp block</button>
+        <button class="filter-btn" onclick="setFilter('ok', this)">Normal</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table table-vcenter card-table table-hover m-0">
+          <thead>
+            <tr><th>Risk</th><th>Time</th><th>IP</th><th>City</th><th>Provider</th><th>Fingerprint</th><th>Campaign</th><th>Decision</th><th>Time on site</th><th>Tags</th></tr>
+          </thead>
+          <tbody id="table-body"><tr><td colspan="10" class="text-center text-secondary py-5">Завантаження...</td></tr></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal modal-blur fade" id="detailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"><div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title" id="modalTitle">Деталі кліку</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button></div>
+      <div class="modal-body" id="modalBody"></div>
+    </div></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
+  <script>
+    const API_URL = 'https://api.fix24.pro/api/clicks';
+    const STORAGE_KEY = 'fix24_admin_token';
+    let authToken = '';
+    let allClicks = [];
+    let currentFilter = 'all';
+
+    function doLogin() { const pwd = document.getElementById('pwd-input').value.trim(); if (!pwd) return; authToken = pwd; loadData(true); }
+    document.getElementById('pwd-input').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+    function getAuthHeaders() { return { Authorization: 'Bearer ' + authToken }; }
+    function getDecision(c) { return String(c.blockDecision || (c.autoBlocked ? 'hard_block' : 'observe')).toLowerCase(); }
+    function getClickTags(c) {
+      const tags = [];
+      (Array.isArray(c.tags) ? c.tags : []).forEach(t => t && tags.push(String(t).trim()));
+      if (c.campaignType) tags.push(String(c.campaignType).trim());
+      if (c.campaignName) tags.push(String(c.campaignName).trim());
+      if (c.isVpn) tags.push('VPN'); if (c.isProxy) tags.push('proxy'); if (c.isTor) tags.push('tor'); if (c.isHosting) tags.push('hosting');
+      if (c.isRepeat || c.fingerprintRepeat) tags.push('repeat'); if (c.clickedPhone) tags.push('phone'); if (c.clickedMessenger) tags.push('messenger'); if (c.submittedForm) tags.push('form'); if (c.converted) tags.push('converted'); if (c.autoBlocked) tags.push('blocked');
+      return [...new Set(tags.filter(Boolean))];
+    }
+    function renderTags(c) {
+      const tags = getClickTags(c); if (!tags.length) return '<span class="text-secondary">—</span>';
+      return tags.map(tag => { const l = tag.toLowerCase(); if (['vpn','proxy','tor','hosting'].includes(l)) return `<span class="tag tag-vpn">${tag}</span>`; if (l==='repeat') return '<span class="tag tag-repeat">repeat</span>'; if (l==='phone') return '<span class="tag tag-phone">phone</span>'; if (l==='messenger') return '<span class="tag tag-message">messenger</span>'; if (l==='form') return '<span class="tag tag-form">form</span>'; if (l==='converted') return '<span class="tag tag-phone">converted</span>'; if (l==='blocked') return '<span class="tag tag-decision">blocked</span>'; return `<span class="tag tag-campaign">${tag}</span>`; }).join('');
+    }
+    function campaignLabel(c) { return c.campaignType ? (c.campaignName ? `${c.campaignType} / ${c.campaignName}` : c.campaignType) : '—'; }
+    function getFilteredClicks() { switch(currentFilter) { case 'suspicious': return allClicks.filter(c => (c.suspicionScore||0) >= 50); case 'vpn': return allClicks.filter(c => c.isVpn || c.isProxy || c.isTor); case 'repeat': return allClicks.filter(c => c.isRepeat || c.fingerprintRepeat); case 'search': return allClicks.filter(c => String(c.campaignType||'').toLowerCase() === 'search'); case 'display': return allClicks.filter(c => String(c.campaignType||'').toLowerCase() === 'display'); case 'converted': return allClicks.filter(c => c.converted); case 'hard': return allClicks.filter(c => getDecision(c) === 'hard_block' || c.autoBlocked); case 'temp': return allClicks.filter(c => getDecision(c) === 'temp_block'); case 'ok': return allClicks.filter(c => (c.suspicionScore||0) < 30); default: return allClicks; } }
+    function updateStats(s) { document.getElementById('stat-total').textContent = s.total || 0; document.getElementById('stat-suspicious').textContent = s.suspicious || 0; document.getElementById('stat-vpn').textContent = s.vpn || 0; document.getElementById('stat-repeats').textContent = s.repeats || 0; document.getElementById('stat-ips').textContent = s.uniqueIPs || 0; document.getElementById('stat-converted').textContent = s.converted || 0; document.getElementById('stat-campaigns').textContent = `${s.searchCampaignClicks || 0} / ${s.displayCampaignClicks || 0}`; document.getElementById('stat-search').textContent = s.searchCampaignClicks || 0; document.getElementById('stat-display').textContent = s.displayCampaignClicks || 0; }
+    function renderTable() {
+      const rows = getFilteredClicks();
+      const body = document.getElementById('table-body');
+      if (!rows.length) { body.innerHTML = '<tr><td colspan="10" class="text-center text-secondary py-5">Кліків не знайдено</td></tr>'; return; }
+      body.innerHTML = rows.map((c, idx) => { const score = c.suspicionScore || 0; const cl = score >= 60 ? 'score-high' : score >= 30 ? 'score-mid' : 'score-low'; const rowClass = score >= 50 ? 'is-suspicious' : ''; const time = new Date(c.timestamp).toLocaleString('uk-UA', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' }); const site = c.timeOnPage !== null && c.timeOnPage !== undefined ? `${c.timeOnPage} sec` : '—'; return `<tr class="${rowClass}" onclick="showDetail(${idx})"><td><span class="score-badge ${cl}">${score}</span></td><td>${time}</td><td class="font-monospace">${c.ip || '—'}</td><td>${[c.city, c.country].filter(Boolean).join(', ') || '—'}</td><td class="text-secondary text-truncate" style="max-width:210px;">${c.asOrg || '—'}</td><td class="font-monospace text-secondary">${c.fingerprint ? c.fingerprint.substring(0,8) : '—'}</td><td class="text-secondary">${campaignLabel(c)}</td><td><span class="tag tag-decision">${getDecision(c)}</span></td><td><span class="tag tag-time">${site}</span></td><td>${renderTags(c)}</td></tr>`; }).join('');
+    }
+    function getBlockCandidates() {
+      const map = new Map();
+      allClicks.forEach(c => {
+        const score = c.suspicionScore || 0; const d = getDecision(c); const cand = d === 'hard_block' || d === 'temp_block' || d === 'block' || score >= 50 || c.isVpn || c.isProxy || c.isTor || c.isHosting || c.isRepeat || c.fingerprintRepeat;
+        if (!cand || !c.ip || c.ip === 'unknown') return;
+        const ex = map.get(c.ip) || { ip:c.ip, count:0, maxScore:0, lastSeen:'', campaignType:'', campaignName:'', decision:d };
+        ex.count += 1; ex.maxScore = Math.max(ex.maxScore, score); ex.lastSeen = ex.lastSeen && ex.lastSeen > c.timestamp ? ex.lastSeen : c.timestamp; ex.campaignType = ex.campaignType || c.campaignType || ''; ex.campaignName = ex.campaignName || c.campaignName || ''; ex.decision = d === 'hard_block' ? 'hard_block' : (d === 'temp_block' ? 'temp_block' : ex.decision); map.set(c.ip, ex);
+      });
+      return Array.from(map.values()).sort((a,b) => b.maxScore - a.maxScore || b.count - a.count);
+    }
+    function renderBlockList() {
+      const list = getBlockCandidates(); const el = document.getElementById('block-ip-list');
+      if (!list.length) { el.innerHTML = '<div class="text-center text-secondary py-4">IP для виключення не знайдено</div>'; return; }
+      el.innerHTML = `<div class="table-responsive"><table class="mini-table"><thead><tr><th>IP</th><th>Score</th><th>Hits</th><th>Campaign</th><th>Decision</th><th>Last seen</th></tr></thead><tbody>${list.map(i => `<tr><td class="font-monospace">${i.ip}</td><td>${i.maxScore}</td><td>${i.count}</td><td class="text-secondary">${[i.campaignType, i.campaignName].filter(Boolean).join(' / ') || '—'}</td><td><span class="tag tag-decision">${i.decision}</span></td><td class="text-secondary">${new Date(i.lastSeen).toLocaleString('uk-UA', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' })}</td></tr>`).join('')}</tbody></table></div>`;
+    }
+    async function copyAllBlockIPs() { const ips = getBlockCandidates().map(i => i.ip); if (!ips.length) return; await navigator.clipboard.writeText(ips.join('\n')); alert('Список IP скопійовано'); }
+    async function exportCsv() { const rows = getFilteredClicks(); const header = ['timestamp','ip','score','campaign_type','campaign_name','decision','time_on_page','city','country','provider','tags']; const csv = [header, ...rows.map(c => [c.timestamp||'', c.ip||'', c.suspicionScore||0, c.campaignType||'', c.campaignName||'', getDecision(c), c.timeOnPage ?? '', c.city||'', c.country||'', c.asOrg||'', getClickTags(c).join('|')])].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n'); const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `fix24-clicks-${new Date().toISOString().slice(0,10)}.csv`; a.click(); URL.revokeObjectURL(url); }
+    async function loadData(isLogin = false) {
+      const days = document.getElementById('days-select').value || 7;
+      try {
+        const res = await fetch(`${API_URL}?days=${days}`, { headers: getAuthHeaders() });
+        if (res.status === 401) { document.getElementById('login-error').classList.remove('d-none'); return; }
+        const data = await res.json(); allClicks = data.clicks || []; updateStats(data.stats || {}); renderTable(); renderBlockList();
+        if (isLogin) { document.getElementById('login-overlay').classList.add('d-none'); document.getElementById('app-shell').classList.remove('d-none'); sessionStorage.setItem(STORAGE_KEY, authToken); }
+      } catch (e) { document.getElementById('table-body').innerHTML = `<tr><td colspan="10" class="text-center text-danger py-5">Помилка API: ${e.message}</td></tr>`; }
+    }
+    function setFilter(filter, btn) { currentFilter = filter; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderTable(); }
+    function showDetail(idx) {
+      const rows = getFilteredClicks(); const c = rows[idx]; if (!c) return; const score = c.suspicionScore || 0; const sc = score >= 60 ? 'danger' : score >= 30 ? 'warn' : 'ok'; const fields = [['IP', c.ip], ['City', [c.city, c.region, c.country].filter(Boolean).join(', ') || '—'], ['Provider', c.asOrg || '—'], ['Time', new Date(c.timestamp).toLocaleString('uk-UA')], ['VPN', c.isVpn ? 'Так' : 'Ні'], ['Proxy', c.isProxy ? 'Так' : 'Ні'], ['TOR', c.isTor ? 'Так' : 'Ні'], ['Hosting', c.isHosting ? 'Так' : 'Ні'], ['Repeat IP', c.isRepeat ? 'Так' : 'Ні'], ['Repeat FP', c.fingerprintRepeat ? 'Так' : 'Ні'], ['Fingerprint', c.fingerprint || '—'], ['Campaign type', c.campaignType || '—'], ['Campaign name', c.campaignName || '—'], ['Decision', getDecision(c)], ['Block reason', c.blockReason || '—'], ['Source', c.source || 'site'], ['Tags', getClickTags(c).join(', ') || '—'], ['Time on site', c.timeOnPage !== null && c.timeOnPage !== undefined ? `${c.timeOnPage} sec` : '—'], ['Mouse moved', c.mouseMoved ? 'Так' : 'Ні'], ['Scrolled', c.scrolled ? 'Так' : 'Ні'], ['Clicked phone', c.clickedPhone ? 'Так' : 'Ні'], ['Clicked messenger', c.clickedMessenger ? 'Так' : 'Ні'], ['Submitted form', c.submittedForm ? 'Так' : 'Ні'], ['Converted', c.converted ? 'Так' : 'Ні'], ['User agent', c.userAgent || '—'], ['Language', c.language || '—'], ['Timezone', c.timezone || '—'], ['Screen', c.screen || '—'], ['Cores', c.cores ?? '—'], ['Memory', c.memory ? `${c.memory} GB` : '—'], ['Connection', c.connection || '—'], ['Touch support', c.touchSupport ? 'Так' : 'Ні'], ['GCLID', c.gclid || '—']];
+      let html = '<div class="detail-grid">'; fields.forEach(([k,v]) => { html += `<div class="detail-item"><div class="detail-key">${k}</div><div class="detail-val">${v || '—'}</div></div>`; }); html += '</div>';
+      if (c.suspicionReasons && c.suspicionReasons.length) html += `<div class="reasons-list"><div class="reasons-title">Причини підозри (${score}/100)</div>${c.suspicionReasons.map(r => `<div class="reason-item">${r}</div>`).join('')}</div>`;
+      html += `<div class="mt-3"><button class="btn btn-outline-light" onclick="copyIP('${c.ip}')"><i class="ti ti-copy me-1"></i> Copy IP</button></div>`;
+      document.getElementById('modalTitle').innerHTML = `Клік · <span class="text-${sc}">${score}/100</span>`; document.getElementById('modalBody').innerHTML = html; new bootstrap.Modal(document.getElementById('detailModal')).show();
+    }
+    async function copyIP(ip) { await navigator.clipboard.writeText(ip); alert(`IP ${ip} скопійовано`); }
+    document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => { document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active')); link.classList.add('active'); }));
+    const savedToken = sessionStorage.getItem(STORAGE_KEY);
+    if (savedToken) { authToken = savedToken; document.getElementById('pwd-input').value = savedToken; document.getElementById('login-overlay').classList.add('d-none'); document.getElementById('app-shell').classList.remove('d-none'); loadData(false); }
+  </script>
+</body>
+</html>
