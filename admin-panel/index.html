@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk" data-bs-theme="dark">
+<html lang="uk" data-bs-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,65 +11,170 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <style>
     :root {
-      --bg: #060912;
-      --panel: rgba(14, 18, 30, .94);
-      --border: rgba(125, 140, 170, .18);
-      --muted: #7e8aa6;
-      --accent: #ff4343;
-      --accent-2: #3cff9b;
-      --warn: #ffb33d;
+      --bg: #eef3fb;
+      --panel: rgba(255, 255, 255, .88);
+      --panel-strong: #ffffff;
+      --border: rgba(148, 163, 184, .22);
+      --muted: #64748b;
+      --text: #0f172a;
+      --accent: #ef4444;
+      --accent-2: #10b981;
+      --warn: #f59e0b;
+      --info: #2563eb;
     }
-    html, body { min-height: 100%; background: radial-gradient(circle at top left, rgba(255,67,67,.08), transparent 25%), linear-gradient(180deg, #04060a, #0a0d14); color: #eef2ff; font-family: Inter, system-ui, sans-serif; }
-    .app { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
-    .sidebar { padding: 24px 18px; border-right: 1px solid var(--border); background: rgba(7,10,18,.94); position: sticky; top: 0; height: 100vh; }
-    .brand { display: flex; gap: 12px; align-items: center; margin-bottom: 24px; }
-    .brand-mark { width: 14px; height: 14px; background: var(--accent); box-shadow: 0 0 0 4px rgba(255,67,67,.14); }
-    .brand-title { font-size: 18px; font-weight: 800; letter-spacing: -.03em; }
-    .brand-sub { color: var(--muted); font-size: 12px; }
-    .nav-card { border: 1px solid var(--border); background: rgba(255,255,255,.02); border-radius: 18px; padding: 14px; margin-bottom: 18px; }
-    .nav-title { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .18em; margin-bottom: 10px; }
-    .nav-link { display: flex; justify-content: space-between; align-items: center; color: #fff; text-decoration: none; padding: 10px 12px; border-radius: 12px; border: 1px solid transparent; margin-bottom: 8px; }
-    .nav-link:hover, .nav-link.active { background: rgba(255,255,255,.05); border-color: var(--border); }
-    .main { padding: 24px; min-width: 0; }
-    .topbar { display:flex; justify-content:space-between; gap:16px; align-items:center; padding:18px 22px; border:1px solid var(--border); border-radius:22px; background: linear-gradient(180deg, rgba(20,26,42,.95), rgba(12,16,28,.92)); margin-bottom:18px; }
-    .topbar h1 { margin:0; font-size:24px; font-weight:800; letter-spacing:-.04em; }
-    .topbar p { margin:4px 0 0; color:var(--muted); font-size:13px; }
+    html, body {
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.12), transparent 24%),
+        radial-gradient(circle at top right, rgba(16,185,129,.10), transparent 20%),
+        linear-gradient(180deg, #f8fbff, #eef3fb);
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+    }
+    .app { display: grid; grid-template-columns: 1fr; min-height: 100vh; }
+    .sidebar { display: none; }
+    .main {
+      padding: 24px;
+      min-width: 0;
+      max-width: 1680px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .topbar,
+    .cardx,
+    .panel-card,
+    .ip-block-section,
+    .table-wrap,
+    .login-card,
+    .detail-item {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 50px rgba(15, 23, 42, .06);
+      backdrop-filter: blur(16px);
+    }
+    .topbar {
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      align-items:center;
+      padding:22px 24px;
+      border-radius:26px;
+      margin-bottom:18px;
+    }
+    .topbar h1 { margin:0; font-size:28px; font-weight:800; letter-spacing:-.05em; color: var(--text); }
+    .topbar p { margin:6px 0 0; color:var(--muted); font-size:13px; max-width: 62ch; }
+    .nav-strip { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px; }
+    .nav-chip {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:13px 16px;
+      border-radius:18px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.72);
+      color: var(--text);
+      text-decoration:none;
+      min-width: 180px;
+    }
+    .nav-chip:hover, .nav-chip.active {
+      background: #fff;
+      border-color: rgba(37,99,235,.30);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(37,99,235,.08);
+    }
+    .nav-chip small { color: var(--muted); }
     .controls { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-    .controls .form-select { min-width:150px; background: rgba(255,255,255,.03); border-color: var(--border); }
-    .btn-accent { background: var(--accent); border-color: var(--accent); color:#fff; }
-    .btn-accent:hover { background:#ff5b5b; border-color:#ff5b5b; color:#fff; }
+    .controls .form-select {
+      min-width:150px;
+      background: rgba(255,255,255,.9);
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .btn-accent {
+      background: linear-gradient(135deg, #ef4444, #f97316);
+      border-color: transparent;
+      color:#fff;
+      box-shadow: 0 12px 24px rgba(239,68,68,.22);
+    }
+    .btn-accent:hover { background: linear-gradient(135deg, #f87171, #fb923c); color:#fff; }
     .section-title { margin:24px 0 12px; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.18em; }
     .stats-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:14px; }
-    .cardx { background: var(--panel); border:1px solid var(--border); border-radius:22px; padding:18px; }
+    .cardx {
+      border-radius:24px;
+      padding:18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cardx::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,.45), transparent 42%);
+      pointer-events: none;
+    }
     .stat-label { font-size:11px; text-transform:uppercase; letter-spacing:.18em; color:var(--muted); margin-bottom:14px; }
-    .stat-value { font-size:40px; line-height:1; font-weight:800; letter-spacing:-.05em; }
+    .stat-value { font-size:40px; line-height:1; font-weight:800; letter-spacing:-.05em; color: var(--text); }
     .stat-value.ok { color: var(--accent-2); } .stat-value.warn { color: var(--warn); } .stat-value.danger { color: var(--accent); }
     .campaign-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
-    .panel-card, .ip-block-section { border:1px solid var(--border); background: var(--panel); border-radius:22px; padding:18px; margin-bottom:18px; }
+    .panel-card, .ip-block-section {
+      border-radius:24px;
+      padding:18px;
+      margin-bottom:18px;
+    }
     .panel-head { display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:14px; }
     .muted { color: var(--muted); }
-    .copy-all-btn, .ghost-btn { border-radius:12px; padding:9px 14px; font-size:12px; font-weight:600; border:1px solid var(--border); background: rgba(255,255,255,.03); color:#fff; cursor:pointer; }
-    .copy-all-btn { border-color: rgba(60,255,155,.35); color: var(--accent-2); }
+    .copy-all-btn, .ghost-btn {
+      border-radius:12px;
+      padding:9px 14px;
+      font-size:12px;
+      font-weight:700;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.8);
+      color: var(--text);
+      cursor:pointer;
+    }
+    .copy-all-btn { border-color: rgba(16,185,129,.30); color: #059669; }
     .filters { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:16px; }
     .filter-label { color:var(--muted); font-size:13px; margin-right:6px; }
-    .filter-btn { border:1px solid var(--border); border-radius:999px; background: rgba(255,255,255,.02); color:var(--muted); padding:8px 12px; font-size:12px; font-weight:600; }
-    .filter-btn.active { color:#fff; border-color: rgba(255,67,67,.5); background: rgba(255,67,67,.12); }
-    .table-wrap { overflow:auto; border:1px solid var(--border); border-radius:22px; background: var(--panel); }
-    thead th { background: rgba(255,255,255,.02); color: var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.14em; border-bottom:1px solid var(--border) !important; white-space:nowrap; }
-    tbody tr { cursor:pointer; } tbody tr:hover { background: rgba(255,255,255,.03); } tbody tr.is-suspicious { background: rgba(255,67,67,.05); }
+    .filter-btn {
+      border:1px solid var(--border);
+      border-radius:999px;
+      background: rgba(255,255,255,.78);
+      color:var(--muted);
+      padding:8px 12px;
+      font-size:12px;
+      font-weight:700;
+    }
+    .filter-btn.active { color:#fff; border-color: rgba(37,99,235,.35); background: linear-gradient(135deg, #2563eb, #7c3aed); }
+    .table-wrap { overflow:auto; border-radius:24px; background: rgba(255,255,255,.9); }
+    thead th {
+      background: rgba(248,250,252,.96);
+      color: var(--muted);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      border-bottom:1px solid var(--border) !important;
+      white-space:nowrap;
+    }
+    tbody tr { cursor:pointer; }
+    tbody tr:hover { background: rgba(37,99,235,.04); }
+    tbody tr.is-suspicious { background: rgba(239,68,68,.05); }
     td { vertical-align:middle; white-space:nowrap; }
-    .score-badge { display:inline-flex; min-width:44px; justify-content:center; align-items:center; border-radius:999px; padding:4px 10px; font-weight:700; font-size:12px; }
-    .score-low { background: rgba(60,255,155,.12); color: var(--accent-2); } .score-mid { background: rgba(255,181,61,.12); color: var(--warn); } .score-high { background: rgba(255,67,67,.16); color: var(--accent); }
+    .score-badge { display:inline-flex; min-width:44px; justify-content:center; align-items:center; border-radius:999px; padding:4px 10px; font-weight:800; font-size:12px; }
+    .score-low { background: rgba(16,185,129,.12); color: var(--accent-2); } .score-mid { background: rgba(245,158,11,.14); color: #b45309; } .score-high { background: rgba(239,68,68,.14); color: var(--accent); }
     .tag { display:inline-flex; align-items:center; gap:6px; border-radius:999px; padding:4px 9px; font-size:11px; font-weight:700; margin:0 6px 6px 0; white-space:nowrap; }
-    .tag-vpn { background: rgba(255,67,67,.12); color: var(--accent); } .tag-repeat { background: rgba(255,181,61,.12); color: var(--warn); } .tag-phone { background: rgba(60,255,155,.12); color: var(--accent-2); } .tag-message { background: rgba(96,200,255,.12); color:#60c8ff; } .tag-form { background: rgba(96,200,255,.12); color:#60c8ff; } .tag-campaign { background: rgba(255,255,255,.06); color:#fff; } .tag-decision { background: rgba(255,181,61,.12); color: var(--warn); } .tag-time { background: rgba(96,200,255,.12); color:#60c8ff; }
-    .mini-table { width:100%; border-collapse:collapse; font-size:12px; } .mini-table th, .mini-table td { padding:12px 14px; border-bottom:1px solid rgba(125,140,170,.12); white-space:nowrap; text-align:left; } .mini-table th { color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.16em; }
-    .detail-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; } .detail-item { border:1px solid var(--border); border-radius:16px; background: rgba(255,255,255,.02); padding:14px; } .detail-key { color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.16em; margin-bottom:8px; } .detail-val { font-size:13px; word-break:break-word; }
-    .reasons-list { margin-top:16px; border:1px solid rgba(255,67,67,.24); background: rgba(255,67,67,.05); border-radius:18px; padding:14px; } .reasons-title { color:var(--accent); font-size:11px; text-transform:uppercase; letter-spacing:.16em; margin-bottom:10px; } .reason-item { color:#ffcf6c; font-size:12px; margin-bottom:6px; }
-    .login-overlay { position:fixed; inset:0; z-index:2000; display:flex; align-items:center; justify-content:center; background: radial-gradient(circle at top left, rgba(255,67,67,.12), transparent 22%), radial-gradient(circle at bottom right, rgba(60,255,155,.1), transparent 24%), rgba(4,6,11,.96); backdrop-filter: blur(20px); }
-    .login-card { width:min(420px, calc(100vw - 32px)); border-radius:24px; border:1px solid var(--border); background: rgba(10,14,25,.96); padding:28px; }
-    .login-title { font-size:24px; font-weight:800; letter-spacing:-.04em; margin-bottom:8px; } .login-sub { color:var(--muted); font-size:13px; margin-bottom:22px; }
-    @media (max-width: 1280px) { .app { grid-template-columns:1fr; } .sidebar { position:relative; height:auto; } .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .campaign-grid { grid-template-columns:1fr; } }
-    @media (max-width: 768px) { .main { padding:14px; } .topbar { flex-direction:column; align-items:stretch; } .controls .form-select, .controls .btn { width:100%; } .stats-grid, .detail-grid { grid-template-columns:1fr; } }
+    .tag-vpn { background: rgba(239,68,68,.12); color: var(--accent); } .tag-repeat { background: rgba(245,158,11,.15); color: #b45309; } .tag-phone { background: rgba(16,185,129,.12); color: #059669; } .tag-message { background: rgba(37,99,235,.12); color:#2563eb; } .tag-form { background: rgba(37,99,235,.12); color:#2563eb; } .tag-campaign { background: rgba(15,23,42,.05); color:var(--text); } .tag-decision { background: rgba(245,158,11,.15); color: #b45309; } .tag-time { background: rgba(37,99,235,.12); color:#2563eb; }
+    .mini-table { width:100%; border-collapse:collapse; font-size:12px; } .mini-table th, .mini-table td { padding:12px 14px; border-bottom:1px solid rgba(148,163,184,.16); white-space:nowrap; text-align:left; } .mini-table th { color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.16em; }
+    .detail-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .detail-item { border-radius:16px; padding:14px; }
+    .detail-key { color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.16em; margin-bottom:8px; } .detail-val { font-size:13px; word-break:break-word; color: var(--text); }
+    .reasons-list { margin-top:16px; border:1px solid rgba(239,68,68,.18); background: rgba(239,68,68,.06); border-radius:18px; padding:14px; } .reasons-title { color:var(--accent); font-size:11px; text-transform:uppercase; letter-spacing:.16em; margin-bottom:10px; } .reason-item { color:#b45309; font-size:12px; margin-bottom:6px; }
+    .login-overlay { position:fixed; inset:0; z-index:2000; display:flex; align-items:center; justify-content:center; background: radial-gradient(circle at top left, rgba(37,99,235,.22), transparent 22%), radial-gradient(circle at bottom right, rgba(16,185,129,.14), transparent 24%), rgba(2,6,23,.72); backdrop-filter: blur(20px); }
+    .login-card { width:min(420px, calc(100vw - 32px)); border-radius:24px; padding:28px; }
+    .login-title { font-size:24px; font-weight:800; letter-spacing:-.04em; margin-bottom:8px; color: var(--text); } .login-sub { color:var(--muted); font-size:13px; margin-bottom:22px; }
+    @media (max-width: 1280px) { .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .campaign-grid { grid-template-columns:1fr; } }
+    @media (max-width: 768px) { .main { padding:14px; } .topbar { flex-direction:column; align-items:stretch; } .controls .form-select, .controls .btn { width:100%; } .stats-grid, .detail-grid { grid-template-columns:1fr; } .nav-chip { width:100%; } }
   </style>
 </head>
 <body>
@@ -85,29 +190,21 @@
   </div>
 
   <div class="app d-none" id="app-shell">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-mark"></div>
-        <div><div class="brand-title">Fix24 Admin</div><div class="brand-sub">anti-fraud dashboard</div></div>
-      </div>
-      <div class="nav-card">
-        <div class="nav-title">Навігація</div>
-        <a class="nav-link active" href="#overview"><span><i class="ti ti-layout-dashboard me-2"></i> Overview</span><small>кліки</small></a>
-        <a class="nav-link" href="#campaigns"><span><i class="ti ti-bolt me-2"></i> Campaigns</span><small>search/display</small></a>
-        <a class="nav-link" href="#blocklist"><span><i class="ti ti-shield-check me-2"></i> IP Exclusion</span><small>copy list</small></a>
-        <a class="nav-link" href="#clicks"><span><i class="ti ti-list-details me-2"></i> Clicks</span><small>table</small></a>
-      </div>
-      <div class="nav-card"><div class="nav-title">Порада</div><div class="muted" style="font-size:13px;line-height:1.65;">Панель оптимізована для ручної перевірки: окремо дивіться кампанії, окремо IP-кандидатів і лише потім копіюйте блоки.</div></div>
-    </aside>
-
     <main class="main">
       <div class="topbar" id="overview">
         <div><h1 class="mb-0">Fix24 Click Monitor</h1><p>Лог кліків, кампаній, IP-кандидатів і рішень для виключення.</p></div>
         <div class="controls">
           <select id="days-select" class="form-select" onchange="loadData()"><option value="1">1 день</option><option value="7" selected>7 днів</option><option value="30">30 днів</option></select>
-          <button class="btn btn-outline-light" onclick="exportCsv()"><i class="ti ti-download me-1"></i> CSV</button>
+          <button class="btn btn-outline-secondary" onclick="exportCsv()"><i class="ti ti-download me-1"></i> CSV</button>
           <button class="btn btn-accent" onclick="loadData()"><i class="ti ti-refresh me-1"></i> Оновити</button>
         </div>
+      </div>
+
+      <div class="nav-strip">
+        <a class="nav-chip active" href="#overview"><span><i class="ti ti-layout-dashboard me-2"></i> Overview</span><small>кліки</small></a>
+        <a class="nav-chip" href="#campaigns"><span><i class="ti ti-bolt me-2"></i> Campaigns</span><small>search/display</small></a>
+        <a class="nav-chip" href="#blocklist"><span><i class="ti ti-shield-check me-2"></i> IP Exclusion</span><small>copy list</small></a>
+        <a class="nav-chip" href="#clicks"><span><i class="ti ti-list-details me-2"></i> Clicks</span><small>table</small></a>
       </div>
 
       <div class="stats-grid">
@@ -162,8 +259,8 @@
   </div>
 
   <div class="modal modal-blur fade" id="detailModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"><div class="modal-content">
-      <div class="modal-header"><h5 class="modal-title" id="modalTitle">Деталі кліку</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button></div>
+      <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"><div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title" id="modalTitle">Деталі кліку</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
       <div class="modal-body" id="modalBody"></div>
     </div></div>
   </div>
@@ -237,7 +334,6 @@
       document.getElementById('modalTitle').innerHTML = `Клік · <span class="text-${sc}">${score}/100</span>`; document.getElementById('modalBody').innerHTML = html; new bootstrap.Modal(document.getElementById('detailModal')).show();
     }
     async function copyIP(ip) { await navigator.clipboard.writeText(ip); alert(`IP ${ip} скопійовано`); }
-    document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => { document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active')); link.classList.add('active'); }));
     const savedToken = sessionStorage.getItem(STORAGE_KEY);
     if (savedToken) { authToken = savedToken; document.getElementById('pwd-input').value = savedToken; document.getElementById('login-overlay').classList.add('d-none'); document.getElementById('app-shell').classList.remove('d-none'); loadData(false); }
   </script>
