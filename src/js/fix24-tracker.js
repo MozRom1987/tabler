@@ -1,45 +1,67 @@
 /**
- * fix24-tracker.js v3
- * Вставити перед </body> на всіх сторінках fix24.pro
- * Збирає дані тільки якщо є gclid (клік з Google Ads)
+ * fix24-tracker.js v4
+ * Client-side anti-fraud tracker for ad traffic.
  */
 
 (function () {
     'use strict';
 
     const params = new URLSearchParams(window.location.search);
-    const gclid = params.get('gclid');
+    const clickId = params.get('gclid') || params.get('gbraid') || params.get('wbraid');
+    const clickIdType = params.get('gclid') ? 'gclid' : (params.get('gbraid') ? 'gbraid' : (params.get('wbraid') ? 'wbraid' : ''));
 
-    if (!gclid) return;
+    if (!clickId) return;
 
     const API_BASE = 'https://api.fix24.pro';
     const startTime = Date.now();
+    const visitId = (function () {
+        const key = 'fix24_visit_id';
+        const existing = sessionStorage.getItem(key);
+        if (existing) return existing;
+        const created = [clickIdType, clickId, Date.now(), Math.random().toString(36).slice(2, 10)].join(':');
+        sessionStorage.setItem(key, created);
+        return created;
+    })();
 
     let mouseMoved = false;
     let scrolled = false;
     let clickedPhone = false;
-    let lastActivityTime = Date.now();
+    let clickedMessenger = false;
+    let submittedForm = false;
     let activeTime = 0;
     let isPageVisible = true;
-    let dataSent = false;
+    let dataSentFinal = false;
+    let lastSentAt = 0;
+    const actions = new Set();
 
-    // ─── ПОВЕДІНКА ──────────────────────────────────────────────
+    function markAction(action) {
+        if (action) actions.add(action);
+    }
 
-    document.addEventListener('mousemove', function () { mouseMoved = true; lastActivityTime = Date.now(); }, { once: true });
-    document.addEventListener('scroll', function () { scrolled = true; lastActivityTime = Date.now(); }, { once: true });
-    document.addEventListener('touchstart', function () { mouseMoved = true; lastActivityTime = Date.now(); }, { once: true });
-    document.addEventListener('click', function () { lastActivityTime = Date.now(); });
+    document.addEventListener('mousemove', function () {
+        mouseMoved = true;
+        markAction('mouse_move');
+    }, { once: true });
+
+    document.addEventListener('scroll', function () {
+        scrolled = true;
+        markAction('scroll');
+    }, { once: true, passive: true });
+
+    document.addEventListener('touchstart', function () {
+        mouseMoved = true;
+        markAction('touch');
+    }, { once: true, passive: true });
 
     document.addEventListener('visibilitychange', function () {
         isPageVisible = !document.hidden;
-        if (isPageVisible) lastActivityTime = Date.now();
     });
 
     setInterval(function () {
-        if (isPageVisible) activeTime = Math.round((Date.now() - startTime) / 1000);
+        if (isPageVisible) {
+            activeTime = Math.round((Date.now() - startTime) / 1000);
+        }
     }, 1000);
-
-    // ─── HONEYPOT — приховане поле форми ────────────────────────
 
     document.querySelectorAll('input[name="website_confirm"]').forEach(function (field) {
         field.addEventListener('input', function () {
@@ -47,7 +69,6 @@
         });
     });
 
-    // При submit — якщо honeypot заповнений, блокуємо відправку
     document.querySelectorAll('.ajax_form').forEach(function (form) {
         form.addEventListener('submit', function (e) {
             var hp = form.querySelector('input[name="website_confirm"]');
@@ -57,10 +78,14 @@
                 sendHoneypot('field');
                 return false;
             }
+
+            submittedForm = true;
+            markAction('form_submit');
+            sendConversion('form');
+            sendData(true, 'form_submit');
+            return true;
         }, true);
     });
-
-    // ─── HONEYPOT — прихований телефон ──────────────────────────
 
     document.querySelectorAll('a[data-honeypot="true"]').forEach(function (el) {
         el.addEventListener('click', function (e) {
@@ -69,39 +94,46 @@
         });
     });
 
-    // ─── КОНВЕРСІЇ ───────────────────────────────────────────────
-
-    // Реальний телефон
     document.querySelectorAll('a[href^="tel:"]:not([data-honeypot])').forEach(function (el) {
         el.addEventListener('click', function () {
             clickedPhone = true;
+            markAction('phone_click');
             sendConversion('phone');
-            sendData(true);
+            sendData(true, 'phone_click');
         });
     });
 
-    // Месенджери
     document.querySelectorAll([
         'a[href*="wa.me"]', 'a[href*="whatsapp.com"]',
         'a[href*="t.me"]', 'a[href*="telegram.me"]',
         'a[href*="m.me"]', 'a[href*="messenger.com"]',
         'a[href^="viber://"]'
     ].join(',')).forEach(function (el) {
-        el.addEventListener('click', function () { sendConversion('messenger'); });
+        el.addEventListener('click', function () {
+            clickedMessenger = true;
+            markAction('messenger_click');
+            sendConversion('messenger');
+            sendData(true, 'messenger_click');
+        });
     });
 
-    // Форми — submit
-    document.querySelectorAll('.ajax_form').forEach(function (form) {
-        form.addEventListener('submit', function () { sendConversion('form'); });
+    document.querySelectorAll([
+        'a[href*="facebook.com"]',
+        'a[href*="instagram.com"]',
+        'a[href*="maps.google."]',
+        'a[href*="goo.gl/maps"]'
+    ].join(',')).forEach(function (el) {
+        el.addEventListener('click', function () {
+            markAction('external_link_click');
+            sendData(false, 'external_link_click');
+        });
     });
-
-    // ─── ВІДПРАВКИ ───────────────────────────────────────────────
 
     function sendConversion(type) {
         fetch(API_BASE + '/mark-converted', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ gclid, landingPage: window.location.href, conversionType: type }),
+            body: JSON.stringify(buildPayload(true, type)),
             keepalive: true,
         }).catch(function () { });
     }
@@ -110,12 +142,19 @@
         fetch(API_BASE + '/honeypot', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ gclid, landingPage: window.location.href, type: type }),
+            body: JSON.stringify({
+                clickId: clickId,
+                clickIdType: clickIdType,
+                gclid: params.get('gclid') || null,
+                gbraid: params.get('gbraid') || null,
+                wbraid: params.get('wbraid') || null,
+                landingPage: window.location.href,
+                type: type,
+                visitId: visitId,
+            }),
             keepalive: true,
         }).catch(function () { });
     }
-
-    // ─── FINGERPRINT ─────────────────────────────────────────────
 
     function getBrowserData() {
         var nav = navigator;
@@ -148,7 +187,7 @@
             ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
             ctx.fillText('fix24.pro', 4, 17);
             canvasHash = canvas.toDataURL().slice(-50);
-        } catch (e) { }
+        } catch (e) {}
 
         var webglHash = '';
         try {
@@ -157,12 +196,12 @@
                 var dbg = gl.getExtension('WEBGL_debug_renderer_info');
                 if (dbg) webglHash = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL);
             }
-        } catch (e) { }
+        } catch (e) {}
 
         var fpString = [
             data.userAgent, data.language, data.timezone,
             data.screen, data.cores, data.memory,
-            data.touchSupport, canvasHash, webglHash,
+            data.touchSupport, canvasHash, webglHash
         ].join('|');
 
         var hash = 0;
@@ -171,28 +210,46 @@
             hash = ((hash << 5) - hash) + char;
             hash = hash & hash;
         }
+
         return Math.abs(hash).toString(16).padStart(8, '0');
     }
 
-    async function sendData(isFinal) {
-        if (dataSent && isFinal) return;
-        if (isFinal) dataSent = true;
+    function buildPayload(isFinal, eventType, fingerprint, browserData) {
+        var timeOnPage = Math.round((Date.now() - startTime) / 1000);
+        return Object.assign({
+            clickId: clickId,
+            clickIdType: clickIdType,
+            gclid: params.get('gclid') || null,
+            gbraid: params.get('gbraid') || null,
+            wbraid: params.get('wbraid') || null,
+            visitId: visitId,
+            landingPage: window.location.href,
+            fingerprint: fingerprint,
+            timeOnPage: timeOnPage,
+            activeTime: activeTime,
+            mouseMoved: mouseMoved,
+            scrolled: scrolled,
+            clickedPhone: clickedPhone,
+            clickedMessenger: clickedMessenger,
+            submittedForm: submittedForm,
+            isFinal: !!isFinal,
+            eventType: eventType || 'heartbeat',
+            actions: Array.from(actions),
+        }, browserData);
+    }
+
+    async function sendData(isFinal, eventType) {
+        if (dataSentFinal && isFinal) return;
+
+        var now = Date.now();
+        if (!isFinal && lastSentAt && now - lastSentAt < 15000) return;
 
         var fingerprint = await generateFingerprint();
         var browserData = getBrowserData();
-        var timeOnPage = Math.round((Date.now() - startTime) / 1000);
+        var payload = buildPayload(isFinal, eventType, fingerprint, browserData);
 
-        var payload = Object.assign({
-            gclid,
-            landingPage: window.location.href,
-            fingerprint,
-            timeOnPage,
-            activeTime,
-            mouseMoved,
-            scrolled,
-            clickedPhone,
-            isFinal: !!isFinal,
-        }, browserData);
+        if (isFinal) dataSentFinal = true;
+        lastSentAt = now;
 
         fetch(API_BASE + '/log', {
             method: 'POST',
@@ -202,8 +259,10 @@
         }).catch(function () { });
     }
 
-    window.addEventListener('beforeunload', function () { sendData(true); });
-    setTimeout(function () { sendData(false); }, 30000);
-    setTimeout(function () { sendData(false); }, 120000);
+    window.addEventListener('beforeunload', function () {
+        sendData(true, 'beforeunload');
+    });
 
+    setTimeout(function () { sendData(false, 'heartbeat_30'); }, 30000);
+    setTimeout(function () { sendData(false, 'heartbeat_120'); }, 120000);
 })();

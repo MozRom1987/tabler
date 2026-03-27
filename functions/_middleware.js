@@ -4,7 +4,6 @@
  */
 
 const DEFAULT_WORKER_URL = 'https://api.fix24.pro/log-edge';
-const DEFAULT_WORKER_SECRET = 'Rom@n_Mozol@_1987';
 const DEDUPE_COOKIE = 'fix24_edge_click';
 const DEDUPE_MAX_AGE = 10 * 60;
 const CLICK_PARAMS = ['gclid', 'gbraid', 'wbraid'];
@@ -70,7 +69,7 @@ export async function onRequest(context) {
     }
 
     const workerUrl = env?.EDGE_WORKER_URL || DEFAULT_WORKER_URL;
-    const workerSecret = env?.EDGE_WORKER_SECRET || DEFAULT_WORKER_SECRET;
+    const workerSecret = env?.EDGE_WORKER_SECRET;
     const edgeData = {
         ip: request.headers.get('CF-Connecting-IP') || 'unknown',
         userAgent: request.headers.get('User-Agent') || '',
@@ -90,16 +89,18 @@ export async function onRequest(context) {
         dedupeKey,
     };
 
-    context.waitUntil(
-        fetch(workerUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Edge-Secret': workerSecret,
-            },
-            body: JSON.stringify(edgeData),
-        }).catch(() => {})
-    );
+    if (workerSecret) {
+        context.waitUntil(
+            fetch(workerUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Edge-Secret': workerSecret,
+                },
+                body: JSON.stringify(edgeData),
+            }).catch(() => {})
+        );
+    }
 
     response.headers.append(
         'Set-Cookie',
