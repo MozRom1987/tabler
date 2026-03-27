@@ -117,6 +117,32 @@
         $('.ajax_form .required').on('input change', function () {
             $(this).removeClass('error');
         });
+
+        // Автоматична згода на CookieYes при першій взаємодії (клік, скрол, рух)
+        let consentGiven = false;
+        function autoAcceptCookies() {
+            if (consentGiven) return;
+            
+            // Знаходимо кнопку "Прийняти всі" від CookieYes
+            const acceptBtn = document.querySelector('.cky-btn-accept');
+            if (acceptBtn) {
+                // Симулюємо клік по кнопці згоди
+                acceptBtn.click();
+                consentGiven = true;
+                
+                // Видаляємо слухачі подій після успішної згоди
+                window.removeEventListener('scroll', autoAcceptCookies);
+                window.removeEventListener('click', autoAcceptCookies);
+                window.removeEventListener('touchstart', autoAcceptCookies);
+                window.removeEventListener('keydown', autoAcceptCookies);
+            }
+        }
+
+        // Вішаємо слухачі на основні взаємодії
+        window.addEventListener('scroll', autoAcceptCookies, { passive: true });
+        window.addEventListener('click', autoAcceptCookies, { passive: true });
+        window.addEventListener('touchstart', autoAcceptCookies, { passive: true });
+        window.addEventListener('keydown', autoAcceptCookies, { passive: true });
     });
 
 })(jQuery);

@@ -20,6 +20,40 @@
     <link href="css/jquery.fancybox3.min.css" rel="stylesheet">
     <link href="css/base.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        /* CookieYes - Примусове приховування баннера та стилізація іконки */
+        .cky-consent-container,
+        .cky-consent-bar,
+        .cky-overlay,
+        .cky-modal,
+        #cky-consent-banner {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        /* Стилізація іконки віджета (кружечка) */
+        .cky-revisit-consent,
+        .cky-revisit-consent button,
+        .cky-revisit-consent .cky-revisit-icon {
+            background-color: #F34B1D !important;
+            background: #F34B1D !important;
+            border-color: #F34B1D !important;
+            fill: #F34B1D !important;
+            opacity: 0.9 !important;
+        }
+
+        .cky-revisit-consent:hover {
+            opacity: 1 !important;
+            transform: scale(1.1);
+        }
+
+        /* Видалення синього кольору з іконки, якщо він у SVG */
+        .cky-revisit-consent svg path {
+            fill: #ffffff !important;
+        }
+    </style>
     <meta property="og:title" content="Regulamin, Polityka Prywatności i Cookies | AGD.fix24">
     <meta property="og:site_name" content="AGD.fix24">
     <meta property="og:url" content="https://agd.fix24.pro/policy.html">
