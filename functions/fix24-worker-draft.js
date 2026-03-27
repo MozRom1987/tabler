@@ -630,6 +630,19 @@ async function persistVisit(env, visit) {
     await storeVisitIndex(env, `list:${String(visit.timestamp || visit.createdAt).substring(0, 10)}`, visit.visitKey, 30 * 86400);
 }
 
+async function loadVisitRecord(env, key) {
+    const candidates = [`visit:${key}`, key];
+    for (const candidate of candidates) {
+        const raw = await env.CLICKS_KV.get(candidate);
+        const parsed = parseJsonSafe(raw, null);
+        if (parsed) {
+            return parsed;
+        }
+    }
+
+    return null;
+}
+
 function normalizeActions(payload) {
     const actions = Array.isArray(payload.actions) ? payload.actions : [];
     const normalized = actions
@@ -959,9 +972,9 @@ export default {
                     const dateStr = date.toISOString().substring(0, 10);
                     const keys = parseJsonSafe(await env.CLICKS_KV.get(`list:${dateStr}`), []);
 
-                    for (const visitKey of keys.slice(0, 300)) {
-                        const visit = parseJsonSafe(await env.CLICKS_KV.get(`visit:${visitKey}`), null);
-        if (visit) allVisits.push(visit);
+                for (const visitKey of keys.slice(0, 300)) {
+                        const visit = await loadVisitRecord(env, visitKey);
+                        if (visit) allVisits.push(visit);
                     }
                 }
 
