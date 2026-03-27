@@ -84,14 +84,17 @@
       box-shadow: 0 12px 28px rgba(37,99,235,.08);
     }
     .nav-chip small { color: var(--muted); }
-    .controls { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .controls { display:flex; gap:8px; align-items:center; flex-wrap:nowrap; }
     .controls .form-select {
       min-width:130px;
+      width: 130px;
+      flex: 0 0 130px;
       height: 40px;
       background: rgba(255,255,255,.9);
       border-color: var(--border);
       color: var(--text);
     }
+    .controls .btn { flex: 0 0 auto; }
     .controls .btn { height: 40px; }
     .btn-accent {
       background: linear-gradient(135deg, #ef4444, #f97316);
@@ -175,7 +178,7 @@
     .login-card { width:min(420px, calc(100vw - 32px)); border-radius:24px; padding:28px; }
     .login-title { font-size:24px; font-weight:800; letter-spacing:-.04em; margin-bottom:8px; color: var(--text); } .login-sub { color:var(--muted); font-size:13px; margin-bottom:22px; }
     @media (max-width: 1280px) { .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-    @media (max-width: 768px) { .main { padding:12px; } .topbar { flex-direction:column; align-items:stretch; padding:14px; } .controls .form-select, .controls .btn { width:100%; } .stats-grid, .detail-grid { grid-template-columns:1fr; } .nav-chip { width:100%; } }
+    @media (max-width: 768px) { .main { padding:12px; } .topbar { flex-direction:column; align-items:stretch; padding:14px; } .controls { flex-wrap:wrap; } .controls .form-select, .controls .btn { width:100%; flex:1 1 auto; } .stats-grid, .detail-grid { grid-template-columns:1fr; } .nav-chip { width:100%; } }
   </style>
 </head>
 <body>
