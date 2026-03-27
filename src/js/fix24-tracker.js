@@ -9,6 +9,8 @@
     const params = new URLSearchParams(window.location.search);
     const clickId = params.get('gclid') || params.get('gbraid') || params.get('wbraid');
     const clickIdType = params.get('gclid') ? 'gclid' : (params.get('gbraid') ? 'gbraid' : (params.get('wbraid') ? 'wbraid' : ''));
+    const campaignType = params.get('campaign_type') || '';
+    const campaignName = params.get('campaign_name') || '';
 
     if (!clickId) return;
 
@@ -148,6 +150,8 @@
                 gclid: params.get('gclid') || null,
                 gbraid: params.get('gbraid') || null,
                 wbraid: params.get('wbraid') || null,
+                campaignType: campaignType || null,
+                campaignName: campaignName || null,
                 landingPage: window.location.href,
                 type: type,
                 visitId: visitId,
@@ -222,6 +226,8 @@
             gclid: params.get('gclid') || null,
             gbraid: params.get('gbraid') || null,
             wbraid: params.get('wbraid') || null,
+            campaignType: campaignType || null,
+            campaignName: campaignName || null,
             visitId: visitId,
             landingPage: window.location.href,
             fingerprint: fingerprint,

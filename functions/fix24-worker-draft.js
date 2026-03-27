@@ -151,6 +151,8 @@ function createEmptyVisit(visitKey, data) {
         conversionType: null,
         conversionTypes: [],
         actions: [],
+        campaignType: null,
+        campaignName: null,
         timeOnPage: 0,
         activeTime: 0,
         mouseMoved: null,
@@ -200,6 +202,8 @@ function mergeVisit(existing, incoming) {
     merged.actions = Array.from(new Set([...(existing.actions || []), ...(incoming.actions || [])]));
     merged.conversionTypes = Array.from(new Set([...(existing.conversionTypes || []), ...(incoming.conversionTypes || [])]));
     merged.conversionType = merged.conversionTypes[merged.conversionTypes.length - 1] || incoming.conversionType || existing.conversionType || null;
+    merged.campaignType = incoming.campaignType || existing.campaignType || null;
+    merged.campaignName = incoming.campaignName || existing.campaignName || null;
 
     if ((incoming.source || '') === 'js') {
         merged.source = 'js';
@@ -668,6 +672,8 @@ async function handleUnifiedVisit(payload, env, source) {
         conversionType: normalizeText(payload.conversionType) || null,
         conversionTypes: payload.conversionType ? [normalizeText(payload.conversionType)] : [],
         actions: normalizeActions(payload),
+        campaignType: normalizeText(payload.campaignType) || null,
+        campaignName: normalizeText(payload.campaignName) || null,
         timeOnPage: Number(payload.timeOnPage || 0),
         activeTime: Number(payload.activeTime || 0),
         mouseMoved: payload.mouseMoved === true,
@@ -743,6 +749,8 @@ async function markConverted(payload, request, env) {
         gclid: payload.gclid || null,
         gbraid: payload.gbraid || null,
         wbraid: payload.wbraid || null,
+        campaignType: normalizeText(payload.campaignType) || null,
+        campaignName: normalizeText(payload.campaignName) || null,
         converted: true,
         conversionType: normalizeText(payload.conversionType) || 'conversion',
         conversionTypes: [normalizeText(payload.conversionType) || 'conversion'],
@@ -970,6 +978,8 @@ export default {
                     edgeOnly: allVisits.filter((item) => (item.sources || []).includes('edge') && !(item.sources || []).includes('js')).length,
                     merged: allVisits.filter((item) => item.merged).length,
                     converted: allVisits.filter((item) => item.converted).length,
+                    searchCampaignClicks: allVisits.filter((item) => item.campaignType === 'search').length,
+                    displayCampaignClicks: allVisits.filter((item) => item.campaignType === 'display').length,
                 };
 
                 return new Response(JSON.stringify({ clicks: allVisits, stats }), {
