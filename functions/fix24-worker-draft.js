@@ -151,6 +151,7 @@ function createEmptyVisit(visitKey, data) {
         conversionType: null,
         conversionTypes: [],
         actions: [],
+        tags: [],
         campaignType: null,
         campaignName: null,
         timeOnPage: 0,
@@ -202,6 +203,7 @@ function mergeVisit(existing, incoming) {
     merged.actions = Array.from(new Set([...(existing.actions || []), ...(incoming.actions || [])]));
     merged.conversionTypes = Array.from(new Set([...(existing.conversionTypes || []), ...(incoming.conversionTypes || [])]));
     merged.conversionType = merged.conversionTypes[merged.conversionTypes.length - 1] || incoming.conversionType || existing.conversionType || null;
+    merged.tags = Array.from(new Set([...(existing.tags || []), ...(incoming.tags || [])]));
     merged.campaignType = incoming.campaignType || existing.campaignType || null;
     merged.campaignName = incoming.campaignName || existing.campaignName || null;
 
@@ -391,6 +393,12 @@ function calculateSuspicionScore(data) {
     if (screenWidth > 0 && screenWidth < 300) {
         score += 20;
         reasons.push(`Screen: too small (${screenWidth}px)`);
+    }
+
+    const viewportWidth = parseInt(normalizeText(data.viewport).split('x')[0], 10) || 0;
+    if (viewportWidth > 0 && viewportWidth < 300) {
+        score += 10;
+        reasons.push(`Viewport: too small (${viewportWidth}px)`);
     }
 
     if (data.mouseMoved === false && data.source === 'js') {
@@ -659,6 +667,17 @@ function normalizeActions(payload) {
     return Array.from(new Set(normalized));
 }
 
+function buildTags(payload) {
+    const tags = [];
+    if (payload.campaignType) tags.push(normalizeText(payload.campaignType));
+    if (payload.campaignName) tags.push(normalizeText(payload.campaignName));
+    if (payload.source) tags.push(normalizeText(payload.source));
+    if (payload.clickedPhone) tags.push('phone');
+    if (payload.clickedMessenger) tags.push('messenger');
+    if (payload.submittedForm) tags.push('form');
+    return Array.from(new Set(tags.filter(Boolean)));
+}
+
 async function handleUnifiedVisit(payload, env, source) {
     const timestamp = payload.timestamp || new Date().toISOString();
     const ip = normalizeIp(payload.ip);
@@ -685,6 +704,7 @@ async function handleUnifiedVisit(payload, env, source) {
         conversionType: normalizeText(payload.conversionType) || null,
         conversionTypes: payload.conversionType ? [normalizeText(payload.conversionType)] : [],
         actions: normalizeActions(payload),
+        tags: buildTags(payload),
         campaignType: normalizeText(payload.campaignType) || null,
         campaignName: normalizeText(payload.campaignName) || null,
         timeOnPage: Number(payload.timeOnPage || 0),
@@ -694,6 +714,8 @@ async function handleUnifiedVisit(payload, env, source) {
         clickedPhone: payload.clickedPhone === true,
         clickedMessenger: payload.clickedMessenger === true,
         submittedForm: payload.submittedForm === true,
+        viewport: normalizeText(payload.viewport) || null,
+        devicePixelRatio: Number(payload.devicePixelRatio || 0) || 1,
     };
 
     if (isGoogleBot(visitBase.userAgent)) {
@@ -764,6 +786,7 @@ async function markConverted(payload, request, env) {
         wbraid: payload.wbraid || null,
         campaignType: normalizeText(payload.campaignType) || null,
         campaignName: normalizeText(payload.campaignName) || null,
+        tags: buildTags(payload),
         converted: true,
         conversionType: normalizeText(payload.conversionType) || 'conversion',
         conversionTypes: [normalizeText(payload.conversionType) || 'conversion'],

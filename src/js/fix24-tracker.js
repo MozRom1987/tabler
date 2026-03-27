@@ -168,6 +168,8 @@
             language: nav.language,
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             screen: window.screen.width + 'x' + window.screen.height + '@' + (window.screen.colorDepth || 24),
+            viewport: window.innerWidth + 'x' + window.innerHeight,
+            devicePixelRatio: window.devicePixelRatio || 1,
             cores: nav.hardwareConcurrency || null,
             memory: nav.deviceMemory || null,
             connection: conn ? (conn.effectiveType || conn.type) : null,
@@ -204,7 +206,7 @@
 
         var fpString = [
             data.userAgent, data.language, data.timezone,
-            data.screen, data.cores, data.memory,
+            data.screen, data.viewport, data.devicePixelRatio, data.cores, data.memory,
             data.touchSupport, canvasHash, webglHash
         ].join('|');
 
