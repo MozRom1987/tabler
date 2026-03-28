@@ -28,5 +28,67 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 {% include "scripts.njk" %}
 
+<!-- Hybrid Consent Logic & Event Listeners (Zaraz) -->
+<!-- Плашка для платного трафіку -->
+<div id="paid-consent-tab" onclick="event.stopPropagation(); manualRevoke();">🍪 Ustawienia plików cookie</div>
+
+<!-- Банер для SEO трафіку -->
+<div id="seo-consent-banner">
+  Używamy plików cookie w celach analitycznych i reklamowych.
+  <button onclick="triggerConsent('granted'); document.getElementById('seo-consent-banner').style.display='none';">Akceptuj wszystko</button>
+  <button class="decline" onclick="triggerConsent('denied'); document.getElementById('seo-consent-banner').style.display='none';">Odrzuć</button>
+</div>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const isPaid = urlParams.has('gclid') || urlParams.has('wbraid') || urlParams.has('gbraid');
+  let consentHandled = false;
+
+  // Активація згоди
+  function triggerConsent(status) {
+    if (consentHandled && status === 'granted') return; // Якщо вже відмовлено вручну, не даємо автозгоду
+    consentHandled = true;
+    
+    // Оновлюємо статус для Google Tags (на клієнті)
+    const mode = status === 'granted' ? 'granted' : 'denied';
+    window.gtag && window.gtag('consent', 'update', { 'ad_storage': mode, 'analytics_storage': mode });
+    
+    // Передаємо згоду в Cloudflare Zaraz (на сервер)
+    if (typeof zaraz !== 'undefined' && zaraz.consent) {
+      zaraz.consent.set({ "marketing": (status === 'granted') });
+    }
+    
+    // Ховаємо плашку
+    const tab = document.getElementById('paid-consent-tab');
+    if (tab) tab.style.display = 'none';
+  }
+
+  // Ручна відміна (клік по маленькій плашці)
+  function manualRevoke() {
+    consentHandled = true; // Блокуємо можливу подальшу автозгоду
+    triggerConsent('denied'); // Записуємо відмову
+    document.getElementById('seo-consent-banner').style.display = 'block'; // Розгортаємо повний банер
+  }
+
+  // Ініціалізація
+  window.addEventListener('DOMContentLoaded', () => {
+    if (isPaid) {
+      // Платний трафік: показуємо міні-плашку
+      document.getElementById('paid-consent-tab').style.display = 'block';
+      
+      // Автозгода на взаємодію
+      const autoGrant = () => triggerConsent('granted');
+      window.addEventListener('scroll', autoGrant, { once: true });
+      window.addEventListener('touchstart', autoGrant, { once: true });
+      window.addEventListener('mousemove', autoGrant, { once: true }); // Для десктопу
+    } else {
+      // SEO трафік: через 2 сек показуємо банер
+      setTimeout(() => {
+        document.getElementById('seo-consent-banner').style.display = 'block';
+      }, 2000);
+    }
+  });
+</script>
+
 </body>
 </html>

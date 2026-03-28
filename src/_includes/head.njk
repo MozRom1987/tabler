@@ -1,12 +1,16 @@
 <!-- head.njk -->
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17976437879"></script>
+<!-- Head Scripts -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'AW-17976437879');
+  // 1. Default Denial (Базова відмова до отримання згоди)
+  gtag('consent', 'default', { 
+    'ad_storage': 'denied', 
+    'analytics_storage': 'denied', 
+    'wait_for_update': 500 
+  });
 </script>
 
     <!-- Локальна версія сайту - форми не працюють без серверу -->
@@ -28,33 +32,53 @@
     <link href="/agd/css/base.css" rel="stylesheet">
     <link href="/agd/css/style.css?v=5" rel="stylesheet">
     <style>
-        /* CookieYes - Примусове приховування початкового баннера */
-        .cky-consent-bar { 
-            display: none !important; 
-            visibility: hidden !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
+        /* -------------------------------- */
+        /* Hybrid Consent UI Styles (Zaraz) */
+        /* -------------------------------- */
+        #paid-consent-tab {
+            display: none; 
+            position: fixed; 
+            bottom: 15px; 
+            left: 15px;
+            background: #4285F4; 
+            color: #fff; 
+            padding: 8px 15px;
+            border-radius: 20px; 
+            cursor: pointer; 
+            z-index: 1000000;
+            font-size: 11px; 
+            font-family: sans-serif; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
         
-        /* Стилізація іконки віджета (кружечка) */
-        .cky-revisit-consent,
-        .cky-revisit-consent button,
-        .cky-revisit-consent .cky-revisit-icon { 
-            background-color: #F34B1D !important; 
-            background: #F34B1D !important;
-            border-color: #F34B1D !important; 
-            fill: #F34B1D !important;
-            opacity: 0.9 !important; 
+        #seo-consent-banner {
+            display: none; 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%;
+            background: #222; 
+            color: #fff; 
+            padding: 20px; 
+            text-align: center;
+            z-index: 1000001; 
+            font-family: sans-serif; 
+            box-sizing: border-box;
         }
-
-        .cky-revisit-consent:hover { 
-            opacity: 1 !important; 
-            transform: scale(1.1);
+        
+        #seo-consent-banner button {
+            background: #4285F4; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            margin: 5px; 
+            cursor: pointer; 
+            border-radius: 5px; 
+            font-weight: bold;
         }
-
-        /* Видалення синього кольору з іконки, якщо він у SVG */
-        .cky-revisit-consent svg path {
-            fill: #ffffff !important;
+        
+        #seo-consent-banner button.decline {
+            background: #555;
         }
 
         @media (max-width: 767px) {
