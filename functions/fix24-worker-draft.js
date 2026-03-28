@@ -429,6 +429,30 @@ function calculateSuspicionScore(data) {
         reasons.push('є лише edge-слід без JS');
     }
 
+    if (data.clickedPhone) {
+        score = Math.max(0, score - 60);
+        reasons.push('Phone click detected');
+    }
+    if (data.clickedMessenger || data.submittedForm || data.converted) {
+        score = Math.max(0, score - 50);
+        reasons.push('Contact action detected');
+    }
+    if (data.activeTime >= 90) {
+        score = Math.max(0, score - 30);
+        reasons.push('Human activity: 90s+ active');
+    } else if (data.activeTime >= 30) {
+        score = Math.max(0, score - 20);
+        reasons.push('Human activity: 30s+ active');
+    }
+    if (data.scrolled) {
+        score = Math.max(0, score - 10);
+        reasons.push('Human activity: scroll');
+    }
+    if (data.mouseMoved) {
+        score = Math.max(0, score - 10);
+        reasons.push('Human activity: pointer/touch');
+    }
+
     return { score: Math.min(score, 100), reasons };
 }
 
@@ -458,13 +482,24 @@ function classifyVisit(visit) {
     if (visit.isHosting) {
         return { decision: 'hard_block', reason: 'Хостинг/датацентр', ttl: BLOCK_DURATIONS.hard };
     }
-    if (visit.ipqs?.isBot) {
+    const hasHumanSignals = Boolean(
+        visit.clickedPhone ||
+        visit.clickedMessenger ||
+        visit.submittedForm ||
+        visit.converted ||
+        visit.activeTime >= 30 ||
+        visit.timeOnPage >= 30 ||
+        visit.scrolled ||
+        visit.mouseMoved
+    );
+
+    if (visit.ipqs?.isBot && !hasHumanSignals) {
         return { decision: 'hard_block', reason: 'Bot Activity', ttl: BLOCK_DURATIONS.hard };
     }
     if (visit.webdriver || ua.includes('headlesschrome') || ua.includes('selenium')) {
         return { decision: 'hard_block', reason: 'Headless/WebDriver', ttl: BLOCK_DURATIONS.hard };
     }
-    if (ipqsScore >= 90) {
+    if (ipqsScore >= 90 && !hasHumanSignals) {
         return { decision: 'hard_block', reason: `IPQS Fraud Score: ${ipqsScore}`, ttl: BLOCK_DURATIONS.hard };
     }
     if (visit.isProxy && abuseScore >= 70) {
@@ -555,6 +590,19 @@ async function upsertBlock(env, ip, decision, reason, ttlSeconds, extra = {}) {
     }
 
     return block;
+}
+
+async function removeBlock(env, ip) {
+    if (!ip || ip === 'unknown') return;
+
+    await env.CLICKS_KV.delete(`block:${ip}`);
+
+    const listKey = 'blocklist';
+    const list = parseJsonSafe(await env.CLICKS_KV.get(listKey), []);
+    const filtered = list.filter((item) => item !== ip);
+    if (filtered.length !== list.length) {
+        await env.CLICKS_KV.put(listKey, JSON.stringify(filtered));
+    }
 }
 
 async function getActiveBlockEntries(env) {
@@ -807,6 +855,7 @@ async function markConverted(payload, request, env) {
     visit.blockReason = 'є конверсія/контакт';
     visit.autoBlocked = false;
 
+    await removeBlock(env, visit.ip);
     await persistVisit(env, visit);
     return { ok: true, visitKey, converted: true, conversionType: visit.conversionType };
 }

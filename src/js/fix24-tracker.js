@@ -40,6 +40,26 @@
         if (action) actions.add(action);
     }
 
+    function postJson(url, payload) {
+        var body = JSON.stringify(payload);
+
+        if (navigator.sendBeacon) {
+            try {
+                var blob = new Blob([body], { type: 'application/json' });
+                if (navigator.sendBeacon(url, blob)) {
+                    return Promise.resolve(true);
+                }
+            } catch (e) {}
+        }
+
+        return fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: body,
+            keepalive: true,
+        }).catch(function () { });
+    }
+
     document.addEventListener('mousemove', function () {
         mouseMoved = true;
         markAction('mouse_move');
@@ -89,75 +109,67 @@
         }, true);
     });
 
-    document.querySelectorAll('a[data-honeypot="true"]').forEach(function (el) {
-        el.addEventListener('click', function (e) {
-            e.preventDefault();
-            sendHoneypot('phone');
-        });
-    });
+    document.addEventListener('click', function (event) {
+        var el = event.target && event.target.closest ? event.target.closest('a') : null;
+        if (!el) return;
 
-    document.querySelectorAll('a[href^="tel:"]:not([data-honeypot])').forEach(function (el) {
-        el.addEventListener('click', function () {
+        if (el.matches('a[data-honeypot="true"]')) {
+            event.preventDefault();
+            sendHoneypot('phone');
+            return;
+        }
+
+        if (el.matches('a[href^="tel:"]:not([data-honeypot])')) {
             clickedPhone = true;
             markAction('phone_click');
             sendConversion('phone');
             sendData(true, 'phone_click');
-        });
-    });
+            return;
+        }
 
-    document.querySelectorAll([
-        'a[href*="wa.me"]', 'a[href*="whatsapp.com"]',
-        'a[href*="t.me"]', 'a[href*="telegram.me"]',
-        'a[href*="m.me"]', 'a[href*="messenger.com"]',
-        'a[href^="viber://"]'
-    ].join(',')).forEach(function (el) {
-        el.addEventListener('click', function () {
+        if (el.matches([
+            'a[href*="wa.me"]', 'a[href*="whatsapp.com"]',
+            'a[href*="t.me"]', 'a[href*="telegram.me"]',
+            'a[href*="m.me"]', 'a[href*="messenger.com"]',
+            'a[href^="viber://"]'
+        ].join(','))) {
             clickedMessenger = true;
             markAction('messenger_click');
             sendConversion('messenger');
             sendData(true, 'messenger_click');
-        });
-    });
+            return;
+        }
 
-    document.querySelectorAll([
-        'a[href*="facebook.com"]',
-        'a[href*="instagram.com"]',
-        'a[href*="maps.google."]',
-        'a[href*="goo.gl/maps"]'
-    ].join(',')).forEach(function (el) {
-        el.addEventListener('click', function () {
+        if (el.matches([
+            'a[href*="facebook.com"]',
+            'a[href*="instagram.com"]',
+            'a[href*="maps.google."]',
+            'a[href*="goo.gl/maps"]'
+        ].join(','))) {
             markAction('external_link_click');
             sendData(false, 'external_link_click');
-        });
-    });
+        }
+    }, true);
 
     function sendConversion(type) {
-        fetch(API_BASE + '/mark-converted', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(buildPayload(true, type)),
-            keepalive: true,
-        }).catch(function () { });
+        var payload = buildPayload(true, 'conversion');
+        payload.conversionType = type;
+        postJson(API_BASE + '/mark-converted', payload);
     }
 
     function sendHoneypot(type) {
-        fetch(API_BASE + '/honeypot', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                clickId: clickId,
-                clickIdType: clickIdType,
-                gclid: params.get('gclid') || null,
-                gbraid: params.get('gbraid') || null,
-                wbraid: params.get('wbraid') || null,
-                campaignType: campaignType || null,
-                campaignName: campaignName || null,
-                landingPage: window.location.href,
-                type: type,
-                visitId: visitId,
-            }),
-            keepalive: true,
-        }).catch(function () { });
+        postJson(API_BASE + '/honeypot', {
+            clickId: clickId,
+            clickIdType: clickIdType,
+            gclid: params.get('gclid') || null,
+            gbraid: params.get('gbraid') || null,
+            wbraid: params.get('wbraid') || null,
+            campaignType: campaignType || null,
+            campaignName: campaignName || null,
+            landingPage: window.location.href,
+            type: type,
+            visitId: visitId,
+        });
     }
 
     function getBrowserData() {
@@ -259,12 +271,7 @@
         if (isFinal) dataSentFinal = true;
         lastSentAt = now;
 
-        fetch(API_BASE + '/log', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-            keepalive: true,
-        }).catch(function () { });
+        postJson(API_BASE + '/log', payload);
     }
 
     window.addEventListener('beforeunload', function () {
